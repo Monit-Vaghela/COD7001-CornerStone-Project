@@ -4,28 +4,27 @@
 
 namespace Logger {
 
-void print_circuit_state(const Circuit& circuit) {
+void print_circuit_state(const Circuit& circuit, int header) {
 
-    const int name_width = 10;
-    const int value_width = 7;
+    // get the signal lists
+    
+    const int width = 5;
+    const std::vector<Signal*> signals = circuit.get_signals();
 
-    std::cout << "\n---------------------------------\n";
-    std::cout << "| "
-              << std::left << std::setw(name_width) << "Signal"
-              << "| "
-              << std::setw(value_width) << "Value"
-              << "|\n";
-    std::cout << "---------------------------------\n";
-
-    for (auto* s : circuit.get_signals()) {
-        std::cout << "| "
-                  << std::left << std::setw(name_width) << s->get_name()
-                  << "| "
-                  << std::setw(value_width) << s->get_value()
-                  << "|\n";
+    if(header){
+        // First print the header
+        std::cout << "\n---------------------------------\n";
+        for(auto &signal : signals){
+            std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
+        }
+        std::cout << "|\n";
     }
+    
+    for (auto* s : signals) {
+        std::cout << "| " << std::left << std::setw(width) << s->get_value(); 
+    }
+    std::cout << "|\n";
 
-    std::cout << "---------------------------------\n";
 }
 
 }

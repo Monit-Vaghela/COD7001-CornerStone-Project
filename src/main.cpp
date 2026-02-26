@@ -6,114 +6,66 @@
 #include <utils/logger.h>
 #include <iostream>
 #include <iomanip>
+#include <core/simulator.h>
 
 // Right now assuming GATES can only have inputs
-void simulate_gate(Circuit& circuit, Signal &A, Signal &B, Signal &C, Process &gate){
-    // set the current value to 0, 0
-    const int A_width = 3;
-    const int B_width = 3;
-    const int C_width = 3;
-    std::cout << "\n----------------\n";
-    std::cout << "| "
-              << std::left << std::setw(A_width) << "A"
-              << "| "
-              << std::setw(B_width) << "B"
-              << "| "
-              << std::setw(C_width) << "C"
-              << "|\n";
-    std::cout << "----------------\n";
-    for(int x = 0; x <= 1; x++){
-        for(int y = 0; y <= 1; y++){
-            A.set_next(x);
-            B.set_next(y);
-            circuit.commit_all_signals();
-            gate.execute();
-            circuit.commit_all_signals();
-            
-            // Add the output
-            std::cout << "| "
-                  << std::left << std::setw(A_width) << A.get_value()
-                  << "| "
-                  << std::setw(B_width) << B.get_value()
-                  << "| "
-                  << std::setw(C_width) << C.get_value()
-                  << "|\n";
-        }
-    }
-    std::cout << "----------------\n";
-
-}
 
 int main() {
 
-    // And Gate
-    Circuit circuit_and;
-    
+    Circuit circuit;
+
+    // Inputs (for Or gate)
     Signal A("A", false);
     Signal B("B", false);
+
+    // Internal wire
+    Signal Y1("Y1", true);
+    Signal Y2("Y2", true);
+    Signal Y3("Y3", true);
+
+    // Output
     Signal C("C", false);
 
-    circuit_and.add_signal(&A);
-    circuit_and.add_signal(&B);
-    circuit_and.add_signal(&C);
+    // Register signals
+    circuit.add_signal(&A);
+    circuit.add_signal(&B);
+    circuit.add_signal(&Y1);
+    circuit.add_signal(&Y2);
+    circuit.add_signal(&Y3);
+    circuit.add_signal(&C);
 
-    AndGate andGate(&A, &B, &C);
+    // Create gates
+    NotGate notA(&A, &Y1);
+    NotGate notB(&B, &Y2);
+    OrGate Y1orY2(&Y1, &Y2, &Y3);
+    NotGate notY3(&Y3, &C);
 
-    circuit_and.add_process(&andGate);
-    std::cout << "--- AND GATE ---";
-    simulate_gate(circuit_and, A, B, C, andGate);
-
-    // Or Gate
-    Circuit circuit_or;
+    // Register processes in circuit
+    circuit.add_process(&notA);
+    circuit.add_process(&notB);
+    circuit.add_process(&Y1orY2);
+    circuit.add_process(&notY3);
     
-    Signal P("P", false);
-    Signal Q("Q", false);
-    Signal R("R", false);
 
-    circuit_or.add_signal(&P);
-    circuit_or.add_signal(&Q);
-    circuit_or.add_signal(&R);
+    // Setup sensitivity
+    A.add_sensitive(&notA);
+    B.add_sensitive(&notB);
+    Y1.add_sensitive(&Y1orY2);
+    Y2.add_sensitive(&Y1orY2);
+    Y3.add_sensitive(&notY3);
 
-    OrGate orGate(&P, &Q, &R);
 
-    circuit_or.add_process(&orGate);
-    std::cout << "--- OR GATE ---";
-    simulate_gate(circuit_or, P, Q, R, orGate);
+    Logger::print_circuit_state(circuit, 1);
 
-    Circuit circuit_not;
-    Signal X("X", false);
-    Signal Y("Y", true);
+    // now we will start the actual Simulation
 
-    circuit_not.add_signal(&X);
-    circuit_not.add_signal(&Y);
+    Simulator sim(&circuit);
 
-    NotGate notGate(&X, &Y);
+    sim.apply_input(&B, 1, 1);
+    sim.apply_input(&B, 0, 2);
+    sim.apply_input(&A, 1, 2);
+    sim.apply_input(&B, 1, 3);
+    sim.run();
     
-    circuit_not.add_process(&notGate);
-    std::cout << "--- OR GATE ---";
-    std::cout << "\n----------------\n";
-    std::cout << "| "
-              << std::left << std::setw(3) << "A"
-              << "| "
-              << std::setw(3) << "B"
-              << "|\n";
-    std::cout << "----------------\n";
 
-    std::cout << "| "
-                  << std::left << std::setw(3) << X.get_value()
-                  << "| "
-                  << std::setw(3) << Y.get_value()
-                  << "|\n";
-
-    X.set_next(1);
-    circuit_not.commit_all_signals();
-    notGate.execute();
-    circuit_not.commit_all_signals();
-
-    std::cout << "| "
-                  << std::left << std::setw(3) << X.get_value()
-                  << "| "
-                  << std::setw(3) << Y.get_value()
-                  << "|\n";
-    return 0;
 }

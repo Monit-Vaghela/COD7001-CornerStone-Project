@@ -4,7 +4,7 @@
 #include <netlist/circuit.h>
 
 namespace Logger {
-    void print_circuit_state(const Circuit& circuit);
+    void print_circuit_state(const Circuit& circuit, int header);
 }
 
 #endif

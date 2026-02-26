@@ -7,15 +7,24 @@
 class NotGate : public Process {
 public:
     NotGate(Signal* a, Signal* y)
-        : A(a), Y(y) {}
+        : A(a), Y(y) 
+    {
+        gateId = "N" + std::to_string(++gateCounter);
+    }
 
     void execute() override {
         Y->set_next(!A->get_value());
     }
 
-private:
+    const std::string& getId() const { return gateId; }
+
+    private:
     Signal* A;
     Signal* Y;
+
+    std::string gateId;
+
+    inline static int gateCounter = 0;
 };
 
 #endif
