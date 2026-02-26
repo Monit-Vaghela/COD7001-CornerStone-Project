@@ -1,0 +1,8 @@
+# Executable
+simulator
+
+# Object files
+*.o
+
+# VSCode
+.vscode/
