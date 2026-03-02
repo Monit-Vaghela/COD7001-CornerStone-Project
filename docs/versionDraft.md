@@ -115,7 +115,7 @@ architecture <EntityName> {
 #### Grammer
 ```text
 Simulator <EntityName>{
-    Processes : {
+    Processes {
         Process([<SignalName1> <= 0 or 1>, <SignalName2> <= 0 or 1> ....], timestamp (unsigned int));
         Process([<SignalName1> <= 0 or 1>, <SignalName2> <= 0 or 1> ....], timestamp (unsigned int));
         ......
@@ -154,15 +154,20 @@ Simulator <EntityName>{
             "noOfSignals" : "int"
         },
 
-        "SignalMapping" : {
-            [
-                {"SignalMapping" : "MappedPortName", "SignalType" : "0->input, 1->output"},
-            ]
-        },
+        "SignalMapping" : [
+            {"SignalMapping" : "MappedPortName", "SignalType" : "input, output"},
+        ],
 
-        "Behaviour" : {
-            "TBD" : "TBD"
-        }
+        "Behaviour" : [
+            {
+                "OutputSignal" : "OutputSignalName", 
+                "gateExpressionInputs" : ["List of Inputs"], 
+                "gatesUsed" : ["List of gates used"], 
+                "expression" : "Expression in recursive function calling format"
+            },
+            .....
+        ]
+        
     }
 }
 ```
@@ -176,12 +181,12 @@ Simulator <EntityName>{
             "initialTimeStamp" : "int",
             "finalTimeStamp" : "int"
         },
-        "Processes" : {
-            [
-                {"SingalName" : "Value(0, 1)", "timestamp" : "int"},
-                {"LIST": "LIST"}
-            ]
-        }
+        "Processes" : 
+        [
+            {"SingalName" : "Value(0, 1)", "timestamp" : "int"},
+            {"LIST": "LIST"}
+        ]
+        
     }
 }
 ```

@@ -1,0 +1,19 @@
+entity FullAdder {
+    inputs : ["a", "b", "c"];
+    outputs : ["sum", "carry"];
+}
+
+architecture FullAdder {
+    signals : ["x", "y", "z", "mus", "yrrac"];
+    signalMapping : [
+        "x" <= "a",
+        "y" <= "b",
+        "z" <= "c",
+        "mus" <= "sum",
+        "yrrac" <= "carry"
+    ];
+    behaviour{
+        mus <= (x or y) xor z;
+        yrrac <= (x and y) or (x and z) or (y and z);
+    }
+}
