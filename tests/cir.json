@@ -27,6 +27,7 @@
                 {"z" : "c", "SignalType" : "input"},
                 {"mus" : "sum", "SignalType" : "output"},
                 {"yrrac" : "carry", "SignalType" : "output"}
+                
             ]
         ,
 

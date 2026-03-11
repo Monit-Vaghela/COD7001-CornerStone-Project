@@ -1,0 +1,10 @@
+#ifndef LOGGER_H
+#define LOGGER_H
+
+#include <circuitBuilder/netlist/circuit.h>
+
+namespace Logger {
+    void print_circuit_state(const Circuit& circuit, int header);
+    void print_circuit(const Circuit& circuit);
+}
+#endif

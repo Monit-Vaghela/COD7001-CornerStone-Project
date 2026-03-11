@@ -75,19 +75,78 @@ bool JsonParser::parseCircuitFile(const string& filename) {
     architectureMetadata["noOfXnorGates"] = extractInt(content, "noOfXnorGates");
     architectureMetadata["noOfSignals"] = extractInt(content, "noOfSignals");
 
-    size_t pos = content.find("\"expression\"");
-    while (pos != string::npos) {
-        Behaviour b;
+    size_t pos = content.find("\"Behaviour\"");
+    if (pos != string::npos) {
 
-        size_t start = content.find("\"", pos + 13);
-        size_t end = content.find("\"", start + 1);
-        b.expression = content.substr(start + 1, end - start - 1);
+        pos = content.find("{", pos);
 
-        behaviours.push_back(b);
+        while (true) {
 
-        pos = content.find("\"expression\"", end);
+            size_t outKey = content.find("\"OutputSignal\"", pos);
+            if (outKey == string::npos) break;
+
+            Behaviour b;
+
+            size_t start = content.find("\"", outKey + 14);
+            size_t end = content.find("\"", start + 1);
+            b.outputSignal = content.substr(start + 1, end - start - 1);
+
+            // extract behaviour block
+            size_t objStart = content.rfind("{", outKey);
+            size_t objEnd = content.find("}", outKey);
+            string block = content.substr(objStart, objEnd - objStart);
+
+            // gateExpressionInputs
+            b.gateExpressionInputs = extractStringArray(block, "\"gateExpressionInputs\"");
+
+            // gatesUsed
+            b.gatesUsed = extractStringArray(block, "\"gatesUsed\"");
+
+            // expression
+            size_t expKey = block.find("\"expression\"");
+            start = block.find("\"", expKey + 12);
+            end = block.find("\"", start + 1);
+            b.expression = block.substr(start + 1, end - start - 1);
+
+            behaviours.push_back(b);
+
+            pos = objEnd;
+        }
     }
 
+    pos = content.find("\"SignalMapping\"");
+    if (pos != string::npos) {
+
+        size_t arrayStart = content.find("[", pos);
+        size_t arrayEnd = content.find("]", arrayStart);
+
+        size_t objPos = content.find("{", arrayStart);
+
+        while (objPos != string::npos && objPos < arrayEnd) {
+
+            JsonParser::SignalMapping sm;
+
+            // key  ("x")
+            size_t keyStart = content.find("\"", objPos);
+            size_t keyEnd = content.find("\"", keyStart + 1);
+            sm.internalSignal = content.substr(keyStart + 1, keyEnd - keyStart - 1);
+
+            // value ("a")
+            size_t valStart = content.find("\"", keyEnd + 1);
+            size_t valEnd = content.find("\"", valStart + 1);
+            sm.mappedSignal = content.substr(valStart + 1, valEnd - valStart - 1);
+
+            // SignalType
+            size_t typeKey = content.find("\"SignalType\"", valEnd);
+            size_t typeStart = content.find("\"", typeKey + 12);
+            size_t typeEnd = content.find("\"", typeStart + 1);
+            sm.signalType = content.substr(typeStart + 1, typeEnd - typeStart - 1);
+
+            signalMappings.push_back(sm);
+
+            objPos = content.find("{", typeEnd);
+        }
+    }
     return true;
 }
 

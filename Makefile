@@ -2,7 +2,11 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Iinclude
 
 COMPILER_SRC = $(wildcard src/compiler/*.cpp)
-CIRCUIT_SRC = $(wildcard src/circuitBuilder/*.cpp)
+CIRCUIT_SRC = \
+	$(wildcard src/circuitBuilder/*.cpp) \
+	$(wildcard src/circuitBuilder/core/*.cpp) \
+	$(wildcard src/circuitBuilder/netlist/*.cpp) \
+	$(wildcard src/circuitBuilder/utils/*.cpp)
 
 all: compiler circuitBuilder
 
