@@ -16,6 +16,15 @@ const std::vector<Process*>& Circuit::get_processes() const {
     return processes;
 }
 
+Signal* Circuit::get_signal(const std::string& name) {
+    for (auto* s : signals) {
+        if (s->get_name() == name) {
+            return s;
+        }
+    }
+    return nullptr;  // not found
+}
+
 void Circuit::commit_all_signals() {
     for (auto* s : signals) {
         s->commit();

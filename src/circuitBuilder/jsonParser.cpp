@@ -65,6 +65,7 @@ bool JsonParser::parseCircuitFile(const string& filename) {
     // Inputs and Outputs
     inputs = extractStringArray(content, "\"inputs\"");
     outputs = extractStringArray(content, "\"outputs\"");
+    intermediates = extractStringArray(content, "\"intermediates\"");
 
     // Architecture metadata
     architectureMetadata["noOfTotalGates"] = extractInt(content, "noOfTotalGates");

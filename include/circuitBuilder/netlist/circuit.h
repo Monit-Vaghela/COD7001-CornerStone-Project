@@ -13,6 +13,7 @@ public:
     const std::vector<Signal*>& get_signals() const;
     const std::vector<Process*>& get_processes() const;
 
+    Signal* get_signal(const std::string& name);
     void commit_all_signals();
 
 private:

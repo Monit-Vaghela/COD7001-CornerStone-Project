@@ -1,7 +1,7 @@
 #include <circuitBuilder/core/signal.h>
 
-Signal::Signal(const std::string& name, bool initial_value)
-    : name(name), value(initial_value), next_value(initial_value) {}
+Signal::Signal(const std::string& name, SignalType type, bool initial_value)
+    : name(name), type(type), value(initial_value), next_value(initial_value) {}
 
 void Signal::set_next(bool val) {
     next_value = val;
@@ -17,6 +17,10 @@ bool Signal::get_value() const {
 
 const std::string& Signal::get_name() const {
     return name;
+}
+
+SignalType Signal::get_type() const {
+    return type;
 }
 
 void Signal::add_sensitive(Process* p) {

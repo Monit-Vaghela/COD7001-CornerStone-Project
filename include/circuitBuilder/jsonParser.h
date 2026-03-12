@@ -16,7 +16,8 @@ public:
     std::map<std::string, int> entityMetadata;
     std::vector<std::string> inputs;
     std::vector<std::string> outputs;
-
+    std::vector<std::string> intermediates;
+    
     // Architecture metadata
     std::map<std::string, int> architectureMetadata;
 

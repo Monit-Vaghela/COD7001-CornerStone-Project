@@ -7,6 +7,7 @@
 #include <circuitBuilder/gates/xor_gate.h>
 #include <circuitBuilder/netlist/circuit.h>
 #include <circuitBuilder/utils/logger.h>
+#include <simulator/simulator.h>
 
 using namespace std;
 
@@ -25,6 +26,11 @@ void printCircuitData(JsonParser& parser) {
 
     cout << "\n--- Outputs ---\n";
     for (const auto& output : parser.outputs) {
+        cout << output << endl;
+    }
+
+    cout << "\n--- Intermediates ---\n";
+    for (const auto& output : parser.intermediates) {
         cout << output << endl;
     }
 
@@ -84,85 +90,149 @@ void printSimulationData(JsonParser& parser) {
     }
 }
 
-// int main(int argc, char* argv[]) {
+int buildCircuitFromJson(Circuit* circuit, JsonParser& parser) {
 
-//     if (argc != 3) {
-//         cout << "Usage: " << argv[0] << " <circuit_file.json> <simulation_file.json>\n";
-//         return 1;
-//     }
+    // First create input and output Signals
+    for (const auto& sm : parser.signalMappings) {
+        Signal *s;
+        if(sm.signalType == "input") s = new Signal(sm.internalSignal, SignalType::INPUT, false); // default initial value
+        else  s = new Signal(sm.internalSignal, SignalType::OUTPUT, false); // default initial value
+        (*circuit).add_signal(s);
+    }
 
-//     string circuitFile = argv[1];
-//     string simulationFile = argv[2];
+    // now lets create and add intermediate inputs
+    for (const auto& inter: parser.intermediates){
+        Signal* s = new Signal(inter, SignalType::INTERMEDIATE, false);
+        (*circuit).add_signal(s);
+    }
 
-//     JsonParser parser;
+    // Create gates based on behaviours
+    for (auto& behaviour : parser.behaviours){
+        if (behaviour.gatesUsed[0] != "not"){
+            // get its inputs
+            Signal *a = (*circuit).get_signal(behaviour.gateExpressionInputs[0]);
+            Signal *b = (*circuit).get_signal(behaviour.gateExpressionInputs[1]);
 
-//     if (!parser.parseCircuitFile(circuitFile)) {
-//         cout << "Failed to parse circuit file.\n";
-//         return 1;
-//     }
+            // get its output
+            cout << "C is : " << behaviour.outputSignal << endl;
+            Signal *c = (*circuit).get_signal(behaviour.outputSignal);
+            // if(a){
+            //     cout << "Got a" << endl;
+            // }
+            // if(b){
+            //     cout << "Got b" << endl;
+            // }
+            // if(c){
+            //     cout << "Got c" << endl;
+            // }
+            if(a && b && c){
+                if(behaviour.gatesUsed[0] == "and"){
+                    // Create and add gate
+                    AndGate *andGate = new AndGate(a, b, c);
+                    (*circuit).add_process(andGate);
 
-//     if (!parser.parseSimulationFile(simulationFile)) {
-//         cout << "Failed to parse simulation file.\n";
-//         return 1;
-//     }
+                    // Add the gate to sensitivity of inputs
+                    a->add_sensitive(andGate);
+                    b->add_sensitive(andGate);
+                }
+                else if(behaviour.gatesUsed[0] == "or"){
+                    OrGate *orGate = new OrGate(a, b, c);
+                    (*circuit).add_process(orGate);
 
-//     printCircuitData(parser);
-//     printSimulationData(parser);
+                    a->add_sensitive(orGate);
+                    b->add_sensitive(orGate);
+                }
+                else if(behaviour.gatesUsed[0] == "xor"){
+                    XorGate *xorGate = new XorGate(a, b, c);
+                    (*circuit).add_process(xorGate);
 
-//     return 0;
-// }
+                    a->add_sensitive(xorGate);
+                    b->add_sensitive(xorGate);
+                }
+                else if(behaviour.gatesUsed[0] == "xnor"){
+                }
+            } else {
+                cout << "[Circuit Builder / Error] couldnt find specified signals" << endl; 
+                return -1;
+            }
+        }
+        else{
+            // only a single input
+            Signal *a = (*circuit).get_signal(behaviour.gateExpressionInputs[0]);
 
-int main() {
+            // output
+            Signal *c = (*circuit).get_signal(behaviour.outputSignal);
+
+            if(a && c){
+                NotGate *notGate = new NotGate(a, c);
+                (*circuit).add_process(notGate);
+
+                a->add_sensitive(notGate);
+            }
+        }
+    }
+
+    //Logger::print_circuit(*circuit);
+
+    // Logger::print_circuit_state(*circuit, 1);
+    return 0;
+}
+
+int addProcesses(Simulator* sim, Circuit* circuit, JsonParser& parser){
+    for (const auto& timeEntry : parser.simulationProcesses) {
+        for (const auto& signal : timeEntry.second) {
+            Signal *s = (*circuit).get_signal(signal.first);
+            sim->apply_input(s, (bool)signal.second, (int)timeEntry.first);
+        }
+    }
+    return 0;
+}
+
+int main(int argc, char* argv[]) {
+
+    if (argc != 3) {
+        cout << "Usage: " << argv[0] << " <circuit_file.json> <simulation_file.json>\n";
+        return 1;
+    }
+
+    string circuitFile = argv[1];
+    string simulationFile = argv[2];
+
+    JsonParser parser;
+
+    if (!parser.parseCircuitFile(circuitFile)) {
+        cout << "Failed to parse circuit file.\n";
+        return 1;
+    }
+
+    if (!parser.parseSimulationFile(simulationFile)) {
+        cout << "Failed to parse simulation file.\n";
+        return 1;
+    }
+
+    // printCircuitData(parser);
+    // printSimulationData(parser);
+
     Circuit circuit;
-
-    // Inputs (for Or gate)
-    Signal x("x", false);
-    Signal y("y", false);
-    Signal z("z", false);
-    // Internal wire
-    Signal Y1("Y1", true);
-    Signal Y2("Y2", true);
-    Signal Y3("Y3", true);
-
-    // Output
-    Signal mus("mus", false);
-    Signal yrrac("yrrac", false);
-
-    // Register signals
-    circuit.add_signal(&x);
-    circuit.add_signal(&y);
-    circuit.add_signal(&z);
-    circuit.add_signal(&Y1);
-    circuit.add_signal(&Y2);
-    circuit.add_signal(&Y3);
-    circuit.add_signal(&mus);
-    circuit.add_signal(&yrrac);
-
-    // Create gates
-    XorGate XxorBY(&x, &y, &Y1);
-    XorGate Y1xorZ(&Y1, &z, &mus);
-    AndGate Y1andZ(&Y1, &z, &Y2);
-    AndGate Y1orY2(&x, &y, &Y3);
-    OrGate Y2orY3(&Y2, &Y3, &yrrac);
-
-    // Register processes in circuit
-    circuit.add_process(&XxorBY);
-    circuit.add_process(&Y1xorZ);
-    circuit.add_process(&Y1andZ);
-    circuit.add_process(&Y1orY2);
-    circuit.add_process(&Y2orY3); 
-    
-
-    // Setup sensitivity
-    x.add_sensitive(&XxorBY);
-    y.add_sensitive(&XxorBY);
-    Y1.add_sensitive(&Y1xorZ);
-    Y1.add_sensitive(&Y1andZ);
-    z.add_sensitive(&Y1andZ);
-    z.add_sensitive(&Y1andZ);
-    Y2.add_sensitive(&Y2orY3);
-    Y3.add_sensitive(&Y2orY3);
-
+    buildCircuitFromJson(&circuit, parser);
 
     Logger::print_circuit(circuit);
+    
+    Simulator sim(&circuit);
+
+    // first to need one intital simulation step in order to 
+    // correctly set the intermediatory and outputs
+    vector<Signal*> signals = circuit.get_signals();
+    for(auto* s : signals){
+        if(s->get_type() == SignalType::INPUT){
+            sim.apply_input(s, 0, 0);
+        }
+    }
+
+    // now we need to get the user defined processes
+    addProcesses(&sim, &circuit, parser);
+
+    Logger::print_circuit_state(circuit, 1);
+    sim.run();
+    return 0;
 }
