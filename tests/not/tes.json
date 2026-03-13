@@ -1,0 +1,16 @@
+{
+    "simulation" : {
+        "metadata" : {
+            "noOfProcesses" : 2,
+            "initialTimeStamp" : 0,
+            "finalTimeStamp" : 2
+        },
+        "Processes" : 
+        [
+            {"x" : 0, "timestamp" : 0},
+            {"x" : 1, "timestamp" : 1}
+                   
+        ]
+        
+    }
+}

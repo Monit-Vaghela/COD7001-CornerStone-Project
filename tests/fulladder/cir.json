@@ -6,7 +6,8 @@
         },
 
         "inputs" : ["a", "b", "c"],
-        "outputs" : ["sum", "carry"]
+        "outputs" : ["sum", "carry"],
+        "intermediates" : ["y1", "y2", "y3"]
     },
 
     "Architecture" : {
@@ -33,16 +34,34 @@
 
         "Behaviour" : [
             {
-                "OutputSignal" : "mus", 
-                "gateExpressionInputs" : ["x", "y", "z"], 
-                "gatesUsed" : ["or", "xor"], 
-                "expression" : "xor(or(x, y), z)"
+                "OutputSignal" : "y1", 
+                "gateExpressionInputs" : ["x", "y"], 
+                "gatesUsed" : ["xor"], 
+                "expression" : "xor(x, y)"
             },
             {
-                "OutputSignal" : "carry", 
-                "gateExpressionInputs" : ["x", "y", "z"], 
-                "gatesUsed" : ["or", "and"], 
-                "expression" : "or(or(and(x, y), and(x, z)), and(y, z))"
+                "OutputSignal" : "mus", 
+                "gateExpressionInputs" : ["y1", "z"], 
+                "gatesUsed" : ["xor"], 
+                "expression" : "xor(y1, z)"
+            },
+            {
+                "OutputSignal" : "y2", 
+                "gateExpressionInputs" : ["y1", "z"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(y1, z)"
+            },
+            {
+                "OutputSignal" : "y3", 
+                "gateExpressionInputs" : ["x", "y"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(x, y)"
+            },
+            {
+                "OutputSignal" : "yrrac", 
+                "gateExpressionInputs" : ["y2", "y3"], 
+                "gatesUsed" : ["or"], 
+                "expression" : "or(y2, y3)"
             }
         ]
     }

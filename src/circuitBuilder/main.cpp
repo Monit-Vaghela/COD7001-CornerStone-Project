@@ -222,17 +222,15 @@ int main(int argc, char* argv[]) {
 
     // first to need one intital simulation step in order to 
     // correctly set the intermediatory and outputs
-    vector<Signal*> signals = circuit.get_signals();
-    for(auto* s : signals){
-        if(s->get_type() == SignalType::INPUT){
-            sim.apply_input(s, 0, 0);
-        }
+    // schedule initial evaluation
+    for (auto* process : circuit.get_processes()) {
+        sim.schedule(process, 0, 0);
     }
 
     // now we need to get the user defined processes
     addProcesses(&sim, &circuit, parser);
 
-    Logger::print_circuit_state(circuit, 1);
+    Logger::print_state_header(circuit);
     sim.run();
     return 0;
 }

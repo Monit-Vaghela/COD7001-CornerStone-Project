@@ -10,15 +10,6 @@ void print_circuit_state(const Circuit& circuit, int header) {
     
     const int width = 5;
     const std::vector<Signal*> signals = circuit.get_signals();
-
-    if(header){
-        // First print the header
-        std::cout << "\n---------------------------------\n";
-        for(auto &signal : signals){
-            std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
-        }
-        std::cout << "|\n";
-    }
     
     for (auto* s : signals) {
         std::cout << "| " << std::left << std::setw(width) << s->get_value(); 
@@ -90,4 +81,15 @@ void print_circuit(const Circuit& circuit) {
 
     std::cout << "\n=====================================\n";
 }
+
+void print_state_header(const Circuit& circuit){
+    const int width = 5;
+    // First print the header
+    std::cout << "\n---------------------------------\n";
+    for(auto &signal : circuit.get_signals()){
+        std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
+    }
+    std::cout << "|\n";
+}
+
 }
