@@ -1,8 +1,8 @@
 # To be Decided
 1. Compiler Stages
-2. Json File for behaviour of circuit
-3. Circuit Builder flow
-4. Simulation Flow
+2. Json File for behaviour of circuit (defined)
+3. Circuit Builder flow (Done)
+4. Simulation Flow (Done)
 
 
 # Bugs Encounterd

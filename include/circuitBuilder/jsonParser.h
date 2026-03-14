@@ -5,56 +5,58 @@
 #include <map>
 #include <vector>
 
+using namespace std;
+
 class JsonParser {
 public:
-    bool parseCircuitFile(const std::string& filename);
-    bool parseSimulationFile(const std::string& filename);
+    bool parseCircuitFile(const string& filename);
+    bool parseSimulationFile(const string& filename);
 
     // ---------------- Circuit Data ----------------
 
     // Entity metadata
-    std::map<std::string, int> entityMetadata;
-    std::vector<std::string> inputs;
-    std::vector<std::string> outputs;
-    std::vector<std::string> intermediates;
+    map<string, int> entityMetadata;
+    vector<string> inputs;
+    vector<string> outputs;
+    vector<string> intermediates;
     
     // Architecture metadata
-    std::map<std::string, int> architectureMetadata;
+    map<string, int> architectureMetadata;
 
     // Signal Mapping structure
     struct SignalMapping {
-        std::string internalSignal;
-        std::string mappedSignal;
-        std::string signalType;
+        string internalSignal;
+        string mappedSignal;
+        string signalType;
     };
 
-    std::vector<SignalMapping> signalMappings;
+    vector<SignalMapping> signalMappings;
 
     // Behaviour structure
     struct Behaviour {
-        std::string outputSignal;
-        std::vector<std::string> gateExpressionInputs;
-        std::vector<std::string> gatesUsed;
-        std::string expression;
+        string outputSignal;
+        vector<string> gateExpressionInputs;
+        vector<string> gatesUsed;
+        string expression;
     };
 
-    std::vector<Behaviour> behaviours;
+    vector<Behaviour> behaviours;
 
     // ---------------- Simulation Data ----------------
 
-    std::map<std::string, int> simulationMetadata;
+    map<string, int> simulationMetadata;
 
     // timestamp -> { signal -> value }
-    std::map<int, std::map<std::string, int>> simulationProcesses;
+    map<int, map<string, int>> simulationProcesses;
 
 private:
-    std::string readFile(const std::string& filename);
+    string readFile(const string& filename);
 
-    int extractInt(const std::string& content, const std::string& key);
+    int extractInt(const string& content, const string& key);
 
-    std::vector<std::string> extractStringArray(
-        const std::string& content,
-        const std::string& key
+    vector<string> extractStringArray(
+        const string& content,
+        const string& key
     );
 };
 

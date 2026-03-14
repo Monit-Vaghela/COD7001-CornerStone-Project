@@ -128,6 +128,35 @@ Simulator <EntityName>{
 // 1. Entity must match the entity which is declared in .cir file with its architecture.
 // 2. Signal name which is assigned 0 or 1 must be mapped to an input port.
 ```
+## How to parse behaviour
+- Lets say if the architecture defines 2 behavioural traits
+```md
+<OutputSignal1> <= <inputSignal1> <gate1> <inputSignal2> 
+<OutputSignal2> <= (<inputSignal3> <gate2> <inputSignal4>) <gate3> <inputSignal5>
+```
+- The json file behaviour will only cointain a single gate and their input outputs.
+- hence the behaviours that we will get are
+```json
+{
+    "OutputSignal" : "outputSignal1", 
+    "gateExpressionInputs" : ["inputSignal1", "inputSignal2"], 
+    "gatesUsed" : ["gate1"], 
+    "expression" : "gate1(inputSignal1, inputSignal2)"
+},
+{
+    "OutputSignal" : "intermediateSignal1",
+    "gateExpressionInputs" : ["InputSignal3", "inputSignal4"],
+    "gateUsed" : ["gate2"],
+    "expression" : "gate2(inputSignal3, inputSignal4)"
+},
+{
+    "OutputSignal" : "OutputSignal2",
+    "gateExpressionInputs" : ["intermediateSignal1", "inputSignal5"],
+    "gateUsed" : ["gate3"],
+    "expression" : "gate3(intermediateSignal1, inputSignal5)"
+}
+```
+- Now here the intermediateSignal must be add to the intermideateSignal list in the entity. also this increases the total number of signals which should be taken care of 
 
 ## Outputs
 ### `cir.json`
@@ -140,7 +169,8 @@ Simulator <EntityName>{
         },
 
         "inputs" : ["List of input names"],
-        "otuptus" : ["List of output names"]
+        "otuptus" : ["List of output names"],
+        "intermediates" : ["List of intermediate signals used"]
     },
 
     "Architecture" : {
@@ -193,8 +223,41 @@ Simulator <EntityName>{
 
 # Circuit Builder 
 - Will take input json files and parse it to build the circuit
-- TBD
+## Steps circuit builder must perform
+- check the json file like
+    * each gates should have 2 inputs and one output.
+    * every input and output signal must be clearly mapped.
+    * no of gates used must match with the gates used in all expressions combined, same with signals.
 
+## Parsing
+- CPP does not have an inbuilt parser, hence need to make our own.
+- simple string based parsing for each element find "{" and the parse the element by repetedly finding ":" then find the "}" and then close
+- using similar concepts for all other element we parse both `cir.json` and `tes.json`
+
+## Circuit Building
+### 1. Create all the signals
+- every signals is created with a small difference.
+- Input/output signals are created with the name that they are mapped with.
+- intermediate signals are created with the defined name only.
+
+### 2. gates are created and added
+- now we will go through each behaviour and add the required gate
+- give it input and output and then add it to the circuit
+
+### 3. Add sensitivity list
+- each signal will have a sensitivityList (aside from Output type)
+- This list will tell us which gates are sensitive to change in this signal
+ex:
+```text
+      |-----
+A-----|     -   
+      |     -------C
+B-----|     -
+      |-----
+
+then this and gate (lets say A1) will be in sensitivity list of both A and B.
+```
 
 # Simulator
-- TBD
+- Simulator will take the circuit created and add the user defined process at given timestamp to simulate the gates.
+- there are no changes to simulator and eventqueue from previous version, works the same.
