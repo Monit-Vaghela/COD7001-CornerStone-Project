@@ -94,9 +94,7 @@ struct SimulatorNode {
     std::vector<ProcessNode> processes;
 };
 
-// ─────────────────────────────────────────────
 //  Parser
-// ─────────────────────────────────────────────
 
 class Parser {
 public:
@@ -110,8 +108,6 @@ private:
     // ── Token stream state ───────────────────
     std::vector<Token> toks;
     int                pos;        // index of current token
-
-    // ── Core helpers ─────────────────────────
 
     // Return current token without consuming it
     Token peek();
@@ -128,12 +124,10 @@ private:
     // True if current token is a GATE token
     bool isGate();
 
-    // ── Shared sub-parsers ────────────────────
 
     // Parse ["a", "b", "c"]  →  vector of strings
     std::vector<std::string> parseStringList();
 
-    // ── .cir sub-parsers ─────────────────────
 
     EntityNode               parseEntity();
     ArchNode                 parseArch();
@@ -144,9 +138,8 @@ private:
     std::shared_ptr<ExprNode> parseExpression();   // handles binary chains
     std::shared_ptr<ExprNode> parseAtom();         // leaf | (expr) | not atom
 
-    // ── .tes sub-parsers ─────────────────────
 
     ProcessNode parseProcess();
 };
 
-#endif // PARSER_H
+#endif 
