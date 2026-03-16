@@ -7,7 +7,9 @@ CIRCUIT_SRC = \
 	$(wildcard src/circuitBuilder/core/*.cpp) \
 	$(wildcard src/circuitBuilder/netlist/*.cpp) \
 	$(wildcard src/circuitBuilder/utils/*.cpp) \
-	$(wildcard src/simulator/*.cpp)
+	$(wildcard src/simulator/*.cpp) \
+	$(wildcard src/simulator/sequential/*.cpp) \
+	$(wildcard src/simulator/parallel/*.cpp) 
 
 all: compiler circuitBuilder
 

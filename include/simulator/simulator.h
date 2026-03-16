@@ -8,15 +8,17 @@
 class Simulator {
 public:
     Simulator(Circuit* circuit);
+    virtual ~Simulator() = default;
 
     void schedule(Process* p, int time, int delta);
-    void run();
     void apply_input(Signal* s, bool value, int time);
+
+    virtual void run() = 0; 
 
     int get_current_time() const;
     int get_current_delta() const;
 
-private:
+protected:
     Circuit* circuit;
     EventQueue event_queue;
 

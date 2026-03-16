@@ -261,3 +261,54 @@ then this and gate (lets say A1) will be in sensitivity list of both A and B.
 # Simulator
 - Simulator will take the circuit created and add the user defined process at given timestamp to simulate the gates.
 - there are no changes to simulator and eventqueue from previous version, works the same.
+
+
+
+# First attempt at parallelization (Naice)
+
+## Assumption : no cyclic circuits
+- This approach assumes that the circuit does not have any cycles
+- i.e no ouput from later stage can be input for a previous state
+- ex : latches
+
+## Formal definition of circuit.
+- A circuit will be defined as a set of `gates` and `signals`.
+$$
+C = \{G, S\}
+$$
+- Where:
+
+    - $G$ = set of gates in the circuit  
+    - $S$ = set of signals in the circuit
+
+- set $S$
+$$
+S = \{s_1, s_2, s_3, \ldots, s_m\}
+$$
+
+- set $G$
+$$
+G = \{g_1, g_2, g_3, \ldots, g_n\} \; \; \forall g_i \in G, g_i = \{I, o\}
+$$
+- Where:
+
+    - $I = \{i_1, i_2, i_3, \ldots, i_k\} \; \forall i_j \in S \; \; \text {[Inputs for the gate } g_i \text {]}$
+    - $o \in S$ and $o \notin I \; \; \text {[Output of the gate } g_i \text {]}$
+
+
+- level of gates
+$$
+\forall g_i \in G \; \; level(g_i) = max(level(I))
+$$
+
+- level of signals $\forall s_j \in S$
+$$
+\text{level}(s_j) =
+\begin{cases}
+0 & \text{if } s_j \text{ is an input} \\
+\text{level}(g_k) + 1 & \text{if } \exists\, g_k = \{I,o\} \text{ such that } s_j = o
+\end{cases}
+$$
+
+## parallelisation
+- now with this definition of circuit we can run gates at same level parallely.

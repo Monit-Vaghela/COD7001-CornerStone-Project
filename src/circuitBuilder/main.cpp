@@ -1,15 +1,17 @@
 #include <iostream>
 #include <circuitBuilder/jsonParser.h>
 #include <circuitBuilder/core/signal.h>
-#include <circuitBuilder/gates/and_gate.h>
-#include <circuitBuilder/gates/or_gate.h>
-#include <circuitBuilder/gates/not_gate.h>
-#include <circuitBuilder/gates/xor_gate.h>
+#include <circuitBuilder/gates/gate.h>
 #include <circuitBuilder/netlist/circuit.h>
 #include <circuitBuilder/utils/logger.h>
-#include <simulator/simulator.h>
+#include <simulator/sequential/sequential_sim.h>
+#include <simulator/parallel/v1.h>
+#include <chrono>
 
+// namespaces used
 using namespace std;
+using namespace std::chrono;
+
 
 void printCircuitData(JsonParser& parser) {
     cout << "========== CIRCUIT DATA ==========\n";
@@ -95,86 +97,55 @@ int buildCircuitFromJson(Circuit* circuit, JsonParser& parser) {
     // First create input and output Signals
     for (const auto& sm : parser.signalMappings) {
         Signal *s;
-        if(sm.signalType == "input") s = new Signal(sm.internalSignal, SignalType::INPUT, false); // default initial value
-        else  s = new Signal(sm.internalSignal, SignalType::OUTPUT, false); // default initial value
-        (*circuit).add_signal(s);
+        if(sm.signalType == "input")
+            s = new Signal(sm.internalSignal, SignalType::INPUT, false);
+        else
+            s = new Signal(sm.internalSignal, SignalType::OUTPUT, false);
+
+        circuit->add_signal(s);
     }
 
-    // now lets create and add intermediate inputs
+    // Create intermediate signals
     for (const auto& inter: parser.intermediates){
         Signal* s = new Signal(inter, SignalType::INTERMEDIATE, false);
-        (*circuit).add_signal(s);
+        circuit->add_signal(s);
     }
 
-    // Create gates based on behaviours
+    // Create gates
     for (auto& behaviour : parser.behaviours){
-        if (behaviour.gatesUsed[0] != "not"){
-            // get its inputs
-            Signal *a = (*circuit).get_signal(behaviour.gateExpressionInputs[0]);
-            Signal *b = (*circuit).get_signal(behaviour.gateExpressionInputs[1]);
 
-            // get its output
-            cout << "C is : " << behaviour.outputSignal << endl;
-            Signal *c = (*circuit).get_signal(behaviour.outputSignal);
-            // if(a){
-            //     cout << "Got a" << endl;
-            // }
-            // if(b){
-            //     cout << "Got b" << endl;
-            // }
-            // if(c){
-            //     cout << "Got c" << endl;
-            // }
-            if(a && b && c){
-                if(behaviour.gatesUsed[0] == "and"){
-                    // Create and add gate
-                    AndGate *andGate = new AndGate(a, b, c);
-                    (*circuit).add_process(andGate);
+        GateType type = stringToGateType(behaviour.gatesUsed[0]);
 
-                    // Add the gate to sensitivity of inputs
-                    a->add_sensitive(andGate);
-                    b->add_sensitive(andGate);
-                }
-                else if(behaviour.gatesUsed[0] == "or"){
-                    OrGate *orGate = new OrGate(a, b, c);
-                    (*circuit).add_process(orGate);
+        std::vector<Signal*> inputs;
 
-                    a->add_sensitive(orGate);
-                    b->add_sensitive(orGate);
-                }
-                else if(behaviour.gatesUsed[0] == "xor"){
-                    XorGate *xorGate = new XorGate(a, b, c);
-                    (*circuit).add_process(xorGate);
+        for(auto& in : behaviour.gateExpressionInputs){
+            Signal* s = circuit->get_signal(in);
 
-                    a->add_sensitive(xorGate);
-                    b->add_sensitive(xorGate);
-                }
-                else if(behaviour.gatesUsed[0] == "xnor"){
-                }
-            } else {
-                cout << "[Circuit Builder / Error] couldnt find specified signals" << endl; 
+            if(!s){
+                cout << "[Circuit Builder / Error] Input signal not found: "
+                     << in << endl;
                 return -1;
             }
+
+            inputs.push_back(s);
         }
-        else{
-            // only a single input
-            Signal *a = (*circuit).get_signal(behaviour.gateExpressionInputs[0]);
 
-            // output
-            Signal *c = (*circuit).get_signal(behaviour.outputSignal);
+        Signal* out = circuit->get_signal(behaviour.outputSignal);
 
-            if(a && c){
-                NotGate *notGate = new NotGate(a, c);
-                (*circuit).add_process(notGate);
-
-                a->add_sensitive(notGate);
-            }
+        if(!out){
+            cout << "[Circuit Builder / Error] Output signal not found: "
+                 << behaviour.outputSignal << endl;
+            return -1;
         }
+
+        Gate* gate = new Gate(type, inputs, out);
+
+        circuit->add_process(gate);
+
+        for(auto* s : inputs)
+            s->add_sensitive(gate);
     }
 
-    //Logger::print_circuit(*circuit);
-
-    // Logger::print_circuit_state(*circuit, 1);
     return 0;
 }
 
@@ -218,19 +189,50 @@ int main(int argc, char* argv[]) {
 
     Logger::print_circuit(circuit);
     
-    Simulator sim(&circuit);
+    SequentialSimulator seqsim(&circuit);
+    ParallelV1Simulator parSim(&circuit);
+
+
+    // SEQUENTIAL EXECUTION
 
     // first to need one intital simulation step in order to 
     // correctly set the intermediatory and outputs
     // schedule initial evaluation
     for (auto* process : circuit.get_processes()) {
-        sim.schedule(process, 0, 0);
+        seqsim.schedule(process, 0, 0);
     }
 
     // now we need to get the user defined processes
-    addProcesses(&sim, &circuit, parser);
+    addProcesses(&seqsim, &circuit, parser);
 
     Logger::print_state_header(circuit);
-    sim.run();
+
+    auto start = high_resolution_clock::now();
+    seqsim.run();
+    auto stop = high_resolution_clock::now();
+    duration<double> seqDuration = stop - start;
+
+
+    // PARALLEL EXECUTION
+    for (auto* process : circuit.get_processes()) {
+        parSim.schedule(process, 0, 0);
+    }
+
+    // now we need to get the user defined processes
+    addProcesses(&parSim, &circuit, parser);
+
+    Logger::print_state_header(circuit);
+
+    start = high_resolution_clock::now();
+    parSim.run();
+    stop = high_resolution_clock::now();
+    duration<double> parDuration = stop - start;
+
+
+    // FINAL LOGS
+    cout << "Sequential Execution time: " << seqDuration.count() << " seconds" << endl;
+    cout << "Parallel Execution time: " << parDuration.count() << " seconds" << endl;
+
+    cout << "Speed Up: " << parDuration.count() / seqDuration.count() << endl;
     return 0;
 }
