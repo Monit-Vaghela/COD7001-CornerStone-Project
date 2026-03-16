@@ -1,0 +1,15 @@
+entity orGate {
+    inputs : ["a"];
+    outputs : ["c"];
+}
+
+architecture orGate {
+    signals : ["x", "y"];
+    signalMapping : [
+        "x" <= "a",
+        "y" <= "c"
+    ];
+    behaviour{
+        y <= not x;
+    }
+}

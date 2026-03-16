@@ -1,0 +1,18 @@
+entity dff {
+    inputs : ["d", "clk"];
+    outputs : ["q", "qb"];
+}
+
+architecture dff {
+    signals : ["x", "y", "qout", "qbout"];
+    signalMapping : [
+        "x" <= "d",
+        "y" <= "clk",
+        "qout" <= "q",
+        "qbout" <= "qb"
+    ];
+    behaviour {
+        qout <= (x and y) or (qout and not ((not x) and y));
+        qbout <= ((not x) and y) or (qbout and not (x and y));
+    }
+}

@@ -1,0 +1,6 @@
+simulator orGate {
+    processes {
+        process(["x" <= 0], 1);
+        process(["x" <= 1], 2);
+    }
+}

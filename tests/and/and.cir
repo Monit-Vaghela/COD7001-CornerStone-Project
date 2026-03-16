@@ -1,0 +1,17 @@
+entity andGate{
+    inputs : ["a", "b"];
+    outputs : ["c"];
+}
+
+architecture andGate {
+    signals : ["x", "y", "z"];
+    signalMapping : [
+        "x" <= "a",
+        "y" <= "b",
+        "z" <= "c"
+    ];
+    behaviour{
+        z <= x and y;
+    }
+
+}

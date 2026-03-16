@@ -8,7 +8,6 @@
 #include <climits>
 
 using namespace std;
-───────────────────
 
 string JsonWriter::nextY() {
     return "y" + to_string(++yCounter);

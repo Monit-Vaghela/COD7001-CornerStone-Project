@@ -1,0 +1,16 @@
+entity nandGate {
+    inputs : ["a", "b"];
+    outputs : ["c"];
+}
+
+architecture nandGate {
+    signals : ["x", "y", "z"];
+    signalMapping : [
+        "x" <= "a",
+        "y" <= "b",
+        "z" <= "c"
+    ];
+    behaviour {
+        z <= not (x and y)
+    }
+}
