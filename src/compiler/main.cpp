@@ -19,12 +19,9 @@ static string readFile(const string& path) {
     return ss.str();
 }
 
-// Derive output path: strip directory and extension, append suffix.
 static string outputPath(const string& inputPath, const string& suffix) {
-    // find last '/' or use start
     size_t slash = inputPath.find_last_of("/\\");
     string base  = (slash == string::npos) ? inputPath : inputPath.substr(slash + 1);
-    // strip extension
     size_t dot = base.find_last_of('.');
     if (dot != string::npos) base = base.substr(0, dot);
     return base + suffix;
