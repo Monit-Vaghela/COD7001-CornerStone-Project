@@ -21,7 +21,7 @@ enum class GateType {
 class Gate : public Process {
 public:
     Gate(GateType type, const std::vector<Signal*>& inputs, Signal* output)
-        : type(type), inputs(inputs), output(output)
+        : type(type), inputs(inputs), output(output), level(-1)
     {
         gateId = "G" + std::to_string(++gateCounter);
     }
@@ -99,6 +99,14 @@ public:
         return {output};
     }
 
+    void setLevel(int gateLevel){
+        level = gateLevel;
+    }
+
+    const int getLevel(){
+        return level;
+    }
+
     const std::string& getId() const {
         return gateId;
     }
@@ -108,6 +116,7 @@ private:
     std::vector<Signal*> inputs;
     Signal* output;
 
+    int level;
     std::string gateId;
     inline static int gateCounter = 0;
 };

@@ -28,13 +28,22 @@ public:
     void add_sensitive(Process* p);
     const std::vector<Process*>& get_sensitive_list() const;
 
+    void setLevel(int signalLevel){
+        level = signalLevel;
+    }
+
+    int getLevel(){
+        return level;
+    }
+
 private:
     std::string name;
     bool value;
     bool next_value;
 
-    SignalType type;
+    int level;
 
+    SignalType type;
     std::vector<Process*> sensitive_list;
 };
 

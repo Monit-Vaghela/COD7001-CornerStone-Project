@@ -11,8 +11,24 @@ void print_circuit_state(const Circuit& circuit, int header) {
     const int width = 5;
     const std::vector<Signal*> signals = circuit.get_signals();
     
+    // Print only the input
     for (auto* s : signals) {
-        std::cout << "| " << std::left << std::setw(width) << s->get_value(); 
+        if(s->get_type() == SignalType::INPUT){
+            std::cout << "| " << std::left << std::setw(width) << s->get_value();
+        } 
+    }
+    // print the intermediates
+    // for (auto* s : signals) {
+    //     if(s->get_type() == SignalType::INTERMEDIATE){
+    //         std::cout << "| " << std::left << std::setw(width) << s->get_value();
+    //     } 
+    // }
+
+    // Print only the output
+    for (auto* s : signals) {
+        if(s->get_type() == SignalType::OUTPUT){
+            std::cout << "| " << std::left << std::setw(width) << s->get_value();
+        } 
     }
     std::cout << "|\n";
 
@@ -87,7 +103,21 @@ void print_state_header(const Circuit& circuit){
     // First print the header
     std::cout << "\n---------------------------------\n";
     for(auto &signal : circuit.get_signals()){
-        std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
+        // Inputs header
+        if(signal->get_type() == SignalType::INPUT) {
+            std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
+        }
+
+        // Intermediate
+        // if(signal->get_type() == SignalType::INTERMEDIATE) {
+        //     std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
+        // }
+
+        // Outputs
+        if(signal->get_type() == SignalType::OUTPUT) {
+            std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
+        }
+        
     }
     std::cout << "|\n";
 }

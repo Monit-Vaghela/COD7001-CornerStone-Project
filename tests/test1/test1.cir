@@ -1,0 +1,19 @@
+entity andGate{
+    inputs : ["a1", "a2", "a3", "a4"];
+    outputs : ["b"];
+}
+
+architecture andGate {
+    signals : ["x1", "x2", "x3", "x4", "y"];
+    signalMapping : [
+        "x1" <= "a1",
+        "x2" <= "a2",
+        "x3" <= "a3",
+        "x4" <= "a4",
+        "y" <= "b"
+    ];
+    behaviour{
+        y <= ((x1 and x2) or (x3 and x4));
+    }
+
+}

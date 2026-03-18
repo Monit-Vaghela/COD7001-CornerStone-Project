@@ -7,6 +7,7 @@
 #include <simulator/sequential/sequential_sim.h>
 #include <simulator/parallel/v1.h>
 #include <chrono>
+#include <unordered_map>
 
 // namespaces used
 using namespace std;
@@ -141,6 +142,7 @@ int buildCircuitFromJson(Circuit* circuit, JsonParser& parser) {
         Gate* gate = new Gate(type, inputs, out);
 
         circuit->add_process(gate);
+        circuit->add_gates(gate);
 
         for(auto* s : inputs)
             s->add_sensitive(gate);
@@ -157,6 +159,91 @@ int addProcesses(Simulator* sim, Circuit* circuit, JsonParser& parser){
         }
     }
     return 0;
+}
+
+int createGateLevels(Circuit* circuit){
+    // first assign level 0 to each input signal.
+    for(auto *signal : circuit->get_signals()){
+        if(signal->get_type() == SignalType::INPUT) signal->setLevel((uint32_t)0);
+    }
+
+    // print gate info
+    cout << "gates : " << (circuit->get_gates()).size() << endl;
+
+    // add all the gates to an unordered map to keep track which has there input ready
+
+    unordered_map<Gate*, bool> ready;
+    for(auto *gate : circuit->get_gates()){
+        ready[gate] = false;   
+    }
+
+    bool flag = false;
+    while(!flag){
+        // base condition assume all gates are done
+        flag = true;
+
+        for(auto &gateInfo : ready){
+            Gate* gate = gateInfo.first;
+            bool done = gateInfo.second;
+
+            // assumption broke, need to do this gate
+            if(!done){
+                flag = false;
+
+                // Get all the inputs
+                vector<Signal*> inputs = gate->getInputs();
+                vector<Signal*> outputs = gate->getOutputs();
+
+                int maxSignalLevel = -1;
+                bool wait = false;
+                // check if all the inputs have calculated their level
+                for(auto *signal : inputs){
+                    if(signal->getLevel() == -1){
+                        wait = true;
+                        break;
+                    }
+                    else{
+                        maxSignalLevel = max(maxSignalLevel, signal->getLevel());
+                    }
+                }
+
+                if(!wait){
+                    // when gate levels are set we can set its output level as well
+                    gate->setLevel(maxSignalLevel);
+                    outputs[0]->setLevel(maxSignalLevel + 1);
+
+                    // mark the gate as done if done
+                    ready[gate] = true;
+                }
+            }
+        }
+
+    }
+
+
+    // lets print the levels
+    // for(auto *gate : circuit->get_gates()){
+    //     cout << "gate Id : " << gate->getId() << 
+    //     "\n\tGate type : " << gate->getName() <<
+    //     "\n\tGate level : " << gate->getLevel();
+
+    //     cout << "\n\tInput Levels";
+    //     // inputs level
+    //     for(auto *signal : gate->getInputs()){
+    //         cout << " \n\t\tSignal Name : " << signal->get_name() <<
+    //         "\n\t\tSignal level : " << signal->getLevel(); 
+    //     }
+
+    //     cout << "\n\tOutput levels";
+    //     // outputs levels
+    //     for(auto *signal : gate->getOutputs()){
+    //         cout << " \n\t\tSignal Name : " << signal->get_name() <<
+    //         "\n\t\tSignal level : " << signal->getLevel(); 
+    //     }
+    //     cout << endl;
+    // }
+    return 1;
+
 }
 
 int main(int argc, char* argv[]) {
@@ -184,13 +271,21 @@ int main(int argc, char* argv[]) {
     // printCircuitData(parser);
     // printSimulationData(parser);
 
-    Circuit circuit;
-    buildCircuitFromJson(&circuit, parser);
+    Circuit seqCircuit, parCircuit;
+    buildCircuitFromJson(&seqCircuit, parser);
+    buildCircuitFromJson(&parCircuit, parser);
 
-    Logger::print_circuit(circuit);
+    createGateLevels(&seqCircuit);
+    createGateLevels(&parCircuit);
+    /*
+    For parallelization we will build the formal definition
+    of circuit,
+    */
     
-    SequentialSimulator seqsim(&circuit);
-    ParallelV1Simulator parSim(&circuit);
+    // Logger::print_circuit(circuit);
+    
+    SequentialSimulator seqsim(&seqCircuit);
+    ParallelV1Simulator parSim(&parCircuit);
 
 
     // SEQUENTIAL EXECUTION
@@ -198,14 +293,14 @@ int main(int argc, char* argv[]) {
     // first to need one intital simulation step in order to 
     // correctly set the intermediatory and outputs
     // schedule initial evaluation
-    for (auto* process : circuit.get_processes()) {
+    for (auto* process : seqCircuit.get_processes()) {
         seqsim.schedule(process, 0, 0);
     }
 
     // now we need to get the user defined processes
-    addProcesses(&seqsim, &circuit, parser);
+    addProcesses(&seqsim, &seqCircuit, parser);
 
-    Logger::print_state_header(circuit);
+    Logger::print_state_header(seqCircuit);
 
     auto start = high_resolution_clock::now();
     seqsim.run();
@@ -214,14 +309,14 @@ int main(int argc, char* argv[]) {
 
 
     // PARALLEL EXECUTION
-    for (auto* process : circuit.get_processes()) {
+    for (auto* process : parCircuit.get_processes()) {
         parSim.schedule(process, 0, 0);
     }
 
     // now we need to get the user defined processes
-    addProcesses(&parSim, &circuit, parser);
+    addProcesses(&parSim, &parCircuit, parser);
 
-    Logger::print_state_header(circuit);
+    Logger::print_state_header(parCircuit);
 
     start = high_resolution_clock::now();
     parSim.run();
@@ -233,6 +328,6 @@ int main(int argc, char* argv[]) {
     cout << "Sequential Execution time: " << seqDuration.count() << " seconds" << endl;
     cout << "Parallel Execution time: " << parDuration.count() << " seconds" << endl;
 
-    cout << "Speed Up: " << parDuration.count() / seqDuration.count() << endl;
+    cout << "Speed Up: " << seqDuration.count() / parDuration.count() << endl;
     return 0;
 }

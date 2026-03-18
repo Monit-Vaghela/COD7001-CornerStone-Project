@@ -1,0 +1,83 @@
+{
+    "entity" : {
+        "metadata" : {
+            "noOfInputPorts" : 8,
+            "noOfOutputPorts" : 1
+        },
+
+        "inputs" : ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"],
+        "outputs" : ["b"],
+        "intermediates" : ["y1", "y2", "y3", "y4", "y5", "y6"]
+    },
+
+    "Architecture" : {
+        "metadata" : {
+            "noOfTotalGates" : 7,
+            "noOfAndGates" : 5,
+            "noOforGates" : 2,
+            "noOfNotGates" : 0,
+            "noOfXorGates" : 0,
+            "noOfXnorGates" : 0,
+            "noOfSignals" : 9
+        },
+
+        "SignalMapping" : 
+            [
+                {"x1" : "a1", "SignalType" : "input"},
+                {"x2" : "a2", "SignalType" : "input"},
+                {"x3" : "a3", "SignalType" : "input"},
+                {"x4" : "a4", "SignalType" : "input"},
+                {"x5" : "a5", "SignalType" : "input"},
+                {"x6" : "a6", "SignalType" : "input"},
+                {"x7" : "a7", "SignalType" : "input"},
+                {"x8" : "a8", "SignalType" : "input"},
+                {"y" : "b", "SignalType" : "output"}
+            ]
+        ,
+
+        "Behaviour" : [
+            {
+                "OutputSignal" : "y1",
+                "gateExpressionInputs" : ["x1", "x2"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(x1, x2)"
+            },
+            {
+                "OutputSignal" : "y2",
+                "gateExpressionInputs" : ["x3", "x4"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(x3, x4)"
+            },
+            {
+                "OutputSignal" : "y3",
+                "gateExpressionInputs" : ["y1", "y2"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(y1, y2)"
+            },
+            {
+                "OutputSignal" : "y4",
+                "gateExpressionInputs" : ["x5", "x6"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(x5, x6)"
+            },
+            {
+                "OutputSignal" : "y5",
+                "gateExpressionInputs" : ["x7", "x8"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(x7, x8)"
+            },
+            {
+                "OutputSignal" : "y6",
+                "gateExpressionInputs" : ["y4", "y5"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(y4, y5)"
+            },
+            {
+                "OutputSignal" : "y",
+                "gateExpressionInputs" : ["y3", "y6"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(y3, y6)"
+            }
+        ]
+    }
+}

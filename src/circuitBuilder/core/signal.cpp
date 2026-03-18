@@ -1,7 +1,7 @@
 #include <circuitBuilder/core/signal.h>
 
 Signal::Signal(const std::string& name, SignalType type, bool initial_value)
-    : name(name), type(type), value(initial_value), next_value(initial_value) {}
+    : name(name), type(type), value(initial_value), next_value(initial_value), level(-1) {}
 
 void Signal::set_next(bool val) {
     next_value = val;

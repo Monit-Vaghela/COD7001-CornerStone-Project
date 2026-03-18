@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Iinclude
+CXXFLAGS = -std=c++17 -Wall -Iinclude -fopenmp
 
 COMPILER_SRC = $(wildcard src/compiler/*.cpp)
 CIRCUIT_SRC = \
