@@ -130,11 +130,17 @@ void SemanticAnalyzer::checkSimulator(const EntityNode& entity,
             inputMappedSignals.insert(entry.signal);
 
     // Every signal assigned in a process must be input-mapped
-    for (const auto& proc : sim.processes)
-        for (const auto& assignment : proc.assignments)
+    for (const auto& proc : sim.processes) {
+        for (const auto& assignment : proc.assignments) {
             if (!inputMappedSignals.count(assignment.first))
                 error("signal '" + assignment.first + "' in process at timestamp " +
-                      to_string(proc.timestamp) + " is not an input-mapped signal");
+                    to_string(proc.timestamp) + " is not an input-mapped signal");
+
+            if (assignment.second != 0 && assignment.second != 1)
+                error("signal '" + assignment.first + "' has invalid value " +
+                    to_string(assignment.second) + " — must be 0 or 1");
+        }
+    }
 }
 
 void SemanticAnalyzer::analyze(const ProgramNode& program, const SimulatorNode& sim) {
