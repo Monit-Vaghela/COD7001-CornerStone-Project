@@ -23,7 +23,7 @@ void ParallelV1Simulator::run() {
 
         // Logging when time advances
         if (last_time != -1 && T != last_time) {
-            Logger::print_circuit_state(*circuit, 0);
+            //Logger::print_circuit_state(*circuit, 0);
         }
 
         current_time = T;
@@ -110,10 +110,17 @@ void ParallelV1Simulator::run() {
             }
 
             // Execute all events in [i, j)
-            #pragma omp parallel for schedule(static)
+            int work = j - i;
+            if (work > 100) {
+                #pragma omp parallel for schedule(static)
                 for (int k = i; k < j; k++) {
                     current_batch[k].process->execute();
                 }
+            } else {
+                for (int k = i; k < j; k++) {
+                    current_batch[k].process->execute();
+                }
+            }
 
             // Move to next group
             i = j;
@@ -174,7 +181,7 @@ void ParallelV1Simulator::run() {
 
     // Final state print
     if (last_time != -1) {
-        Logger::print_circuit_state(*circuit, 0);
+        //Logger::print_circuit_state(*circuit, 0);
         cout << "V1 Simulated " << simulatedEvents << endl;
     }
 }

@@ -18,11 +18,11 @@ void print_circuit_state(const Circuit& circuit, int header) {
         } 
     }
     // print the intermediates
-    // for (auto* s : signals) {
-    //     if(s->get_type() == SignalType::INTERMEDIATE){
-    //         std::cout << "| " << std::left << std::setw(width) << s->get_value();
-    //     } 
-    // }
+    for (auto* s : signals) {
+        if(s->get_type() == SignalType::INTERMEDIATE){
+            std::cout << "| " << std::left << std::setw(width) << s->get_value();
+        } 
+    }
 
     // Print only the output
     for (auto* s : signals) {
@@ -39,60 +39,77 @@ void print_circuit(const Circuit& circuit) {
     std::cout << "\n========== CIRCUIT DETAILS ==========\n";
 
     //------------------------------------
-    // Print Signals
+    // Signals (compact view)
     //------------------------------------
     std::cout << "\n--- Signals ---\n";
 
     for (const auto* signal : circuit.get_signals()) {
 
-        std::cout << "Signal: " << signal->get_name()
+        std::cout << "Signal: "
+                  << signal->get_name()
                   << " = " << signal->get_value()
-                  << "\n";
-
-        std::cout << "  Sensitive Processes:\n";
+                  << " | Sensitive: ";
 
         const auto& sens_list = signal->get_sensitive_list();
 
         if (sens_list.empty()) {
-            std::cout << "    (none)\n";
+            std::cout << "(none)";
         } else {
-            for (const auto* proc : sens_list) {
-                std::cout << "    " << proc->getName() << "\n";
+            for (size_t i = 0; i < sens_list.size(); ++i) {
+                std::cout << sens_list[i]->getName();
+                if (i != sens_list.size() - 1)
+                    std::cout << ", ";
             }
         }
+
+        std::cout << "\n";
     }
 
     //------------------------------------
-    // Print Processes
+    // Processes (compact view)
     //------------------------------------
     std::cout << "\n--- Processes ---\n";
 
     for (const auto* process : circuit.get_processes()) {
 
-        std::cout << "\nProcess: " << process->getName() << "\n";
+        std::cout << "\nProcess: " << process->getName();
 
         if (process->getType() == Process::ProcessType::GATE) {
 
             const Gate* gate = dynamic_cast<const Gate*>(process);
 
-            std::cout << "  Inputs:\n";
-            for (const auto* input : gate->getInputs()) {
-                std::cout << "    "
-                          << input->get_name()
-                          << " = "
-                          << input->get_value()
-                          << "\n";
+            // Inputs
+            std::cout << " | Inputs: ";
+            const auto& inputs = gate->getInputs();
+
+            if (inputs.empty()) {
+                std::cout << "(none)";
+            } else {
+                for (size_t i = 0; i < inputs.size(); ++i) {
+                    std::cout << inputs[i]->get_name()
+                              << "=" << inputs[i]->get_value();
+                    if (i != inputs.size() - 1)
+                        std::cout << ", ";
+                }
             }
 
-            std::cout << "  Outputs:\n";
-            for (const auto* output : gate->getOutputs()) {
-                std::cout << "    "
-                          << output->get_name()
-                          << " = "
-                          << output->get_value()
-                          << "\n";
+            // Outputs
+            std::cout << " | Outputs: ";
+            const auto& outputs = gate->getOutputs();
+
+            if (outputs.empty()) {
+                std::cout << "(none)";
+            } else {
+                for (size_t i = 0; i < outputs.size(); ++i) {
+                    std::cout << outputs[i]->get_name()
+                              << "=" << outputs[i]->get_value();
+                    if (i != outputs.size() - 1)
+                        std::cout << ", ";
+                }
             }
         }
+
+        std::cout << "\n";
     }
 
     std::cout << "\n=====================================\n";
@@ -109,9 +126,9 @@ void print_state_header(const Circuit& circuit){
         }
 
         // Intermediate
-        // if(signal->get_type() == SignalType::INTERMEDIATE) {
-        //     std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
-        // }
+        if(signal->get_type() == SignalType::INTERMEDIATE) {
+            std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
+        }
 
         // Outputs
         if(signal->get_type() == SignalType::OUTPUT) {

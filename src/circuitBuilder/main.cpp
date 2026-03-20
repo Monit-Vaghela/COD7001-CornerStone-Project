@@ -282,7 +282,7 @@ int main(int argc, char* argv[]) {
     of circuit,
     */
     
-    // Logger::print_circuit(circuit);
+    Logger::print_circuit(seqCircuit);
     
     SequentialSimulator seqsim(&seqCircuit);
     ParallelV1Simulator parSim(&parCircuit);
@@ -308,26 +308,26 @@ int main(int argc, char* argv[]) {
     duration<double> seqDuration = stop - start;
 
 
-    // PARALLEL EXECUTION
-    for (auto* process : parCircuit.get_processes()) {
-        parSim.schedule(process, 0, 0);
-    }
+    // // PARALLEL EXECUTION
+    // for (auto* process : parCircuit.get_processes()) {
+    //     parSim.schedule(process, 0, 0);
+    // }
 
-    // now we need to get the user defined processes
-    addProcesses(&parSim, &parCircuit, parser);
+    // // now we need to get the user defined processes
+    // addProcesses(&parSim, &parCircuit, parser);
 
-    Logger::print_state_header(parCircuit);
+    // // Logger::print_state_header(parCircuit);
 
-    start = high_resolution_clock::now();
-    parSim.run();
-    stop = high_resolution_clock::now();
-    duration<double> parDuration = stop - start;
+    // start = high_resolution_clock::now();
+    // parSim.run();
+    // stop = high_resolution_clock::now();
+    // duration<double> parDuration = stop - start;
 
 
-    // FINAL LOGS
-    cout << "Sequential Execution time: " << seqDuration.count() << " seconds" << endl;
-    cout << "Parallel Execution time: " << parDuration.count() << " seconds" << endl;
+    // // FINAL LOGS
+    // cout << "Sequential Execution time: " << seqDuration.count() << " seconds" << endl;
+    // cout << "Parallel Execution time: " << parDuration.count() << " seconds" << endl;
 
-    cout << "Speed Up: " << seqDuration.count() / parDuration.count() << endl;
+    // cout << "Speed Up: " << seqDuration.count() / parDuration.count() << endl;
     return 0;
 }

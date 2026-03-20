@@ -1,0 +1,79 @@
+{
+    "entity" : {
+        "metadata" : {
+            "noOfInputPorts" : 3,
+            "noOfOutputPorts" : 2
+        },
+
+        "inputs" : ["a", "b", "c"],
+        "outputs" : ["sum", "carry"],
+        "intermediates" : ["y1", "y2", "y3", "y4", "y5"]
+    },
+
+    "Architecture" : {
+        "metadata" : {
+            "noOfTotalGates" : 7,
+            "noOfAndGates" : 3,
+            "noOforGates" : 3,
+            "noOfNotGates" : 0,
+            "noOfXorGates" : 1,
+            "noOfXnorGates" : 0,
+            "noOfSignals" : 5
+        },
+
+        "SignalMapping" : 
+            [
+                {"x" : "a", "SignalType" : "input"},
+                {"y" : "b", "SignalType" : "input"},
+                {"z" : "c", "SignalType" : "input"},
+                {"mus" : "sum", "SignalType" : "output"},
+                {"yrrac" : "carry", "SignalType" : "output"}
+            ]
+        ,
+
+        "Behaviour" : [
+            {
+                "OutputSignal" : "y1",
+                "gateExpressionInputs" : ["x", "y"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(x, y)"
+            },
+            {
+                "OutputSignal" : "mus",
+                "gateExpressionInputs" : ["y1", "z"],
+                "gatesUsed" : ["xor"],
+                "expression" : "xor(y1, z)"
+            },
+            {
+                "OutputSignal" : "y2",
+                "gateExpressionInputs" : ["x", "y"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(x, y)"
+            },
+            {
+                "OutputSignal" : "y3",
+                "gateExpressionInputs" : ["x", "z"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(x, z)"
+            },
+            {
+                "OutputSignal" : "y4",
+                "gateExpressionInputs" : ["y2", "y3"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(y2, y3)"
+            },
+            {
+                "OutputSignal" : "y5",
+                "gateExpressionInputs" : ["y", "z"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(y, z)"
+            },
+            {
+                "OutputSignal" : "yrrac",
+                "gateExpressionInputs" : ["y4", "y5"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(y4, y5)"
+            }
+        ]
+    }
+}
