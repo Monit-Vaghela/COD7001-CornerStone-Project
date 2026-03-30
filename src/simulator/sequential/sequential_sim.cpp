@@ -1,6 +1,9 @@
 #include <simulator/sequential/sequential_sim.h>
 #include <circuitBuilder/utils/logger.h>
 #include <vector>
+#include <iostream>
+
+using namespace std;
 
 SequentialSimulator::SequentialSimulator(Circuit* c)
     : Simulator(c) {}
@@ -8,6 +11,7 @@ SequentialSimulator::SequentialSimulator(Circuit* c)
 void SequentialSimulator::run() {
 
     int last_time = -1;
+    int simulatedEvents = 0;
 
     while (!event_queue.empty()) {
 
@@ -64,6 +68,7 @@ void SequentialSimulator::run() {
 
             for (auto* process : signal->get_sensitive_list()) {
 
+                simulatedEvents ++;
                 event_queue.push(
                     Event(T, D + 1, process)
                 );
@@ -74,5 +79,6 @@ void SequentialSimulator::run() {
     // Final state print
     if (last_time != -1) {
         Logger::print_circuit_state(*circuit, 0);
+        cout << "Sequential Simulated " << simulatedEvents << endl;
     }
 }

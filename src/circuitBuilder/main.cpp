@@ -7,6 +7,9 @@
 #include <simulator/sequential/sequential_sim.h>
 #include <simulator/parallel/v1.h>
 #include <chrono>
+#include <unordered_map>
+#include <preProcessor/circuitGraph.h>
+#include <cstring>
 
 // namespaces used
 using namespace std;
@@ -141,6 +144,7 @@ int buildCircuitFromJson(Circuit* circuit, JsonParser& parser) {
         Gate* gate = new Gate(type, inputs, out);
 
         circuit->add_process(gate);
+        circuit->add_gates(gate);
 
         for(auto* s : inputs)
             s->add_sensitive(gate);
@@ -159,10 +163,101 @@ int addProcesses(Simulator* sim, Circuit* circuit, JsonParser& parser){
     return 0;
 }
 
+void runSequential(JsonParser& parser){
+    Circuit seqCircuit, parCircuit;
+    buildCircuitFromJson(&seqCircuit, parser);
+    
+    Logger::print_circuit(seqCircuit);
+    
+    SequentialSimulator seqsim(&seqCircuit);
+
+    // CircuitGraph circuitGraph;
+    // circuitGraph.build(seqCircuit);
+    // circuitGraph.applyTarjans();
+    // circuitGraph.printGraph();
+
+
+    // SEQUENTIAL EXECUTION
+
+    // first to need one intital simulation step in order to 
+    // correctly set the intermediatory and outputs
+    // schedule initial evaluation
+    for (auto* process : seqCircuit.get_processes()) {
+        seqsim.schedule(process, 0, 0);
+    }
+
+    // now we need to get the user defined processes
+    addProcesses(&seqsim, &seqCircuit, parser);
+
+    Logger::print_state_header(seqCircuit);
+
+    auto start = high_resolution_clock::now();
+    seqsim.run();
+    auto stop = high_resolution_clock::now();
+    duration<double> seqDuration = stop - start;
+
+
+    return;
+}
+
+void runComparisional(JsonParser& parser){
+    Circuit seqCircuit, parCircuit;
+    buildCircuitFromJson(&seqCircuit, parser);
+    buildCircuitFromJson(&parCircuit, parser);
+    
+    Logger::print_circuit(seqCircuit);
+    
+    SequentialSimulator seqsim(&seqCircuit);
+    ParallelV1Simulator parSim(&parCircuit);
+
+
+    // SEQUENTIAL EXECUTION
+
+    // first to need one intital simulation step in order to 
+    // correctly set the intermediatory and outputs
+    // schedule initial evaluation
+    for (auto* process : seqCircuit.get_processes()) {
+        seqsim.schedule(process, 0, 0);
+    }
+
+    // now we need to get the user defined processes
+    addProcesses(&seqsim, &seqCircuit, parser);
+
+    Logger::print_state_header(seqCircuit);
+
+    auto start = high_resolution_clock::now();
+    seqsim.run();
+    auto stop = high_resolution_clock::now();
+    duration<double> seqDuration = stop - start;
+
+
+    // PARALLEL EXECUTION
+    for (auto* process : parCircuit.get_processes()) {
+        parSim.schedule(process, 0, 0);
+    }
+
+    // now we need to get the user defined processes
+    addProcesses(&parSim, &parCircuit, parser);
+
+    // Logger::print_state_header(parCircuit);
+
+    start = high_resolution_clock::now();
+    parSim.run();
+    stop = high_resolution_clock::now();
+    duration<double> parDuration = stop - start;
+
+
+    // FINAL LOGS
+    cout << "Sequential Execution time: " << seqDuration.count() << " seconds" << endl;
+    cout << "Parallel Execution time: " << parDuration.count() << " seconds" << endl;
+
+    cout << "Speed Up: " << seqDuration.count() / parDuration.count() << endl;
+}
+
 int main(int argc, char* argv[]) {
 
-    if (argc != 3) {
-        cout << "Usage: " << argv[0] << " <circuit_file.json> <simulation_file.json>\n";
+    if (argc != 4) {
+        cout << "Usage: " << argv[0] << " <circuit_file.json> <simulation_file.json> -s/-c\n";
         return 1;
     }
 
@@ -184,55 +279,8 @@ int main(int argc, char* argv[]) {
     // printCircuitData(parser);
     // printSimulationData(parser);
 
-    Circuit circuit;
-    buildCircuitFromJson(&circuit, parser);
+    if(strcmp(argv[3], "-s") == 0) runSequential(parser);
+    else if(strcmp(argv[3], "-c") == 0) runComparisional(parser);
 
-    Logger::print_circuit(circuit);
-    
-    SequentialSimulator seqsim(&circuit);
-    ParallelV1Simulator parSim(&circuit);
-
-
-    // SEQUENTIAL EXECUTION
-
-    // first to need one intital simulation step in order to 
-    // correctly set the intermediatory and outputs
-    // schedule initial evaluation
-    for (auto* process : circuit.get_processes()) {
-        seqsim.schedule(process, 0, 0);
-    }
-
-    // now we need to get the user defined processes
-    addProcesses(&seqsim, &circuit, parser);
-
-    Logger::print_state_header(circuit);
-
-    auto start = high_resolution_clock::now();
-    seqsim.run();
-    auto stop = high_resolution_clock::now();
-    duration<double> seqDuration = stop - start;
-
-
-    // PARALLEL EXECUTION
-    for (auto* process : circuit.get_processes()) {
-        parSim.schedule(process, 0, 0);
-    }
-
-    // now we need to get the user defined processes
-    addProcesses(&parSim, &circuit, parser);
-
-    Logger::print_state_header(circuit);
-
-    start = high_resolution_clock::now();
-    parSim.run();
-    stop = high_resolution_clock::now();
-    duration<double> parDuration = stop - start;
-
-
-    // FINAL LOGS
-    cout << "Sequential Execution time: " << seqDuration.count() << " seconds" << endl;
-    cout << "Parallel Execution time: " << parDuration.count() << " seconds" << endl;
-
-    cout << "Speed Up: " << parDuration.count() / seqDuration.count() << endl;
     return 0;
 }

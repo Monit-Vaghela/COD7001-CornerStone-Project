@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Iinclude
+CXXFLAGS = -std=c++17 -Wall -Iinclude -fopenmp
 
 COMPILER_SRC = $(wildcard src/compiler/*.cpp)
 CIRCUIT_SRC = \
@@ -9,7 +9,8 @@ CIRCUIT_SRC = \
 	$(wildcard src/circuitBuilder/utils/*.cpp) \
 	$(wildcard src/simulator/*.cpp) \
 	$(wildcard src/simulator/sequential/*.cpp) \
-	$(wildcard src/simulator/parallel/*.cpp) 
+	$(wildcard src/simulator/parallel/*.cpp) \
+	$(wildcard src/preProcessor/*.cpp)
 
 all: compiler circuitBuilder
 
