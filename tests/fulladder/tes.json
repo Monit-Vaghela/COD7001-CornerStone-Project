@@ -5,6 +5,12 @@
             "initialTimeStamp" : 0,
             "finalTimeStamp" : 7
         },
+        "InitialState" : {
+            "x" : 1,
+            "y" : 1,
+            "z" : 1
+        },
+
         "Processes" : 
         [
             {"x" : 0, "timestamp" : 0},

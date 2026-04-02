@@ -4,7 +4,7 @@
 #include <circuitBuilder/gates/gate.h>
 
 namespace Logger {
-void print_circuit_state(const Circuit& circuit, int header) {
+void print_circuit_state(const Circuit& circuit) {
 
     // get the signal lists
     
@@ -12,9 +12,22 @@ void print_circuit_state(const Circuit& circuit, int header) {
     const std::vector<Signal*> signals = circuit.get_signals();
     
     for (auto* s : signals) 
-        if(s->get_type() == SignalType::INPUT) std::cout << "| " << std::left << std::setw(width) << s->get_value(); 
+        if(s->get_type() == SignalType::INPUT){
+            if(s->initialized) std::cout << "| " << std::left << std::setw(width) << s->get_value(); 
+            else std::cout << "| " << std::left << std::setw(width) << s->get_value(); 
+        }
+
+    // for (auto* s : signals) 
+    //     if(s->get_type() == SignalType::INTERMEDIATE){
+    //         if(s->initialized) std::cout << "| " << std::left << std::setw(width) << s->get_value(); 
+    //         else std::cout << "| " << std::left << std::setw(width) << "U"; 
+    //     }
+
     for (auto* s : signals) 
-        if(s->get_type() == SignalType::OUTPUT) std::cout << "| " << std::left << std::setw(width) << s->get_value();
+        if(s->get_type() == SignalType::OUTPUT){
+            if(s->initialized) std::cout << "| " << std::left << std::setw(width) << s->get_value();
+            else std::cout << "| " << std::left << std::setw(width) << s->get_value(); 
+        }
     std::cout << "|\n";
 
 }
@@ -31,7 +44,7 @@ void print_circuit(const Circuit& circuit) {
     for (const auto* signal : circuit.get_signals()) {
 
         std::cout << "Signal: " << signal->get_name()
-                  << " = " << signal->get_value()
+                  << " = " << (signal->initialized ? std::to_string(signal->get_value()) : "U")
                   << "\n";
 
         std::cout << "  Sensitive Processes:\n";
@@ -65,7 +78,7 @@ void print_circuit(const Circuit& circuit) {
                 std::cout << "    "
                           << input->get_name()
                           << " = "
-                          << input->get_value()
+                          << (input->initialized ? std::to_string(input->get_value()) : "U")
                           << "\n";
             }
 
@@ -74,7 +87,7 @@ void print_circuit(const Circuit& circuit) {
                 std::cout << "    "
                           << output->get_name()
                           << " = "
-                          << output->get_value()
+                          << (output->initialized ? std::to_string(output->get_value()) : "U")
                           << "\n";
             }
         }
@@ -91,11 +104,15 @@ void print_state_header(const Circuit& circuit){
         if(signal->get_type() == SignalType::INPUT)
         std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
     }
+    // for(auto &signal : circuit.get_signals()){
+    //     if(signal->get_type() == SignalType::INTERMEDIATE)
+    //     std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
+    // }
+
     for(auto &signal : circuit.get_signals()){
         if(signal->get_type() == SignalType::OUTPUT)
         std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
     }
     std::cout << "|\n";
 }
-
 }

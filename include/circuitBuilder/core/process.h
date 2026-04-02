@@ -6,6 +6,7 @@ class Process {
 public:
     enum class ProcessType {
         GATE,
+        BEHAVIOUR,
         OTHER
     };
 

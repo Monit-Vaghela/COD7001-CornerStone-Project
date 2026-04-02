@@ -8,19 +8,26 @@ using namespace std;
 SequentialSimulator::SequentialSimulator(Circuit* c)
     : Simulator(c) {}
 
+
 void SequentialSimulator::run() {
 
     int last_time = -1;
     int simulatedEvents = 0;
 
     while (!event_queue.empty()) {
-
+        // cout << "\n---------------Event Queue------------------\n";
+        // event_queue.printEventQueue();
+        // cout << simulatedEvents << endl;
+        if(simulatedEvents > 10000) {
+            cout << "[Simulator / Error] : Stuck in looping Delta Cycles\n";
+            return;
+        }
         int T = event_queue.top().time;
         int D = event_queue.top().delta;
 
         // Logging when time advances
         if (last_time != -1 && T != last_time) {
-            Logger::print_circuit_state(*circuit, 0);
+            Logger::print_circuit_state(*circuit);
         }
 
         current_time = T;
@@ -52,6 +59,7 @@ void SequentialSimulator::run() {
         // Commit signal updates
         std::vector<Signal*> changedSignals;
 
+        // cout << "\n--------------Changed Signals--------------------\n";
         for (auto* signal : circuit->get_signals()) {
 
             bool oldVal = signal->get_value();
@@ -59,15 +67,17 @@ void SequentialSimulator::run() {
             bool newVal = signal->get_value();
 
             if (oldVal != newVal) {
+                // cout << signal->get_name() << " Changed from : " << oldVal << " To : " << newVal << endl;
                 changedSignals.push_back(signal);
             }
         }
 
         // Schedule processes sensitive to changed signals
+        // cout << "\n----------------Sensitive Processes---------------\n";
         for (auto* signal : changedSignals) {
-
+            // cout << "\tSignal " << signal->get_name() << " Pushed Processes : " << endl;
             for (auto* process : signal->get_sensitive_list()) {
-
+                // cout << "\t\t" << process->getName() << ", (T, D) : " << T << ", " << D + 1 << endl; 
                 simulatedEvents ++;
                 event_queue.push(
                     Event(T, D + 1, process)
@@ -78,7 +88,61 @@ void SequentialSimulator::run() {
 
     // Final state print
     if (last_time != -1) {
-        Logger::print_circuit_state(*circuit, 0);
+        Logger::print_circuit_state(*circuit);
         cout << "Sequential Simulated " << simulatedEvents << endl;
+    }
+
+}
+
+void SequentialSimulator::stabilize() {
+    int stop = 0;
+    // Schedule all gates at T=0, D=0
+    for (auto* process : circuit->get_processes()) {
+        if(process->getType() == Process::ProcessType::GATE) event_queue.push(Event(0, 0, process));
+    }
+
+    // Drain events but stop advancing real time, only delta cycles
+    while (!event_queue.empty()) {
+        if(stop > 1000) {
+            cout << "[Simulator / Error] Cant stabalize circuit. check inputs\n";
+            return;
+        }
+        int T = event_queue.top().time;
+        int D = event_queue.top().delta;
+
+        // Only drain delta cycles at T=0; stop at any real time event
+        // (those are user inputs, scheduled separately)
+        if (T != 0) break;
+
+        std::vector<Event> batch;
+        while (!event_queue.empty() &&
+               event_queue.top().time == T &&
+               event_queue.top().delta == D) {
+            batch.push_back(event_queue.pop());
+        }
+
+        for (auto& e : batch) {
+            if (e.type == Event::PROCESS_EXEC)
+                e.process->execute();
+        }
+
+        std::vector<Signal*> changed;
+        for (auto* s : circuit->get_signals()) {
+            bool old = s->get_value();
+            s->commit();
+            if (old != s->get_value())
+                changed.push_back(s);
+        }
+
+        for (auto* s : changed) {
+            for (auto* p : s->get_sensitive_list()) {
+                event_queue.push(Event(0, D + 1, p));
+                stop++;
+            }
+        }
+    }
+
+    for (auto* s : circuit->get_signals()) {
+        s->initializeSignal();
     }
 }

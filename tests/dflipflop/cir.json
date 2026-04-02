@@ -5,18 +5,18 @@
             "noOfOutputPorts": 2
         },
 
-        "inputs": ["d", "clk"],
-        "outputs": ["q", "qb"],
-        "intermediates": ["nd", "s", "r", "ns", "nr", "y1", "y2"]
+        "inputs": ["D", "CLK"],
+        "outputs": ["Q", "Qb"],
+        "intermediates": ["y1", "y2", "y3", "y4", "y5"]
     },
 
     "Architecture": {
 
         "metadata": {
-            "noOfTotalGates": 9,
-            "noOfAndGates": 4,
-            "noOforGates": 2,
-            "noOfNotGates": 3,
+            "noOfTotalGates": 6,
+            "noOfAndGates": 0,
+            "noOforGates": 0,
+            "noOfNotGates": 1,
             "noOfXorGates": 0,
             "noOfXnorGates": 0,
             "noOfSignals": 9
@@ -24,75 +24,61 @@
 
         "SignalMapping":
         [
-            {"x": "d", "SignalType": "input"},
-            {"y": "clk", "SignalType": "input"},
-            {"qout": "q", "SignalType": "output"},
-            {"qbout": "qb", "SignalType": "output"}
+            {"x": "D", "SignalType": "input"},
+            {"y": "CLK", "SignalType": "input"},
+            {"qout": "Q", "SignalType": "output"},
+            {"qbout": "Qb", "SignalType": "output"}
         ],
 
         "Behaviour": [
 
             {
-                "OutputSignal": "nd",
+                "OutputSignal": "y1",
                 "gateExpressionInputs": ["x"],
                 "gatesUsed": ["not"],
                 "expression": "not(x)"
             },
 
             {
-                "OutputSignal": "s",
+                "OutputSignal": "y2",
                 "gateExpressionInputs": ["x", "y"],
-                "gatesUsed": ["and"],
-                "expression": "and(x, y)"
+                "gatesUsed": ["nand"],
+                "expression": "nand(x, y)"
             },
 
             {
-                "OutputSignal": "r",
-                "gateExpressionInputs": ["nd", "y"],
-                "gatesUsed": ["and"],
-                "expression": "and(nd, y)"
+                "OutputSignal": "y3",
+                "gateExpressionInputs": ["y1", "y"],
+                "gatesUsed": ["nand"],
+                "expression": "nand(y1, y)"
             },
 
             {
-                "OutputSignal": "ns",
-                "gateExpressionInputs": ["s"],
-                "gatesUsed": ["not"],
-                "expression": "not(s)"
+                "OutputSignal": "y4",
+                "gateExpressionInputs": ["y2", "y5"],
+                "gatesUsed": ["nand"],
+                "expression": "nand(y2, y5)"
             },
 
             {
-                "OutputSignal": "nr",
-                "gateExpressionInputs": ["r"],
-                "gatesUsed": ["not"],
-                "expression": "not(r)"
-            },
-
-            {
-                "OutputSignal": "y1",
-                "gateExpressionInputs": ["qout", "nr"],
-                "gatesUsed": ["and"],
-                "expression": "and(qout, nr)"
+                "OutputSignal": "y5",
+                "gateExpressionInputs": ["y3", "y4"],
+                "gatesUsed": ["nand"],
+                "expression": "nand(y3, y4)"
             },
 
             {
                 "OutputSignal": "qout",
-                "gateExpressionInputs": ["s", "y1"],
-                "gatesUsed": ["or"],
-                "expression": "or(s, y1)"
-            },
-
-            {
-                "OutputSignal": "y2",
-                "gateExpressionInputs": ["qbout", "ns"],
-                "gatesUsed": ["and"],
-                "expression": "and(qbout, ns)"
+                "gateExpressionInputs": ["y4"],
+                "gatesUsed": ["pass"],
+                "expression": "pass(y4)"
             },
 
             {
                 "OutputSignal": "qbout",
-                "gateExpressionInputs": ["r", "y2"],
-                "gatesUsed": ["or"],
-                "expression": "or(r, y2)"
+                "gateExpressionInputs": ["y5"],
+                "gatesUsed": ["pass"],
+                "expression": "pass(y5)"
             }
 
         ]

@@ -33,6 +33,7 @@ Signal* Circuit::get_signal(const std::string& name) {
     return nullptr;  // not found
 }
 
+
 void Circuit::commit_all_signals() {
     for (auto* s : signals) {
         s->commit();

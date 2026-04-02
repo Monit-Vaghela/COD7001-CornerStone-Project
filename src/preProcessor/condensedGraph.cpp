@@ -157,7 +157,7 @@ void CondensedGraph::printReachabilityList(const vector<bitset<maxN>> &reach) {
         cout << "SCC " << id << " -> ";
 
         bool empty = true;
-        for (int j = 0; j < nodes.size(); j++) {
+        for (size_t j = 0; j < nodes.size(); j++) {
             if (reach[id][j]) {
                 cout << j << " ";
                 empty = false;

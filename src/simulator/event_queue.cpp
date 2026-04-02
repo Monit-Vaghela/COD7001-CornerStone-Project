@@ -41,10 +41,20 @@ void EventQueue::printEventQueue() const {
     while (!temp.empty()) {
         const Event& e = temp.top();
 
-        // Adjust fields depending on your Event structure
-        std::cout << "time: " << e.time
+        if(e.type == Event::SIGNAL_UPDATE){
+            // Adjust fields depending on your Event structure
+        std::cout << "\ttime: " << e.time
                   << ", delta: " << e.delta
+                  << ", Signal: " << e.signal->get_name()
                   << std::endl;
+        }
+        else if(e.type == Event::PROCESS_EXEC){
+            // Adjust fields depending on your Event structure
+                std::cout << "time: " << e.time
+                  << ", delta: " << e.delta
+                  << ", Process: " << e.process->getName()
+                  << std::endl;
+        }
 
         temp.pop();
     }

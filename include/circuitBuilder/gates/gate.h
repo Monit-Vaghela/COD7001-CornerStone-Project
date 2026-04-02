@@ -15,7 +15,8 @@ enum class GateType {
     XNOR,
     NOT,
     NAND,
-    NOR
+    NOR,
+    PASS
 };
 
 class Gate : public Process {
@@ -69,6 +70,9 @@ public:
             case GateType::NOT:
                 result = !inputs[0]->get_value();
                 break;
+            
+            case GateType::PASS:
+                result = inputs[0]->get_value();
         }
 
         output->set_next(result);
@@ -87,6 +91,7 @@ public:
             case GateType::XOR: return "XOR";
             case GateType::XNOR: return "XNOR";
             case GateType::NOT: return "NOT";
+            case GateType::PASS: return "PASS";
         }
         return "UNKNOWN";
     }
@@ -130,7 +135,7 @@ inline GateType stringToGateType(const std::string& name) {
     if(name == "xor") return GateType::XOR;
     if(name == "xnor") return GateType::XNOR;
     if(name == "not") return GateType::NOT;
-
+    if(name == "pass") return GateType::PASS;
     throw std::runtime_error("Unknown gate type: " + name);
 }
 

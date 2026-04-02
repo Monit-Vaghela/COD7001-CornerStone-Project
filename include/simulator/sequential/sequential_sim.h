@@ -8,6 +8,8 @@ public:
     SequentialSimulator(Circuit* circuit);
 
     void run() override;
+    void stabilize();
+    
 };
 
 #endif

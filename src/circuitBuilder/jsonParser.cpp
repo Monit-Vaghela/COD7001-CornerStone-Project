@@ -158,6 +158,45 @@ bool JsonParser::parseSimulationFile(const string& filename) {
     simulationMetadata["noOfProcesses"] = extractInt(content, "noOfProcesses");
     simulationMetadata["initialTimeStamp"] = extractInt(content, "initialTimeStamp");
     simulationMetadata["finalTimeStamp"] = extractInt(content, "finalTimeStamp");
+    
+    // ----------- InitialState Parsing -----------
+    size_t initPos = content.find("\"InitialState\"");
+    if (initPos != string::npos) {
+
+        size_t start = content.find("{", initPos);
+        size_t end = content.find("}", start);
+
+        string block = content.substr(start + 1, end - start - 1);
+
+        size_t pos = 0;
+
+        while (pos < block.size()) {
+
+            // find key
+            size_t keyStart = block.find("\"", pos);
+            if (keyStart == string::npos) break;
+
+            size_t keyEnd = block.find("\"", keyStart + 1);
+            string signal = block.substr(keyStart + 1, keyEnd - keyStart - 1);
+
+            // find value
+            size_t colon = block.find(":", keyEnd);
+            size_t comma = block.find(",", colon);
+
+            string valueStr;
+            if (comma == string::npos)
+                valueStr = block.substr(colon + 1);
+            else
+                valueStr = block.substr(colon + 1, comma - colon - 1);
+
+            int value = stoi(valueStr);
+
+            initialState[signal] = value;
+
+            if (comma == string::npos) break;
+            pos = comma + 1;
+        }
+    }
 
     size_t pos = content.find("\"timestamp\"");
     while (pos != string::npos) {

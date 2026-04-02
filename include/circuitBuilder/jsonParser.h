@@ -45,7 +45,8 @@ public:
     // ---------------- Simulation Data ----------------
 
     map<string, int> simulationMetadata;
-
+    map<string, int> initialState;
+    
     // timestamp -> { signal -> value }
     map<int, map<string, int>> simulationProcesses;
 

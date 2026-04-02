@@ -146,3 +146,10 @@ for u in reverse(topo):
 //TBD
 ```
 
+# Circuit Builder and Simulator.
+## Issues
+1) Currently a signal can only be input and output only, but there might be a signal which is both. (sol : add a new gate, none this gate will pass the value of input to output)
+2) no intial signal type - currently signal can be 0 or 1 only, it needs another state `U` i.e uninitialized
+3) current simulation is only for sequential circuit, it needs `Delta Stablization loop` i.e stablize till there are no more changes in the circuit.
+4) need to add rising and falling edge for flipflops. hence need to save previous values and if there is a change then it trigeers the component
+5) need new components like latches, flipflops , etc.
