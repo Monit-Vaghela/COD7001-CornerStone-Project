@@ -8,7 +8,17 @@
 # How to run
 - Firstly use the make file to make the required components
 
-## 1 Comiler (Work in progress)
+## 1 Compiler
+```bash
+make compiler
+```
+- this will create compiler object file
+- this takes 2 input files .cir and .tes files
+- test folder cointains multiple simple testcases
+```bash
+./compiler ./tests/and/and.cir ./tests/and/and.tes
+```
+- this will generate 2 JSON files which can be used in circuitBuilder
 
 ## 2. CircuitBiulder
 ```bash
@@ -23,3 +33,6 @@ make circuitBuilder
 ```
 
 - this will build and simulate the circuit.
+
+
+# To undertsand the language use `docs/versionDraft.md`
