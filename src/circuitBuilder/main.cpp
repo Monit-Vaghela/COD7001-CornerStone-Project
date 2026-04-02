@@ -9,13 +9,14 @@
 #include <chrono>
 #include <unordered_map>
 #include <preProcessor/circuitGraph.h>
+#include <preProcessor/condensedGraph.h>
 #include <cstring>
 
 // namespaces used
 using namespace std;
 using namespace std::chrono;
 
-
+// GPT Generated
 void printCircuitData(JsonParser& parser) {
     cout << "========== CIRCUIT DATA ==========\n";
 
@@ -78,6 +79,7 @@ void printCircuitData(JsonParser& parser) {
     }
 }
 
+//GPT Generated
 void printSimulationData(JsonParser& parser) {
     cout << "\n========== SIMULATION DATA ==========\n";
 
@@ -176,12 +178,18 @@ void runSequential(JsonParser& parser){
     circuitGraph.applyTarjans();
     circuitGraph.printGraph();
 
+    CondensedGraph condensedGraph;
+    condensedGraph.build(circuitGraph);
+    condensedGraph.printGraph();
 
-    // SEQUENTIAL EXECUTION
+    vector<bitset<maxN>> reachabilityMatrix(condensedGraph.nodes.size());
+    condensedGraph.getReachability(reachabilityMatrix);
+    condensedGraph.printReachabilityList(reachabilityMatrix);
+    // // SEQUENTIAL EXECUTION
 
-    // first to need one intital simulation step in order to 
-    // correctly set the intermediatory and outputs
-    // schedule initial evaluation
+    // // first to need one intital simulation step in order to 
+    // // correctly set the intermediatory and outputs
+    // // schedule initial evaluation
     // for (auto* process : seqCircuit.get_processes()) {
     //     seqsim.schedule(process, 0, 0);
     // }
@@ -195,7 +203,6 @@ void runSequential(JsonParser& parser){
     // seqsim.run();
     // auto stop = high_resolution_clock::now();
     // duration<double> seqDuration = stop - start;
-
 
     return;
 }

@@ -42,7 +42,8 @@ public:
     vector<GraphEdge*> edges;  
     vector<GraphEdge*> primary_inputs;           
     vector<GraphEdge*> primary_outputs;          
-
+    int sccCount;
+    
     void build(const Circuit& circuit);
 
     void applyTarjans();  

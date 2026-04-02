@@ -1,0 +1,32 @@
+entity TwoBitAdder {
+    inputs : ["a0", "a1", "b0", "b1", "cin"];
+    outputs : ["s0", "s1", "cout"];
+}
+
+architecture TwoBitAdder {
+    signals : [
+        "x0", "x1", "y0", "y1", "c_in",
+        "sum0", "sum1", "c_out"
+    ];
+
+    signalMapping : [
+        "x0" <= "a0",
+        "x1" <= "a1",
+        "y0" <= "b0",
+        "y1" <= "b1",
+        "c_in" <= "cin",
+
+        "sum0" <= "s0",
+        "sum1" <= "s1",
+        "c_out" <= "cout"
+    ];
+
+    behaviour{
+        // First bit (LSB full adder)
+        sum0 <= (x0 xor y0) xor c_in;
+
+        // Second bit (MSB full adder)
+        sum1 <= (x1 xor y1) xor (x0 and y0) or (x0 and c_in) or (y0 and c_in);
+        c_out <= (x1 and y1) or (x1 and (x0 and y0) or (x0 and c_in) or (y0 and c_in)) or (y1 and (x0 and y0) or (x0 and c_in) or (y0 and c_in));
+    }
+}

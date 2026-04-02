@@ -8,7 +8,7 @@
 - new approach with use a dependency graph to understand what can be runned in parallel and what cannot be
 - the graph creation is devided into 3 parts 
 
-## Part 1 : CircuitGraph
+## Part 1.1 : CircuitGraph
 - This graph is direct respresentation of the circuit, as it is. nothing more nothing less
 - This graph can contain cycles.
 
@@ -38,7 +38,7 @@ bool is_cyclic; // (currectly false) later is true if the the edge is part forms
     - to_nodes : one to many mapping.
 
 
-### Part 2: CircuitGraph with SCC id set
+### Part 1.2: CircuitGraph with SCC id set
 - initially the SCC id is not set.
 - we will run tarjans algorithm to find the scc in the graph and group then together to form a DAG
 - the algorithm used 
@@ -90,10 +90,10 @@ for each node in graph:
 
 - this algorithm will give us a CircuitGraph with proper SCC id and cyclic edges
 
-### Part 3 : Creating a DAG from CicruitGraph (CondenseddGraph)
+### Part 2 : Creating a DAG from CicruitGraph (CondenseddGraph)
 - we will call this new DAG as `CondensedGraph`
 
-#### formaal definition of CondensedGraph
+#### formal definition of CondensedGraph
 
 #### Algo to build
 ```text
@@ -107,3 +107,42 @@ for each node in graph:
     - add this edge to list oof edges in condensedEdge
 
 ```
+
+
+### Part 3 : precomputing Independent sets 
+- 2 nodes A and B are independent, if There is no path from A To B and no path form B to A.
+- This can be calculated using a topological sort and dp
+- i.e
+```text
+if there exists a path from u to v (u -> v), then for every edge x where x is reachable from u then x is also reachable from v
+```
+#### algo for topological sort
+```md
+indegree[u] = number of incoming edges
+
+queue = all nodes with indegree 0
+topo = []
+
+while queue not empty:
+    u = pop(queue)
+    topo.push(u)
+
+    for v in adj[u]:
+        indegree[v]--
+        if indegree[v] == 0:
+            push v into queue
+```
+
+#### algo for DP
+```md
+for u in reverse(topo):
+    for each edge u → v:
+        reach[u][v] = true
+        reach[u] |= reach[v]
+```
+
+- finally we got a reachability matrix which will be used in following manner in simulation.
+```cpp
+//TBD
+```
+

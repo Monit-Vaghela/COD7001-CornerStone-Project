@@ -110,6 +110,7 @@ static void dfs(
         scc_count++;
         all_sccs.push_back(scc);
     }
+
 }
 
 void CircuitGraph::applyTarjans() {
@@ -130,6 +131,8 @@ void CircuitGraph::applyTarjans() {
     // store results — only SCCs with >1 member are true cycles
     // singletons get scc_id assigned but are_sequential = false
     // this->sccs = all_sccs;
+
+    sccCount = scc_count;
 }
 
 // generated using claude

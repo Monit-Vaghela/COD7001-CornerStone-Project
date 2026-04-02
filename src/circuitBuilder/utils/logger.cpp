@@ -11,9 +11,10 @@ void print_circuit_state(const Circuit& circuit, int header) {
     const int width = 5;
     const std::vector<Signal*> signals = circuit.get_signals();
     
-    for (auto* s : signals) {
-        std::cout << "| " << std::left << std::setw(width) << s->get_value(); 
-    }
+    for (auto* s : signals) 
+        if(s->get_type() == SignalType::INPUT) std::cout << "| " << std::left << std::setw(width) << s->get_value(); 
+    for (auto* s : signals) 
+        if(s->get_type() == SignalType::OUTPUT) std::cout << "| " << std::left << std::setw(width) << s->get_value();
     std::cout << "|\n";
 
 }
@@ -87,6 +88,11 @@ void print_state_header(const Circuit& circuit){
     // First print the header
     std::cout << "\n---------------------------------\n";
     for(auto &signal : circuit.get_signals()){
+        if(signal->get_type() == SignalType::INPUT)
+        std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
+    }
+    for(auto &signal : circuit.get_signals()){
+        if(signal->get_type() == SignalType::OUTPUT)
         std::cout << "| "  << std::left << std::setw(width) << signal->get_name();
     }
     std::cout << "|\n";

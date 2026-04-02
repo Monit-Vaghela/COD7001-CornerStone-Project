@@ -10,14 +10,19 @@
 #include <circuitBuilder/core/signal.h>
 #include <circuitBuilder/gates/gate.h>
 #include <preProcessor/circuitGraph.h>
+#include <bitset>
 
+
+#define maxN 10000
 using namespace std;
 class CondensedNode;
 
 class CondensedEdge {
 public:
     CondensedNode* from;        
-    vector<CondensedNode*> to; 
+    CondensedNode* to; 
+
+    vector<GraphEdge*> signals;
     bool is_cyclic;            
 };
 
@@ -32,21 +37,25 @@ public:
     vector<CondensedEdge*> in_edges;  
     vector<CondensedEdge*> out_edges;     
 
-    CondensedNode(int sccId) : sccId(sccId) {}
+    CondensedNode(int sccId) : sccId(sccId), isSeq(false) {}
 };
 
 
 class CondensedGraph {
 public:
-    vector<CondensedNode*> nodes; 
-    vector<CondensedEdge*> edges;            
+    unordered_map<int, CondensedNode*> nodes; 
+    vector<CondensedEdge*> edges;
 
     void build(const CircuitGraph& cg);
 
-    void assignLevels();  
+    void getReachability(vector<bitset<maxN>> &reachabilityMatrix);
+
+    vector<int> applyTopologicalSort();  
 
     void printGraph();
-    
+
+    void printReachabilityList(const vector<bitset<maxN>> &reach);
+
 };
 
 #endif

@@ -1,8 +1,7 @@
 # To be Decided
-1. Compiler Stages
-2. Json File for behaviour of circuit (defined)
-3. Circuit Builder flow (Done)
-4. Simulation Flow (Done)
+1. Change simulator to incorporate combinational circuits properly
+2. add enitity Embedding in compiler stage
+3. parallelization.
 
 
 ## Things to do
