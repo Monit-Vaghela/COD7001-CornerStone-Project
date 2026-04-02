@@ -171,10 +171,10 @@ void runSequential(JsonParser& parser){
     
     SequentialSimulator seqsim(&seqCircuit);
 
-    // CircuitGraph circuitGraph;
-    // circuitGraph.build(seqCircuit);
-    // circuitGraph.applyTarjans();
-    // circuitGraph.printGraph();
+    CircuitGraph circuitGraph;
+    circuitGraph.build(seqCircuit);
+    circuitGraph.applyTarjans();
+    circuitGraph.printGraph();
 
 
     // SEQUENTIAL EXECUTION
@@ -182,19 +182,19 @@ void runSequential(JsonParser& parser){
     // first to need one intital simulation step in order to 
     // correctly set the intermediatory and outputs
     // schedule initial evaluation
-    for (auto* process : seqCircuit.get_processes()) {
-        seqsim.schedule(process, 0, 0);
-    }
+    // for (auto* process : seqCircuit.get_processes()) {
+    //     seqsim.schedule(process, 0, 0);
+    // }
 
-    // now we need to get the user defined processes
-    addProcesses(&seqsim, &seqCircuit, parser);
+    // // now we need to get the user defined processes
+    // addProcesses(&seqsim, &seqCircuit, parser);
 
-    Logger::print_state_header(seqCircuit);
+    // Logger::print_state_header(seqCircuit);
 
-    auto start = high_resolution_clock::now();
-    seqsim.run();
-    auto stop = high_resolution_clock::now();
-    duration<double> seqDuration = stop - start;
+    // auto start = high_resolution_clock::now();
+    // seqsim.run();
+    // auto stop = high_resolution_clock::now();
+    // duration<double> seqDuration = stop - start;
 
 
     return;

@@ -45,9 +45,7 @@ public:
 
     void build(const Circuit& circuit);
 
-    void applyTarjans();       
-    void condense();      
-    void assignLevels();  
+    void applyTarjans();  
 
     void printGraph();
     
