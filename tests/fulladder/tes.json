@@ -1,0 +1,44 @@
+{
+    "simulation" : {
+        "metadata" : {
+            "noOfProcesses" : 24,
+            "initialTimeStamp" : 0,
+            "finalTimeStamp" : 7
+        },
+        "InitialState" : {
+            "x" : 1,
+            "y" : 1,
+            "z" : 1
+        },
+
+        "Processes" : 
+        [
+            {"x" : 0, "timestamp" : 0},
+            {"y" : 0, "timestamp" : 0},
+            {"z" : 0, "timestamp" : 0},
+            {"x" : 0, "timestamp" : 1},
+            {"y" : 0, "timestamp" : 1},
+            {"z" : 1, "timestamp" : 1},
+            {"x" : 0, "timestamp" : 2},
+            {"y" : 1, "timestamp" : 2},
+            {"z" : 0, "timestamp" : 2},
+            {"x" : 0, "timestamp" : 3},
+            {"y" : 1, "timestamp" : 3},
+            {"z" : 1, "timestamp" : 3},
+            {"x" : 1, "timestamp" : 4},
+            {"y" : 0, "timestamp" : 4},
+            {"z" : 0, "timestamp" : 4},
+            {"x" : 1, "timestamp" : 5},
+            {"y" : 0, "timestamp" : 5},
+            {"z" : 1, "timestamp" : 5},
+            {"x" : 1, "timestamp" : 6},
+            {"y" : 1, "timestamp" : 6},
+            {"z" : 0, "timestamp" : 6},
+            {"x" : 1, "timestamp" : 7},
+            {"y" : 1, "timestamp" : 7},
+            {"z" : 1, "timestamp" : 7}
+        
+        ]
+        
+    }
+}

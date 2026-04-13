@@ -39,7 +39,7 @@ vector<string> JsonParser::extractStringArray(const string& content, const strin
     string temp;
     for (char c : arrayContent) {
         if (c == '"') continue;
-        if (c == ',' || c == ' ') {
+        if (c == ',' || c == ' ' || c == '\n' || c == '\r' || c == '\t') {
             if (!temp.empty()) {
                 result.push_back(temp);
                 temp.clear();
@@ -83,38 +83,84 @@ bool JsonParser::parseCircuitFile(const string& filename) {
 
         while (true) {
 
-            size_t outKey = content.find("\"OutputSignal\"", pos);
-            if (outKey == string::npos) break;
+            size_t objStart = content.find("{", pos);
+            if (objStart == string::npos) break;
+
+            size_t objEnd = content.find("}", objStart);
+            if (objEnd == string::npos) break;
+
+            string block = content.substr(objStart, objEnd - objStart);
 
             Behaviour b;
 
-            size_t start = content.find("\"", outKey + 14);
-            size_t end = content.find("\"", start + 1);
-            b.outputSignal = content.substr(start + 1, end - start - 1);
+            // -------- ProcessType --------
+            size_t typeKey = block.find("\"ProcessType\"");
+            if (typeKey != string::npos) {
+                size_t start = block.find("\"", typeKey + 14);
+                size_t end = block.find("\"", start + 1);
+                b.processType = block.substr(start + 1, end - start - 1);
+            }
 
-            // extract behaviour block
-            size_t objStart = content.rfind("{", outKey);
-            size_t objEnd = content.find("}", outKey);
-            string block = content.substr(objStart, objEnd - objStart);
+            // -------- OutputSignal --------
+            size_t outKey = block.find("\"OutputSignal\"");
+            if (outKey != string::npos) {
+                size_t start = block.find("\"", outKey + 14);
+                size_t end = block.find("\"", start + 1);
+                b.outputSignal = block.substr(start + 1, end - start - 1);
+            }
 
-            // gateExpressionInputs
-            b.gateExpressionInputs = extractStringArray(block, "\"gateExpressionInputs\"");
+            // ===============================
+            // CASE 1: Gate
+            // ===============================
+            if (b.processType == "Gate") {
 
-            // gatesUsed
-            b.gatesUsed = extractStringArray(block, "\"gatesUsed\"");
+                b.gateExpressionInputs =
+                    extractStringArray(block, "\"gateExpressionInputs\"");
 
-            // expression
-            size_t expKey = block.find("\"expression\"");
-            start = block.find("\"", expKey + 12);
-            end = block.find("\"", start + 1);
-            b.expression = block.substr(start + 1, end - start - 1);
+                b.gatesUsed =
+                    extractStringArray(block, "\"gatesUsed\"");
+
+                size_t expKey = block.find("\"expression\"");
+                if (expKey != string::npos) {
+                    size_t start = block.find("\"", expKey + 12);
+                    size_t end = block.find("\"", start + 1);
+                    b.expression = block.substr(start + 1, end - start - 1);
+                }
+            }
+
+            // ===============================
+            // CASE 2: Behaviour (Sequential)
+            // ===============================
+            else if (b.processType == "Behaviour") {
+
+                size_t inKey = block.find("\"InputSignal\"");
+                if (inKey != string::npos) {
+                    size_t start = block.find("\"", inKey + 13);
+                    size_t end = block.find("\"", start + 1);
+                    b.inputSignal = block.substr(start + 1, end - start - 1);
+                }
+
+                size_t edgeKey = block.find("\"edgetype\"");
+                if (edgeKey != string::npos) {
+                    size_t start = block.find("\"", edgeKey + 11);
+                    size_t end = block.find("\"", start + 1);
+                    b.edgeType = block.substr(start + 1, end - start - 1);
+                }
+
+                size_t clkKey = block.find("\"clockSignal\"");
+                if (clkKey != string::npos) {
+                    size_t start = block.find("\"", clkKey + 14);
+                    size_t end = block.find("\"", start + 1);
+                    b.clockSignal = block.substr(start + 1, end - start - 1);
+                }
+            }
 
             behaviours.push_back(b);
-
-            pos = objEnd;
+            pos = objEnd + 1;
         }
     }
 
+    
     pos = content.find("\"SignalMapping\"");
     if (pos != string::npos) {
 

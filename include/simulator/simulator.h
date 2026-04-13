@@ -4,6 +4,7 @@
 #include <simulator/event_queue.h>
 #include <circuitBuilder/core/signal.h>
 #include <circuitBuilder/netlist/circuit.h>
+#include <simulator/vcd_writer.h>
 
 class Simulator {
 public:
@@ -17,6 +18,7 @@ public:
 
     int get_current_time() const;
     int get_current_delta() const;
+    VCDWriter* vcd;
 
 protected:
     Circuit* circuit;

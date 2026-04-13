@@ -1,0 +1,86 @@
+{
+    "entity": {
+        "metadata": {
+            "noOfInputPorts": 2,
+            "noOfOutputPorts": 2
+        },
+
+        "inputs": ["D", "CLK"],
+        "outputs": ["Q", "Qb"],
+        "intermediates": ["y1", "y2", "y3", "y4", "y5"]
+    },
+
+    "Architecture": {
+
+        "metadata": {
+            "noOfTotalGates": 6,
+            "noOfAndGates": 0,
+            "noOforGates": 0,
+            "noOfNotGates": 1,
+            "noOfXorGates": 0,
+            "noOfXnorGates": 0,
+            "noOfSignals": 9
+        },
+
+        "SignalMapping":
+        [
+            {"x": "D", "SignalType": "input"},
+            {"y": "CLK", "SignalType": "input"},
+            {"qout": "Q", "SignalType": "output"},
+            {"qbout": "Qb", "SignalType": "output"}
+        ],
+
+        "Behaviour": [
+
+            {
+                "OutputSignal": "y1",
+                "gateExpressionInputs": ["x"],
+                "gatesUsed": ["not"],
+                "expression": "not(x)"
+            },
+
+            {
+                "OutputSignal": "y2",
+                "gateExpressionInputs": ["x", "y"],
+                "gatesUsed": ["nand"],
+                "expression": "nand(x, y)"
+            },
+
+            {
+                "OutputSignal": "y3",
+                "gateExpressionInputs": ["y1", "y"],
+                "gatesUsed": ["nand"],
+                "expression": "nand(y1, y)"
+            },
+
+            {
+                "OutputSignal": "y4",
+                "gateExpressionInputs": ["y2", "y5"],
+                "gatesUsed": ["nand"],
+                "expression": "nand(y2, y5)"
+            },
+
+            {
+                "OutputSignal": "y5",
+                "gateExpressionInputs": ["y3", "y4"],
+                "gatesUsed": ["nand"],
+                "expression": "nand(y3, y4)"
+            },
+
+            {
+                "OutputSignal": "qout",
+                "gateExpressionInputs": ["y4"],
+                "gatesUsed": ["pass"],
+                "expression": "pass(y4)"
+            },
+
+            {
+                "OutputSignal": "qbout",
+                "gateExpressionInputs": ["y5"],
+                "gatesUsed": ["pass"],
+                "expression": "pass(y5)"
+            }
+
+        ]
+    }
+}

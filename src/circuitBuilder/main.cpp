@@ -6,6 +6,7 @@
 #include <circuitBuilder/utils/logger.h>
 #include <simulator/sequential/sequential_sim.h>
 #include <simulator/parallel/v1.h>
+#include <simulator/parallel/v2.h>
 #include <chrono>
 #include <unordered_map>
 #include <preProcessor/circuitGraph.h>
@@ -100,7 +101,6 @@ void printSimulationData(JsonParser& parser) {
 }
 
 int buildCircuitFromJson(Circuit* circuit, JsonParser& parser) {
-
     // lets print out intiialState
     // First create input and output Signals
     for (const auto& sm : parser.signalMappings) {
@@ -131,39 +131,64 @@ int buildCircuitFromJson(Circuit* circuit, JsonParser& parser) {
 
     // Create gates
     for (auto& behaviour : parser.behaviours){
+        if(behaviour.processType == "Gate"){
+            GateType type = stringToGateType(behaviour.gatesUsed[0]);
 
-        GateType type = stringToGateType(behaviour.gatesUsed[0]);
+            std::vector<Signal*> inputs;
 
-        std::vector<Signal*> inputs;
+            for(auto& in : behaviour.gateExpressionInputs){
+                Signal* s = circuit->get_signal(in);
 
-        for(auto& in : behaviour.gateExpressionInputs){
-            Signal* s = circuit->get_signal(in);
+                if(!s){
+                    cout << "[Circuit Builder / Error] Input signal not found: "
+                        << in << endl;
+                    return -1;
+                }
 
-            if(!s){
-                cout << "[Circuit Builder / Error] Input signal not found: "
-                     << in << endl;
+                inputs.push_back(s);
+            }
+
+            Signal* out = circuit->get_signal(behaviour.outputSignal);
+
+            if(!out){
+                cout << "[Circuit Builder / Error] Output signal not found: "
+                    << behaviour.outputSignal << endl;
                 return -1;
             }
 
-            inputs.push_back(s);
+            Gate* gate = new Gate(type, inputs, out);
+
+            circuit->add_process(gate);
+            circuit->add_gates(gate);
+
+            for(auto* s : inputs)
+                s->add_sensitive(gate);
         }
+        else if (behaviour.processType == "Behaviour") {
 
-        Signal* out = circuit->get_signal(behaviour.outputSignal);
+            Signal* clk = circuit->get_signal(behaviour.clockSignal);
+            Signal* in  = circuit->get_signal(behaviour.inputSignal);
+            Signal* out = circuit->get_signal(behaviour.outputSignal);
 
-        if(!out){
-            cout << "[Circuit Builder / Error] Output signal not found: "
-                 << behaviour.outputSignal << endl;
-            return -1;
+            if (!clk || !in || !out) {
+                cout << "[Error] Behaviour signals missing\n";
+                return -1;
+            }
+
+            EdgeType edge =
+                (behaviour.edgeType == "rising")
+                ? EdgeType::RISING
+                : EdgeType::FALLING;
+
+            Behaviour* b =
+                new Behaviour(clk, edge, in, out);
+
+            circuit->add_process(b);
+
+            clk->add_sensitive(b);
         }
-
-        Gate* gate = new Gate(type, inputs, out);
-
-        circuit->add_process(gate);
-        circuit->add_gates(gate);
-
-        for(auto* s : inputs)
-            s->add_sensitive(gate);
     }
+        
 
     return 0;
 }
@@ -186,18 +211,18 @@ void runSequential(JsonParser& parser){
     
     SequentialSimulator seqsim(&seqCircuit);
 
-    CircuitGraph circuitGraph;
-    circuitGraph.build(seqCircuit);
-    circuitGraph.applyTarjans();
-    circuitGraph.printGraph();
+    // CircuitGraph circuitGraph;
+    // circuitGraph.build(seqCircuit);
+    // circuitGraph.applyTarjans();
+    // circuitGraph.printGraph();
 
-    CondensedGraph condensedGraph;
-    condensedGraph.build(circuitGraph);
-    condensedGraph.printGraph();
+    // CondensedGraph condensedGraph;
+    // condensedGraph.build(circuitGraph);
+    // condensedGraph.printGraph();
 
-    vector<bitset<maxN>> reachabilityMatrix(condensedGraph.nodes.size());
-    condensedGraph.getReachability(reachabilityMatrix);
-    condensedGraph.printReachabilityList(reachabilityMatrix);
+    // vector<bitset<maxN>> reachabilityMatrix(condensedGraph.nodes.size());
+    // condensedGraph.getReachability(reachabilityMatrix);
+    // condensedGraph.printReachabilityList(reachabilityMatrix);
     
     // SEQUENTIAL EXECUTION
 
@@ -205,7 +230,7 @@ void runSequential(JsonParser& parser){
     // correctly set the intermediatory and outputs
     // schedule initial evaluation
     Logger::print_state_header(seqCircuit);
-    Logger::print_circuit_state(seqCircuit);
+    // Logger::print_circuit_state(seqCircuit);
     seqsim.stabilize();
 
     
@@ -228,38 +253,30 @@ void runComparisional(JsonParser& parser){
     Logger::print_circuit(seqCircuit);
     
     SequentialSimulator seqsim(&seqCircuit);
-    ParallelV1Simulator parSim(&parCircuit);
+    ParallelV2Simulator parSim(&parCircuit);
+
+    cout << "\n------------SEQUENTIAL EXECUTION----------------\n";
+    Logger::print_state_header(seqCircuit);
+    Logger::print_circuit_state(seqCircuit);
+    seqsim.stabilize();
 
 
     // SEQUENTIAL EXECUTION
-
-    // first to need one intital simulation step in order to 
-    // correctly set the intermediatory and outputs
-    // schedule initial evaluation
-    for (auto* process : seqCircuit.get_processes()) {
-        seqsim.schedule(process, 0, 0);
-    }
-
-    // now we need to get the user defined processes
     addProcesses(&seqsim, &seqCircuit, parser);
-
-    Logger::print_state_header(seqCircuit);
-
+    
     auto start = high_resolution_clock::now();
     seqsim.run();
     auto stop = high_resolution_clock::now();
     duration<double> seqDuration = stop - start;
 
+    cout << "\n----------- PARALLEL EXECUTION----------------\n";
+    Logger::print_state_header(parCircuit);
+    Logger::print_circuit_state(parCircuit);
+    parSim.stabilize();
 
-    // PARALLEL EXECUTION
-    for (auto* process : parCircuit.get_processes()) {
-        parSim.schedule(process, 0, 0);
-    }
 
-    // now we need to get the user defined processes
+    // SEQUENTIAL EXECUTION
     addProcesses(&parSim, &parCircuit, parser);
-
-    // Logger::print_state_header(parCircuit);
 
     start = high_resolution_clock::now();
     parSim.run();
@@ -276,75 +293,56 @@ void runComparisional(JsonParser& parser){
 
 void runTemp(){
     Circuit c;
+    Signal D("D",   SignalType::INPUT,  false);
+    Signal E("E", SignalType::INPUT, true);
+    Signal y1("y1", SignalType::INTERMEDIATE, false);
+    Signal y2("y2", SignalType::INTERMEDIATE, false);
+    Signal y3("y3", SignalType::INTERMEDIATE, false);
+    Signal y4("y4", SignalType::INTERMEDIATE, false);
+    Signal Deff("Deff", SignalType::INTERMEDIATE, false);
+    Signal CLK("CLK", SignalType::INPUT, false);
+    Signal Q("Q",   SignalType::OUTPUT, false);
 
-    Signal D("D",     SignalType::INPUT,        false);
-    Signal CLK("CLK", SignalType::INPUT,        true);
-    Signal y1("y1",   SignalType::INTERMEDIATE, false); // NOT(D)
-    Signal y2("y2",   SignalType::INTERMEDIATE, false); // NAND(D,  CLK) - master S
-    Signal y3("y3",   SignalType::INTERMEDIATE, false); // NAND(y1, CLK) - master R
-    Signal y4("y4",   SignalType::INTERMEDIATE, false); // NAND(y2, y5)  - master Q
-    Signal y5("y5",   SignalType::INTERMEDIATE, true); // NAND(y3, y4)  - master Qb
-    Signal Q("Q",     SignalType::OUTPUT,       false);
-    Signal Qb("Qb",   SignalType::OUTPUT,       true);
+    Gate andGate1(GateType::AND, {&D, &E}, {&y1});
+    Gate notGate1(GateType::NOT, {&E}, {&y2});
+    Gate passGate1(GateType::PASS, {&Q}, {&y3});
+    Gate andGate2(GateType::AND, {&y2, &y3}, {&y4});
+    Gate orGate1(GateType::OR, {&y1, &y4}, {&Deff});
+    Behaviour dff(&CLK, EdgeType::RISING, &Deff, &Q);
+
 
     c.add_signal(&D);
-    c.add_signal(&CLK);
+    c.add_signal(&E);
     c.add_signal(&y1);
     c.add_signal(&y2);
     c.add_signal(&y3);
     c.add_signal(&y4);
-    c.add_signal(&y5);
+    c.add_signal(&Deff);
+    c.add_signal(&CLK);
     c.add_signal(&Q);
-    c.add_signal(&Qb);
 
-    Gate notGate1 (GateType::NOT,  {&D},        &y1);
-    Gate nandGate1(GateType::NAND, {&D,   &CLK}, &y2);
-    Gate nandGate2(GateType::NAND, {&y1,  &CLK}, &y3);
-    Gate nandGate3(GateType::NAND, {&y2,  &y5},  &y4);
-    Gate nandGate4(GateType::NAND, {&y3,  &y4},  &y5);
-    Gate nandGate5(GateType::PASS, {&y4},  &Q);
-    Gate nandGate6(GateType::PASS, {&y5},   &Qb);
-
-    c.add_gates(&notGate1);
-    c.add_gates(&nandGate1);
-    c.add_gates(&nandGate2);
-    c.add_gates(&nandGate3);
-    c.add_gates(&nandGate4);
-    c.add_gates(&nandGate5);
-    c.add_gates(&nandGate6);
-
+    c.add_process(&dff);
+    c.add_process(&andGate1);
+    c.add_gates(&andGate1);
     c.add_process(&notGate1);
-    c.add_process(&nandGate1);
-    c.add_process(&nandGate2);
-    c.add_process(&nandGate3);
-    c.add_process(&nandGate4);
-    c.add_process(&nandGate5);
-    c.add_process(&nandGate6);
+    c.add_gates(&notGate1);
+    c.add_process(&passGate1);
+    c.add_gates(&passGate1);
+    c.add_process(&andGate2);
+    c.add_gates(&andGate2);
+    c.add_process(&orGate1);
+    c.add_gates(&orGate1);
 
-    // notGate1: inputs {D}
-    D.add_sensitive(&notGate1);
+    D.add_sensitive(&andGate1);
+    E.add_sensitive(&andGate1);
+    E.add_sensitive(&notGate1);
+    y1.add_sensitive(&orGate1);
+    y2.add_sensitive(&andGate2);
+    Q.add_sensitive(&passGate1);
+    y3.add_sensitive(&andGate2);
+    y4.add_sensitive(&orGate1);
+    CLK.add_sensitive(&dff);
 
-    // nandGate1: inputs {D, CLK}
-    D.add_sensitive(&nandGate1);
-    CLK.add_sensitive(&nandGate1);
-
-    // nandGate2: inputs {y1, CLK}
-    y1.add_sensitive(&nandGate2);
-    CLK.add_sensitive(&nandGate2);
-
-    // nandGate3: inputs {y2, y5}
-    y2.add_sensitive(&nandGate3);
-    y5.add_sensitive(&nandGate3);
-
-    // nandGate4: inputs {y3, y4}
-    y3.add_sensitive(&nandGate4);
-    y4.add_sensitive(&nandGate4);
-
-    // nandGate5: inputs {y4, Qb}
-    y4.add_sensitive(&nandGate5);
-
-    // nandGate6: inputs {y5, Q}
-    y5.add_sensitive(&nandGate6);
 
     Logger::print_circuit(c);
     Logger::print_state_header(c);
@@ -352,25 +350,21 @@ void runTemp(){
     SequentialSimulator seqsim(&c);
     seqsim.stabilize();
 
-    Logger::print_circuit_state(c);
-
-    // CLK=0 baseline
     seqsim.apply_input(&D,   0, 1);
     seqsim.apply_input(&CLK, 0, 1);
-
-    // Rising edge with D=0 → Q should capture 0
     seqsim.apply_input(&D,   0, 2);
-    seqsim.apply_input(&CLK, 1, 2);
-
-    // CLK falls, Q holds
-    seqsim.apply_input(&CLK, 0, 3);
-
-    // Rising edge with D=1 → Q should capture 1
+    seqsim.apply_input(&CLK, 1, 2);  // rising edge, D=0 → Q=0
+    seqsim.apply_input(&CLK, 1, 3);
     seqsim.apply_input(&D,   1, 4);
-    seqsim.apply_input(&CLK, 1, 4);
-
-    // CLK falls, Q holds at 1
-    seqsim.apply_input(&CLK, 0, 5);
+    seqsim.apply_input(&CLK, 0, 4);  // rising edge, D=1 → Q=1
+    seqsim.apply_input(&CLK, 1, 5);
+    seqsim.apply_input(&E, 0, 6);
+    seqsim.apply_input(&CLK, 0, 6);
+    seqsim.apply_input(&D, 0, 7);
+    seqsim.apply_input(&CLK, 1, 7);
+    seqsim.apply_input(&E, 1, 8);
+    seqsim.apply_input(&CLK, 0, 8);
+    seqsim.apply_input(&CLK, 1, 9);
     seqsim.run();
 }
 

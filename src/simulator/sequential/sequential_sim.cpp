@@ -6,12 +6,20 @@
 using namespace std;
 
 SequentialSimulator::SequentialSimulator(Circuit* c)
-    : Simulator(c) {}
+    : Simulator(c) {
+        vcd = new VCDWriter("wave.vcd");
+        for (auto* s : circuit->get_signals()) vcd->registerSignal(s->get_name());
+        vcd->endDefinitions();
+    }
 
 
 void SequentialSimulator::run() {
 
-    int last_time = -1;
+    for (auto* s : circuit->get_signals()) {
+        vcd->dumpValue(s->get_name(), s->get_value());
+    }
+
+    int last_time = 0;
     int simulatedEvents = 0;
 
     while (!event_queue.empty()) {
@@ -32,7 +40,10 @@ void SequentialSimulator::run() {
 
         current_time = T;
         current_delta = D;
-        last_time = T;
+        if (T != last_time) {
+            vcd->dumpTime(T);
+            last_time = T;
+        }
 
         std::vector<Event> current_batch;
 
@@ -67,6 +78,7 @@ void SequentialSimulator::run() {
             bool newVal = signal->get_value();
 
             if (oldVal != newVal) {
+                vcd->dumpValue(signal->get_name(), newVal);
                 // cout << signal->get_name() << " Changed from : " << oldVal << " To : " << newVal << endl;
                 changedSignals.push_back(signal);
             }
@@ -84,6 +96,7 @@ void SequentialSimulator::run() {
                 );
             }
         }
+
     }
 
     // Final state print
@@ -92,6 +105,8 @@ void SequentialSimulator::run() {
         cout << "Sequential Simulated " << simulatedEvents << endl;
     }
 
+    delete vcd;
+    vcd = nullptr;
 }
 
 void SequentialSimulator::stabilize() {
@@ -145,4 +160,9 @@ void SequentialSimulator::stabilize() {
     for (auto* s : circuit->get_signals()) {
         s->initializeSignal();
     }
+
+    vcd->dumpTime(0);
+
+    for (auto* s : circuit->get_signals()) vcd->dumpValue(s->get_name(), s->get_value());
+    
 }

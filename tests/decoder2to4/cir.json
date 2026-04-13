@@ -1,0 +1,81 @@
+{
+    "entity" : {
+        "metadata" : {
+            "noOfInputPorts" : 3,
+            "noOfOutputPorts" : 3
+        },
+
+        "inputs" : ["A", "B"],
+        "outputs" : ["Q3", "Q2", "Q1", "Q0"],
+        "intermediates" : ["y1", "y2"]
+    },
+
+    "Architecture" : {
+        "metadata" : {
+            "noOfTotalGates" : 6,
+            "noOfAndGates" : 4,
+            "noOforGates" : 0,
+            "noOfNotGates" : 2,
+            "noOfXorGates" : 0,
+            "noOfXnorGates" : 0,
+            "noOfSignals" : 10
+        },
+
+        "SignalMapping" : 
+            [
+                {"A" : "A", "SignalType" : "input"},
+                {"B" : "B", "SignalType" : "input"},
+                {"Q3" : "Q3", "SignalType" : "output"},
+                {"Q2" : "Q2", "SignalType" : "output"},
+                {"Q1" : "Q1", "SignalType" : "output"},
+                {"Q0" : "Q0", "SignalType" : "output"}
+                
+            ]
+        ,
+
+        "Behaviour" : [
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y1", 
+                "gateExpressionInputs" : ["A"], 
+                "gatesUsed" : ["not"], 
+                "expression" : "not(A)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y2", 
+                "gateExpressionInputs" : ["B"], 
+                "gatesUsed" : ["not"], 
+                "expression" : "not(B)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Q0", 
+                "gateExpressionInputs" : ["y1", "y2"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(y1, y2)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Q1", 
+                "gateExpressionInputs" : ["y1", "B"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(y1, B)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Q2", 
+                "gateExpressionInputs" : ["A", "y2"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(A, y2)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Q3", 
+                "gateExpressionInputs" : ["A", "B"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(A, B)"
+            }
+        ]
+    }
+}

@@ -1,0 +1,73 @@
+{
+    "entity" : {
+        "metadata" : {
+            "noOfInputPorts" : 3,
+            "noOfOutputPorts" : 3
+        },
+
+        "inputs" : ["a", "b", "c"],
+        "outputs" : ["sum", "carry"],
+        "intermediates" : ["y1", "y2", "y3"]
+    },
+
+    "Architecture" : {
+        "metadata" : {
+            "noOfTotalGates" : 7,
+            "noOfAndGates" : 3,
+            "noOforGates" : 3,
+            "noOfNotGates" : 0,
+            "noOfXorGates" : 1,
+            "noOfXnorGates" : 0,
+            "noOfSignals" : 5
+        },
+
+        "SignalMapping" : 
+            [
+                {"x" : "a", "SignalType" : "input"},
+                {"y" : "b", "SignalType" : "input"},
+                {"z" : "c", "SignalType" : "input"},
+                {"mus" : "sum", "SignalType" : "output"},
+                {"yrrac" : "carry", "SignalType" : "output"}
+                
+            ]
+        ,
+
+        "Behaviour" : [
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y1", 
+                "gateExpressionInputs" : ["x", "y"], 
+                "gatesUsed" : ["xor"], 
+                "expression" : "xor(x, y)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "mus", 
+                "gateExpressionInputs" : ["y1", "z"], 
+                "gatesUsed" : ["xor"], 
+                "expression" : "xor(y1, z)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y2", 
+                "gateExpressionInputs" : ["y1", "z"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(y1, z)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y3", 
+                "gateExpressionInputs" : ["x", "y"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(x, y)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "yrrac", 
+                "gateExpressionInputs" : ["y2", "y3"], 
+                "gatesUsed" : ["or"], 
+                "expression" : "or(y2, y3)"
+            }
+        ]
+    }
+}

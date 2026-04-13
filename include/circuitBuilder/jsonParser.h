@@ -34,10 +34,19 @@ public:
 
     // Behaviour structure
     struct Behaviour {
+        string processType;   // NEW
+
         string outputSignal;
+
+        // ---- Gate type ----
         vector<string> gateExpressionInputs;
         vector<string> gatesUsed;
         string expression;
+
+        // ---- Behaviour type ----
+        string inputSignal;
+        string edgeType;
+        string clockSignal;
     };
 
     vector<Behaviour> behaviours;

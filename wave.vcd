@@ -1,0 +1,282 @@
+$date
+    today
+$end
+$version
+    custom circuit simulator
+$end
+$timescale 1ns $end
+$scope module logic $end
+$var wire 1 ! A $end
+$var wire 1 " B $end
+$var wire 1 # IO $end
+$var wire 1 $ CLK $end
+$var wire 1 % DB0 $end
+$var wire 1 & DB1 $end
+$var wire 1 ' E3 $end
+$var wire 1 ( E2 $end
+$var wire 1 ) E1 $end
+$var wire 1 * E0 $end
+$var wire 1 + IOw $end
+$var wire 1 , IOr $end
+$var wire 1 - DBUS_OUT0 $end
+$var wire 1 . DBUS_OUT1 $end
+$var wire 1 / Q0a $end
+$var wire 1 0 Qb0a $end
+$var wire 1 1 Q0b $end
+$var wire 1 2 Qb0b $end
+$var wire 1 3 Q1a $end
+$var wire 1 4 Qb1a $end
+$var wire 1 5 Q1b $end
+$var wire 1 6 Qb1b $end
+$var wire 1 7 Q2a $end
+$var wire 1 8 Qb2a $end
+$var wire 1 9 Q2b $end
+$var wire 1 : Qb2b $end
+$var wire 1 ; Q3a $end
+$var wire 1 < Qb3a $end
+$var wire 1 = Q3b $end
+$var wire 1 > Qb3b $end
+$var wire 1 ? Y1 $end
+$var wire 1 @ Y2 $end
+$var wire 1 A IOr $end
+$var wire 1 B D0a $end
+$var wire 1 C D0b $end
+$var wire 1 D D1a $end
+$var wire 1 E D1b $end
+$var wire 1 F D2a $end
+$var wire 1 G D2b $end
+$var wire 1 H D3a $end
+$var wire 1 I D3b $end
+$var wire 1 J y0a1 $end
+$var wire 1 K y0a2 $end
+$var wire 1 L y0a3 $end
+$var wire 1 M y0a4 $end
+$var wire 1 N Deff0a $end
+$var wire 1 O y0b1 $end
+$var wire 1 P y0b2 $end
+$var wire 1 Q y0b3 $end
+$var wire 1 R y0b4 $end
+$var wire 1 S Deff0b $end
+$var wire 1 T y1a1 $end
+$var wire 1 U y1a2 $end
+$var wire 1 V y1a3 $end
+$var wire 1 W y1a4 $end
+$var wire 1 X Deff1a $end
+$var wire 1 Y y1b1 $end
+$var wire 1 Z y1b2 $end
+$var wire 1 [ y1b3 $end
+$var wire 1 \ y1b4 $end
+$var wire 1 ] Deff1b $end
+$var wire 1 ^ y2a1 $end
+$var wire 1 _ y2a2 $end
+$var wire 1 ` y2a3 $end
+$var wire 1 a y2a4 $end
+$var wire 1 b Deff2a $end
+$var wire 1 c y2b1 $end
+$var wire 1 d y2b2 $end
+$var wire 1 e y2b3 $end
+$var wire 1 f y2b4 $end
+$var wire 1 g Deff2b $end
+$var wire 1 h y3a1 $end
+$var wire 1 i y3a2 $end
+$var wire 1 j y3a3 $end
+$var wire 1 k y3a4 $end
+$var wire 1 l Deff3a $end
+$var wire 1 m y3b1 $end
+$var wire 1 n y3b2 $end
+$var wire 1 o y3b3 $end
+$var wire 1 p y3b4 $end
+$var wire 1 q Deff3b $end
+$var wire 1 r r0a $end
+$var wire 1 s r0b $end
+$var wire 1 t r1a $end
+$var wire 1 u r1b $end
+$var wire 1 v r2a $end
+$var wire 1 w r2b $end
+$var wire 1 x r3a $end
+$var wire 1 y r3b $end
+$upscope $end
+$enddefinitions $end
+#0
+0!
+0"
+0#
+0$
+0%
+0&
+0'
+0(
+0)
+1*
+0+
+1A
+0-
+0.
+0/
+10
+01
+12
+03
+14
+05
+16
+07
+18
+09
+1:
+0;
+1<
+0=
+1>
+1?
+1@
+0A
+0B
+0C
+0D
+0E
+0F
+0G
+0H
+0I
+0J
+0K
+0L
+0M
+0N
+0O
+0P
+0Q
+0R
+0S
+0T
+1U
+0V
+0W
+0X
+0Y
+1Z
+0[
+0\
+0]
+0^
+1_
+0`
+0a
+0b
+0c
+1d
+0e
+0f
+0g
+0h
+1i
+0j
+0k
+0l
+0m
+1n
+0o
+0p
+0q
+0r
+0s
+0t
+0u
+0v
+0w
+0x
+0y
+0!
+0"
+0#
+0$
+0%
+0&
+0'
+0(
+0)
+1*
+0+
+1A
+0-
+0.
+0/
+10
+01
+12
+03
+14
+05
+16
+07
+18
+09
+1:
+0;
+1<
+0=
+1>
+1?
+1@
+0A
+0B
+0C
+0D
+0E
+0F
+0G
+0H
+0I
+0J
+0K
+0L
+0M
+0N
+0O
+0P
+0Q
+0R
+0S
+0T
+1U
+0V
+0W
+0X
+0Y
+1Z
+0[
+0\
+0]
+0^
+1_
+0`
+0a
+0b
+0c
+1d
+0e
+0f
+0g
+0h
+1i
+0j
+0k
+0l
+0m
+1n
+0o
+0p
+0q
+0r
+0s
+0t
+0u
+0v
+0w
+0x
+0y
+#1
+1%
+#2
+1$

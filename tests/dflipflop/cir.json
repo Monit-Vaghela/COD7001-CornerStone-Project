@@ -1,0 +1,51 @@
+{
+    "entity": {
+        "metadata": {
+            "noOfInputPorts": 2,
+            "noOfOutputPorts": 2
+        },
+
+        "inputs": ["D", "CLK"],
+        "outputs": ["Q", "Qb"]
+    },
+
+    "Architecture": {
+
+        "metadata": {
+            "noOfTotalGates": 0,
+            "noOfAndGates": 0,
+            "noOforGates": 0,
+            "noOfNotGates": 1,
+            "noOfXorGates": 0,
+            "noOfXnorGates": 0,
+            "noOfSignals": 0
+        },
+
+        "SignalMapping":
+        [
+            {"D": "D", "SignalType": "input"},
+            {"CLK": "CLK", "SignalType": "input"},
+            {"Q": "Q", "SignalType": "output"},
+            {"Qb": "Qb", "SignalType": "output"}
+        ],
+
+        "Behaviour": [
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q",
+                "InputSignal" : "D",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "Qb",
+                "gateExpressionInputs": ["Q"],
+                "gatesUsed": ["not"],
+                "expression": "not(Qb)"
+            }
+
+        ]
+    }
+}

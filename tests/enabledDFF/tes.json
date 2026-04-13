@@ -1,0 +1,33 @@
+{
+    "simulation" : {
+        "metadata" : {
+            "noOfProcesses" : 8,
+            "initialTimeStamp" : 0,
+            "finalTimeStamp" : 3
+        },
+        "InitialState" : {
+            "D" : 0,
+            "CLK" : 0,
+            "E" : 1
+        },
+
+        "Processes": [
+            {"D"  : 0, "timestamp": 1},
+            {"CLK": 0, "timestamp": 1},
+            {"D"  : 0, "timestamp": 2},
+            {"CLK": 1, "timestamp": 2},
+            {"CLK": 1, "timestamp": 3},
+            {"D"  : 1, "timestamp": 4},
+            {"CLK": 0, "timestamp": 4},
+            {"CLK": 1, "timestamp": 5},
+            {"E"  : 0, "timestamp": 6},
+            {"CLK": 0, "timestamp": 6},
+            {"D"  : 0, "timestamp": 7},
+            {"CLK": 1, "timestamp": 7},
+            {"E"  : 1, "timestamp": 8},
+            {"CLK": 0, "timestamp": 8},
+            {"CLK": 1, "timestamp": 9}
+        ]
+        
+    }
+}

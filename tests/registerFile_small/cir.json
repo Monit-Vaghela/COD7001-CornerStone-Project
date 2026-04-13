@@ -1,0 +1,314 @@
+{
+    "entity" : {
+        "metadata" : {
+            "noOfInputPorts" : 3,
+            "noOfOutputPorts" : 3
+        },
+
+        "inputs" : ["A", "B", "CLK", "D0", "D1", "D2", "D3"],
+        "outputs" : ["E3", "E2", "E1", "E0", "Q0", "Qb0", "Q1", "Qb1", "Q2", "Qb2", "Q3", "Qb3"],
+        "intermediates" : ["Y1", "Y2", "y01", "y02", "y03", "y04", "Deff0", "y11", "y12", "y13", "y14", "Deff1", "y21", "y22", "y23", "y24", "Deff2", "y31", "y32", "y33", "y34", "Deff3"]
+    },
+
+    "Architecture" : {
+        "metadata" : {
+            "noOfTotalGates" : 6,
+            "noOfAndGates" : 4,
+            "noOforGates" : 0,
+            "noOfNotGates" : 2,
+            "noOfXorGates" : 0,
+            "noOfXnorGates" : 0,
+            "noOfSignals" : 10
+        },
+
+        "SignalMapping" : 
+            [
+                {"A" : "A", "SignalType" : "input"},
+                {"B" : "B", "SignalType" : "input"},
+                {"D0" : "D0", "SignalType" : "input"},
+                {"D1" : "D1", "SignalType" : "input"},
+                {"D2" : "D2", "SignalType" : "input"},
+                {"D3" : "D3", "SignalType" : "input"},
+                {"CLK" : "CLK", "SignalType" : "input"},
+                {"E3" : "E3", "SignalType" : "output"},
+                {"E2" : "E2", "SignalType" : "output"},
+                {"E1" : "E1", "SignalType" : "output"},
+                {"E0" : "E0", "SignalType" : "output"},
+                {"Q0" : "Q0", "SignalType" : "output"},
+                {"Qb0" : "Qb0", "SignalType" : "output"},
+                {"Q1" : "Q1", "SignalType" : "output"},
+                {"Qb1" : "Qb1", "SignalType" : "output"},
+                {"Q2" : "Q2", "SignalType" : "output"},
+                {"Qb2" : "Qb2", "SignalType" : "output"},
+                {"Q3" : "Q3", "SignalType" : "output"},
+                {"Qb3" : "Qb3", "SignalType" : "output"}
+                
+            ]
+        ,
+
+        "Behaviour" : [
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Y1", 
+                "gateExpressionInputs" : ["A"], 
+                "gatesUsed" : ["not"], 
+                "expression" : "not(A)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Y2", 
+                "gateExpressionInputs" : ["B"], 
+                "gatesUsed" : ["not"], 
+                "expression" : "not(B)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "E0", 
+                "gateExpressionInputs" : ["Y1", "Y2"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(Y1, Y2)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "E1", 
+                "gateExpressionInputs" : ["Y1", "B"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(Y1, B)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "E2", 
+                "gateExpressionInputs" : ["A", "Y2"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(A, Y2)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "E3", 
+                "gateExpressionInputs" : ["A", "B"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(A, B)"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q0",
+                "InputSignal" : "Deff0",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q1",
+                "InputSignal" : "Deff1",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q2",
+                "InputSignal" : "Deff2",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q3",
+                "InputSignal" : "Deff3",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y01",
+                "gateExpressionInputs": ["D0", "E0"],
+                "gatesUsed": ["and"],
+                "expression": "and(D0, E0)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y02",
+                "gateExpressionInputs": ["E0"],
+                "gatesUsed": ["not"],
+                "expression": "not(E0)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y03",
+                "gateExpressionInputs": ["Q0"],
+                "gatesUsed": ["pass"],
+                "expression": "pass(Q0)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y04",
+                "gateExpressionInputs": ["y02", "y03"],
+                "gatesUsed": ["and"],
+                "expression": "and(y02, y03)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "Deff0",
+                "gateExpressionInputs": ["y01", "y04"],
+                "gatesUsed": ["or"],
+                "expression": "or(y01, y04)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "Qb0",
+                "gateExpressionInputs": ["Q0"],
+                "gatesUsed": ["not"],
+                "expression": "not(Q0)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y11",
+                "gateExpressionInputs": ["D1", "E1"],
+                "gatesUsed": ["and"],
+                "expression": "and(D1, E1)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y12",
+                "gateExpressionInputs": ["E1"],
+                "gatesUsed": ["not"],
+                "expression": "not(E1)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y13",
+                "gateExpressionInputs": ["Q1"],
+                "gatesUsed": ["pass"],
+                "expression": "pass(Q1)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y14",
+                "gateExpressionInputs": ["y12", "y13"],
+                "gatesUsed": ["and"],
+                "expression": "and(y12, y13)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "Deff1",
+                "gateExpressionInputs": ["y11", "y14"],
+                "gatesUsed": ["or"],
+                "expression": "or(y11, y14)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "Qb1",
+                "gateExpressionInputs": ["Q1"],
+                "gatesUsed": ["not"],
+                "expression": "not(Q1)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y21",
+                "gateExpressionInputs": ["D2", "E2"],
+                "gatesUsed": ["and"],
+                "expression": "and(D2, E2)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y22",
+                "gateExpressionInputs": ["E2"],
+                "gatesUsed": ["not"],
+                "expression": "not(E2)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y23",
+                "gateExpressionInputs": ["Q2"],
+                "gatesUsed": ["pass"],
+                "expression": "pass(Q2)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y24",
+                "gateExpressionInputs": ["y22", "y23"],
+                "gatesUsed": ["and"],
+                "expression": "and(y22, y23)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "Deff2",
+                "gateExpressionInputs": ["y21", "y24"],
+                "gatesUsed": ["or"],
+                "expression": "or(y21, y24)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "Qb2",
+                "gateExpressionInputs": ["Q2"],
+                "gatesUsed": ["not"],
+                "expression": "not(Q2)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y31",
+                "gateExpressionInputs": ["D3", "E3"],
+                "gatesUsed": ["and"],
+                "expression": "and(D3, E3)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y32",
+                "gateExpressionInputs": ["E3"],
+                "gatesUsed": ["not"],
+                "expression": "not(E3)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y33",
+                "gateExpressionInputs": ["Q3"],
+                "gatesUsed": ["pass"],
+                "expression": "pass(Q3)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "y34",
+                "gateExpressionInputs": ["y32", "y33"],
+                "gatesUsed": ["and"],
+                "expression": "and(y32, y33)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "Deff3",
+                "gateExpressionInputs": ["y31", "y34"],
+                "gatesUsed": ["or"],
+                "expression": "or(y31, y34)"
+            },
+
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal": "Qb3",
+                "gateExpressionInputs": ["Q3"],
+                "gatesUsed": ["not"],
+                "expression": "not(Q3)"
+            }
+        ]
+    }
+}

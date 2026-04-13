@@ -1,0 +1,27 @@
+{
+    "simulation" : {
+        "metadata" : {
+            "noOfProcesses" : 8,
+            "initialTimeStamp" : 0,
+            "finalTimeStamp" : 3
+        },
+        "InitialState" : 
+        {
+            "y" : 1,
+            "y4" : 0,
+            "y5" : 1,
+            "qout" : 0,
+            "qbout" : 1
+        },
+        "Processes" : 
+        [
+            {"x" : 0, "timestamp" : 1},
+            {"y" : 1, "timestamp" : 1},
+            {"x" : 1, "timestamp" : 2},
+            {"y" : 0, "timestamp" : 2},
+            {"y" : 1, "timestamp" : 3},
+            {"x" : 0, "timestamp" : 4}
+        ]
+        
+    }
+}

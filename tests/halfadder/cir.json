@@ -1,0 +1,47 @@
+{
+    "entity" : {
+        "metadata" : {
+            "noOfInputPorts" : 2,
+            "noOfOutputPorts" : 2
+        },
+
+        "inputs" : ["a", "b"],
+        "outputs" : ["c", "sum"]
+    },
+
+    "Architecture" : {
+        "metadata" : {
+            "noOfTotalGates" : 2,
+            "noOfAndGates" : 1,
+            "noOforGates" : 0,
+            "noOfNotGates" : 0,
+            "noOfXorGates" : 1,
+            "noOfXnorGates" : 0,
+            "noOfSignals" : 4
+        },
+
+        "SignalMapping" : 
+            [
+                {"x" : "a", "SignalType" : "input"},
+                {"y" : "b", "SignalType" : "input"},
+                {"mus" : "sum", "SignalType" : "output"},
+                {"yrrac" : "c", "SignalType" : "output"}
+            ]
+        ,
+
+        "Behaviour" : [
+            {
+                "OutputSignal" : "mus",
+                "gateExpressionInputs" : ["x", "y"],
+                "gatesUsed" : ["xor"],
+                "expression" : "xor(x, y)"
+            },
+            {
+                "OutputSignal" : "yrrac",
+                "gateExpressionInputs" : ["x", "y"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(x, y)"
+            }
+        ]
+    }
+}
