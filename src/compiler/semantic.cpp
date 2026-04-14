@@ -109,7 +109,20 @@ void SemanticAnalyzer::checkArch(const EntityNode& entity, const ArchNode& arch)
         checkExprSignals(beh.exprTree, declaredSignals, beh.outputSignal);
     }
 
-    // Every output-mapped signal must have a behaviour
+    // Edge behaviour checks
+    for (const auto& eb : arch.edgeBehaviours) {
+        if (!declaredSignals.count(eb.outputSignal))
+            error("edge behaviour output '" + eb.outputSignal + "' is not a declared signal");
+        if (inputMappedSignals.count(eb.outputSignal))
+            error("edge behaviour output '" + eb.outputSignal + "' is input-mapped and cannot be assigned");
+        if (!declaredSignals.count(eb.inputSignal))
+            error("edge behaviour input '" + eb.inputSignal + "' is not a declared signal");
+        if (!declaredSignals.count(eb.clockSignal) && !inputMappedSignals.count(eb.clockSignal))
+            error("clock signal '" + eb.clockSignal + "' is not a declared signal");
+        behaviourLHS.insert(eb.outputSignal);
+    }
+
+    // Every output-mapped signal must have a behaviour or edge behaviour
     for (const auto& sig : outputMappedSignals)
         if (!behaviourLHS.count(sig))
             error("output-mapped signal '" + sig + "' has no behaviour assignment");
