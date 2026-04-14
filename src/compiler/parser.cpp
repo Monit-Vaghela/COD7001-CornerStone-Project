@@ -207,6 +207,57 @@ BehaviourNode Parser::parseBehaviour() {
     return beh;
 }
 
+EdgeBehaviourNode Parser::parseEdgeBehaviour() {
+    EdgeBehaviourNode eb;
+
+    consume(TokenType::KEYWORD, "if", "Expected 'if'");
+
+    Token edgeKw = peek();
+    if (edgeKw.type != TokenType::KEYWORD ||
+        (edgeKw.value != "is_risingEdge" && edgeKw.value != "is_fallingEdge")) {
+        cerr << "Parse error on line " << edgeKw.line
+             << ": expected 'is_risingEdge' or 'is_fallingEdge'\n";
+        exit(1);
+    }
+    eb.edgeType = (edgeKw.value == "is_risingEdge") ? "rising" : "falling";
+    pos++;
+
+    consume(TokenType::LPAREN, "Expected '(' after edge keyword");
+    Token clk = peek();
+    if (clk.type != TokenType::IDENTIFIER && clk.type != TokenType::STRING) {
+        cerr << "Parse error on line " << clk.line << ": expected clock signal name\n";
+        exit(1);
+    }
+    eb.clockSignal = clk.value;
+    pos++;
+    consume(TokenType::RPAREN, "Expected ')' after clock signal");
+
+    consume(TokenType::LBRACE, "Expected '{' after edge condition");
+
+    Token out = peek();
+    if (out.type != TokenType::IDENTIFIER && out.type != TokenType::STRING) {
+        cerr << "Parse error on line " << out.line << ": expected output signal\n";
+        exit(1);
+    }
+    eb.outputSignal = out.value;
+    pos++;
+
+    consume(TokenType::ARROW, "Expected '<=' inside edge behaviour");
+
+    Token in = peek();
+    if (in.type != TokenType::IDENTIFIER && in.type != TokenType::STRING) {
+        cerr << "Parse error on line " << in.line << ": expected input signal\n";
+        exit(1);
+    }
+    eb.inputSignal = in.value;
+    pos++;
+
+    consume(TokenType::SEMICOLON, "Expected ';' after edge assignment");
+    consume(TokenType::RBRACE, "Expected '}' to close edge behaviour");
+
+    return eb;
+}
+
 ArchNode Parser::parseArch() {
     ArchNode arch;
 
@@ -227,8 +278,17 @@ ArchNode Parser::parseArch() {
     consume(TokenType::KEYWORD, "behaviour", "Expected keyword 'behaviour'");
     consume(TokenType::LBRACE, "Expected '{' after 'behaviour'");
 
-    while (peek().type == TokenType::IDENTIFIER || peek().type == TokenType::STRING) {
-        arch.behaviours.push_back(parseBehaviour());
+    while (peek().type != TokenType::RBRACE) {
+        Token t = peek();
+        if (t.type == TokenType::KEYWORD && t.value == "if") {
+            arch.edgeBehaviours.push_back(parseEdgeBehaviour());
+        } else if (t.type == TokenType::IDENTIFIER || t.type == TokenType::STRING) {
+            arch.behaviours.push_back(parseBehaviour());
+        } else {
+            cerr << "Parse error on line " << t.line
+                << ": unexpected token in behaviour block: \"" << t.value << "\"\n";
+            exit(1);
+        }
     }
 
     consume(TokenType::RBRACE, "Expected '}' to close behaviour");

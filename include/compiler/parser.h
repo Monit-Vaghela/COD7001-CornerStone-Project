@@ -63,6 +63,13 @@ struct BehaviourNode {
     std::shared_ptr<ExprNode>    exprTree;       // full expression tree
 };
 
+struct EdgeBehaviourNode {
+    std::string outputSignal;
+    std::string inputSignal;
+    std::string edgeType;      // "rising" or "falling"
+    std::string clockSignal;
+};
+
 struct EntityNode {
     std::string              name;
     std::vector<std::string> inputs;
@@ -74,6 +81,7 @@ struct ArchNode {
     std::vector<std::string>       signals;
     std::vector<SignalMapEntry>    signalMapping;
     std::vector<BehaviourNode>     behaviours;
+    std::vector<EdgeBehaviourNode> edgeBehaviours;
 };
 
 // Top-level result for a .cir file
@@ -133,6 +141,7 @@ private:
     ArchNode                 parseArch();
     std::vector<SignalMapEntry> parseSignalMapping();
     BehaviourNode            parseBehaviour();
+    EdgeBehaviourNode        parseEdgeBehaviour();
 
     // Expression parsing (recursive descent)
     std::shared_ptr<ExprNode> parseExpression();   // handles binary chains

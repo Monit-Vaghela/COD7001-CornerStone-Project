@@ -15,7 +15,10 @@ static const set<string> KEYWORDS = {
     "signalMapping",
     "behaviour",
     "processes",
-    "process"
+    "process",
+    "if",
+    "is_risingEdge",
+    "is_fallingEdge"
 };
 
 
