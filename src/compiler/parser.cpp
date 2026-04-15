@@ -139,8 +139,14 @@ EntityNode Parser::parseEntity() {
     entity.outputs = parseStringList();
     consume(TokenType::SEMICOLON, "Expected ';' after outputs list");
 
-    consume(TokenType::RBRACE, "Expected '}' to close entity");
+    // Optional uses clause
+    if (peek().type == TokenType::KEYWORD && peek().value == "uses") {
+        pos++; // consume 'uses'
+        entity.uses = parseStringList();
+        consume(TokenType::SEMICOLON, "Expected ';' after uses list");
+    }
 
+    consume(TokenType::RBRACE, "Expected '}' to close entity");
     return entity;
 }
 
@@ -258,6 +264,63 @@ EdgeBehaviourNode Parser::parseEdgeBehaviour() {
     return eb;
 }
 
+InstanceNode Parser::parseInstance() {
+    InstanceNode inst;
+
+    consume(TokenType::KEYWORD, "instance", "Expected 'instance'");
+
+    Token name = peek();
+    if (name.type != TokenType::IDENTIFIER && name.type != TokenType::STRING) {
+        cerr << "Parse error on line " << name.line << ": expected instance name\n";
+        exit(1);
+    }
+    inst.instanceName = name.value;
+    pos++;
+
+    consume(TokenType::KEYWORD, "of", "Expected 'of' after instance name");
+
+    Token ename = peek();
+    if (ename.type != TokenType::IDENTIFIER && ename.type != TokenType::STRING) {
+        cerr << "Parse error on line " << ename.line << ": expected entity name after 'of'\n";
+        exit(1);
+    }
+    inst.entityName = ename.value;
+    pos++;
+
+    consume(TokenType::LPAREN, "Expected '(' after entity name");
+
+    while (peek().type != TokenType::RPAREN) {
+        PortBinding pb;
+
+        Token subPort = peek();
+        if (subPort.type != TokenType::IDENTIFIER && subPort.type != TokenType::STRING) {
+            cerr << "Parse error on line " << subPort.line << ": expected port name\n";
+            exit(1);
+        }
+        pb.subPort = subPort.value;
+        pos++;
+
+        consume(TokenType::ARROW, "Expected '=>' in port binding");
+
+        Token localSig = peek();
+        if (localSig.type != TokenType::IDENTIFIER && localSig.type != TokenType::STRING) {
+            cerr << "Parse error on line " << localSig.line << ": expected signal name\n";
+            exit(1);
+        }
+        pb.localSignal = localSig.value;
+        pos++;
+
+        inst.bindings.push_back(pb);
+
+        if (peek().type == TokenType::COMMA) pos++;
+    }
+
+    consume(TokenType::RPAREN, "Expected ')' to close instance");
+    consume(TokenType::SEMICOLON, "Expected ';' after instance");
+
+    return inst;
+}
+
 ArchNode Parser::parseArch() {
     ArchNode arch;
 
@@ -282,11 +345,13 @@ ArchNode Parser::parseArch() {
         Token t = peek();
         if (t.type == TokenType::KEYWORD && t.value == "if") {
             arch.edgeBehaviours.push_back(parseEdgeBehaviour());
+        } else if (t.type == TokenType::KEYWORD && t.value == "instance") {
+            arch.instances.push_back(parseInstance());
         } else if (t.type == TokenType::IDENTIFIER || t.type == TokenType::STRING) {
             arch.behaviours.push_back(parseBehaviour());
         } else {
             cerr << "Parse error on line " << t.line
-                << ": unexpected token in behaviour block: \"" << t.value << "\"\n";
+                 << ": unexpected token in behaviour block: \"" << t.value << "\"\n";
             exit(1);
         }
     }

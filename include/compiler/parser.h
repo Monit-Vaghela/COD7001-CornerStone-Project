@@ -70,10 +70,22 @@ struct EdgeBehaviourNode {
     std::string clockSignal;
 };
 
+struct PortBinding {
+    std::string subPort;    // port name in sub-entity  e.g. "a"
+    std::string localSignal; // signal name in parent    e.g. "x"
+};
+
+struct InstanceNode {
+    std::string instanceName;   // e.g. "ha1"
+    std::string entityName;     // e.g. "HalfAdder"
+    std::vector<PortBinding> bindings;
+};
+
 struct EntityNode {
     std::string              name;
     std::vector<std::string> inputs;
     std::vector<std::string> outputs;
+    std::vector<std::string> uses;    // sub-entity names
 };
 
 struct ArchNode {
@@ -82,6 +94,7 @@ struct ArchNode {
     std::vector<SignalMapEntry>    signalMapping;
     std::vector<BehaviourNode>     behaviours;
     std::vector<EdgeBehaviourNode> edgeBehaviours;
+    std::vector<InstanceNode>      instances;
 };
 
 // Top-level result for a .cir file
@@ -142,6 +155,7 @@ private:
     std::vector<SignalMapEntry> parseSignalMapping();
     BehaviourNode            parseBehaviour();
     EdgeBehaviourNode        parseEdgeBehaviour();
+    InstanceNode parseInstance();
 
     // Expression parsing (recursive descent)
     std::shared_ptr<ExprNode> parseExpression();   // handles binary chains

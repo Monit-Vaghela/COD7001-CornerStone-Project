@@ -18,7 +18,10 @@ static const set<string> KEYWORDS = {
     "process",
     "if",
     "is_risingEdge",
-    "is_fallingEdge"
+    "is_fallingEdge",
+    "uses",
+    "instance",
+    "of"
 };
 
 
