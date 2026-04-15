@@ -69,7 +69,8 @@ string JsonWriter::flatten(const shared_ptr<ExprNode>& node,
 //  cir.json writer
 // ─────────────────────────────────────────────
 
-void JsonWriter::writeCir(const ProgramNode& program, const string& outPath) {
+void JsonWriter::writeCir(const ProgramNode& program, const string& outPath,
+                           const map<string, ProgramNode>& subEntities) {
     const EntityNode& entity = program.entity;
     const ArchNode&   arch   = program.arch;
 
@@ -81,6 +82,67 @@ void JsonWriter::writeCir(const ProgramNode& program, const string& outPath) {
     // Flatten every behaviour
     for (const auto& beh : arch.behaviours)
         flatten(beh.exprTree, beh.outputSignal);
+
+    // Inline instances — expand each sub-entity into flat behaviours with prefixed signals
+    for (const auto& inst : arch.instances) {
+        if (!subEntities.count(inst.entityName)) continue;
+
+        // Build port → local signal map from bindings
+        map<string, string> portToLocal;
+        for (const auto& binding : inst.bindings)
+            portToLocal[binding.subPort] = binding.localSignal;
+
+        const ProgramNode& sub = subEntities.at(inst.entityName);
+
+        // Reset sub-flattener and flatten sub-entity behaviours
+        JsonWriter subWriter;
+        subWriter.yCounter = yCounter;
+        subWriter.flatBehaviours.clear();
+        subWriter.intermediates.clear();
+
+        for (const auto& beh : sub.arch.behaviours)
+            subWriter.flatten(beh.exprTree, beh.outputSignal);
+
+        // Build sub signal → port map
+        map<string, string> subSignalToPort;
+        for (const auto& entry : sub.arch.signalMapping)
+            subSignalToPort[entry.signal] = entry.port;
+
+        // Remap sub flat behaviours into parent namespace
+        for (auto& fb : subWriter.flatBehaviours) {
+            // Remap output signal
+            string outPort = subSignalToPort.count(fb.outputSignal) ?
+                             subSignalToPort[fb.outputSignal] : "";
+            if (!outPort.empty() && portToLocal.count(outPort))
+                fb.outputSignal = portToLocal[outPort];
+            else if (subWriter.intermediates.count(fb.outputSignal))
+                fb.outputSignal = inst.instanceName + "_" + fb.outputSignal;
+
+            // Remap input signals
+            for (auto& inp : fb.inputs) {
+                string inPort = subSignalToPort.count(inp) ? subSignalToPort[inp] : "";
+                if (!inPort.empty() && portToLocal.count(inPort))
+                    inp = portToLocal[inPort];
+                else if (subWriter.intermediates.count(inp))
+                    inp = inst.instanceName + "_" + inp;
+            }
+
+            // Rebuild expression string
+            if (fb.inputs.size() == 1)
+                fb.expression = fb.gate + "(" + fb.inputs[0] + ")";
+            else if (fb.inputs.size() == 2)
+                fb.expression = fb.gate + "(" + fb.inputs[0] + ", " + fb.inputs[1] + ")";
+
+            flatBehaviours.push_back(fb);
+        }
+
+        // Update yCounter to avoid collisions
+        yCounter = subWriter.yCounter;
+
+        // Add remapped intermediates
+        for (const auto& im : subWriter.intermediates)
+            intermediates.insert(inst.instanceName + "_" + im);
+    }
 
     // Determine signal type for signalMapping
     set<string> inputPorts(entity.inputs.begin(), entity.inputs.end());

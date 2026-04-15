@@ -16,7 +16,7 @@ struct FlatBehaviour {
 
 class JsonWriter {
 public:
-    void writeCir(const ProgramNode& program, const std::string& outPath);
+    void writeCir(const ProgramNode& program, const std::string& outPath, const std::map<std::string, ProgramNode>& subEntities);
     void writeTes(const SimulatorNode& sim,   const std::string& outPath);
 
 private:

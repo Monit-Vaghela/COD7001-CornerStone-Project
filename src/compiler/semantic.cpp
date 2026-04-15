@@ -43,7 +43,8 @@ void SemanticAnalyzer::checkEntity(const EntityNode& entity) {
             error("port '" + o + "' appears in both inputs and outputs");
 }
 
-void SemanticAnalyzer::checkArch(const EntityNode& entity, const ArchNode& arch) {
+void SemanticAnalyzer::checkArch(const EntityNode& entity, const ArchNode& arch,
+                                  const map<string, ProgramNode>& subEntities) {
     // Architecture name must match entity name
     if (arch.name != entity.name)
         error("architecture name '" + arch.name + "' does not match entity name '" + entity.name + "'");
@@ -122,10 +123,43 @@ void SemanticAnalyzer::checkArch(const EntityNode& entity, const ArchNode& arch)
         behaviourLHS.insert(eb.outputSignal);
     }
 
+    // Instance outputs also count as assignments
+    for (const auto& inst : arch.instances) {
+        if (!subEntities.count(inst.entityName)) continue;
+
+        const EntityNode& subEntity = subEntities.at(inst.entityName).entity;
+
+        set<string> subOutputPorts(subEntity.outputs.begin(), subEntity.outputs.end());
+
+        for (const auto& binding : inst.bindings) {
+            if (subOutputPorts.count(binding.subPort)) {
+                behaviourLHS.insert(binding.localSignal);
+            }
+        }
+    }
+
     // Every output-mapped signal must have a behaviour or edge behaviour
     for (const auto& sig : outputMappedSignals)
         if (!behaviourLHS.count(sig))
             error("output-mapped signal '" + sig + "' has no behaviour assignment");
+
+    // Instance checks
+    for (const auto& inst : arch.instances) {
+        if (!subEntities.count(inst.entityName))
+            error("instance '" + inst.instanceName + "' uses unknown entity '" + inst.entityName + "'");
+
+        const EntityNode& subEntity = subEntities.at(inst.entityName).entity;
+        set<string> subPorts;
+        for (const auto& p : subEntity.inputs)  subPorts.insert(p);
+        for (const auto& p : subEntity.outputs) subPorts.insert(p);
+
+        for (const auto& binding : inst.bindings) {
+            if (!subPorts.count(binding.subPort))
+                error("port '" + binding.subPort + "' does not exist in entity '" + inst.entityName + "'");
+            if (!declaredSignals.count(binding.localSignal))
+                error("signal '" + binding.localSignal + "' in instance '" + inst.instanceName + "' is not declared");
+        }
+    }
 }
 
 void SemanticAnalyzer::checkSimulator(const EntityNode& entity,
@@ -150,9 +184,10 @@ void SemanticAnalyzer::checkSimulator(const EntityNode& entity,
                       to_string(proc.timestamp) + " is not an input-mapped signal");
 }
 
-void SemanticAnalyzer::analyze(const ProgramNode& program, const SimulatorNode& sim) {
+void SemanticAnalyzer::analyze(const ProgramNode& program, const SimulatorNode& sim,
+                                const map<string, ProgramNode>& subEntities) {
     checkEntity(program.entity);
-    checkArch(program.entity, program.arch);
+    checkArch(program.entity, program.arch, subEntities);
     checkSimulator(program.entity, program.arch, sim);
     cout << "Semantic analysis passed.\n";
 }

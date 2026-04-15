@@ -7,11 +7,13 @@
 
 class SemanticAnalyzer {
 public:
-    void analyze(const ProgramNode& program, const SimulatorNode& sim);
+    void analyze(const ProgramNode& program, const SimulatorNode& sim,
+                 const std::map<std::string, ProgramNode>& subEntities);
 
 private:
     void checkEntity(const EntityNode& entity);
-    void checkArch(const EntityNode& entity, const ArchNode& arch);
+    void checkArch(const EntityNode& entity, const ArchNode& arch,
+                   const std::map<std::string, ProgramNode>& subEntities);
     void checkSimulator(const EntityNode& entity, const ArchNode& arch, const SimulatorNode& sim);
     void checkExprSignals(const std::shared_ptr<ExprNode>& node,
                           const std::set<std::string>& allowedSignals,
