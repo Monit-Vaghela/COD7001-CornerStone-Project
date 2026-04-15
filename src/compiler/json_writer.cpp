@@ -171,6 +171,7 @@ void JsonWriter::writeCir(const ProgramNode& program, const string& outPath) {
     for (int i = 0; i < (int)flatBehaviours.size(); i++) {
         const auto& fb = flatBehaviours[i];
         f << "            {\n";
+        f << "                \"ProcessType\" : \"Gate\",\n";
         f << "                \"OutputSignal\" : \"" << fb.outputSignal << "\",\n";
         f << "                \"gateExpressionInputs\" : [";
         for (int j = 0; j < (int)fb.inputs.size(); j++)
@@ -182,6 +183,20 @@ void JsonWriter::writeCir(const ProgramNode& program, const string& outPath) {
         if (i+1 < (int)flatBehaviours.size()) f << ",";
         f << "\n";
     }
+    
+    // Edge behaviour entries
+    for (int i = 0; i < (int)program.arch.edgeBehaviours.size(); i++) {
+        const auto& eb = program.arch.edgeBehaviours[i];
+        if (!flatBehaviours.empty() || i > 0) f << ",\n";
+        f << "            {\n";
+        f << "                \"ProcessType\" : \"Behaviour\",\n";
+        f << "                \"OutputSignal\" : \"" << eb.outputSignal << "\",\n";
+        f << "                \"InputSignal\" : \"" << eb.inputSignal << "\",\n";
+        f << "                \"edgetype\" : \"" << eb.edgeType << "\",\n";
+        f << "                \"clockSignal\" : \"" << eb.clockSignal << "\"\n";
+        f << "            }";
+    }
+    if (!program.arch.edgeBehaviours.empty()) f << "\n";
     f << "        ]\n";
     f << "    }\n";
     f << "}\n";
