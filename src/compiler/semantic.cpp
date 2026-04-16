@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <set>
 #include <map>
+#include <functional> 
 
 using namespace std;
 
@@ -159,6 +160,60 @@ void SemanticAnalyzer::checkArch(const EntityNode& entity, const ArchNode& arch,
             if (!declaredSignals.count(binding.localSignal))
                 error("signal '" + binding.localSignal + "' in instance '" + inst.instanceName + "' is not declared");
         }
+    }
+
+    // Multiple driver detection — check no signal is driven by both a behaviour and an instance output
+    for (const auto& inst : arch.instances) {
+        if (!subEntities.count(inst.entityName)) continue;
+        const EntityNode& subEntity = subEntities.at(inst.entityName).entity;
+
+        for (const auto& binding : inst.bindings) {
+            // Check if this binding drives an output (port is in subEntity outputs)
+            bool isOutput = false;
+            for (const auto& op : subEntity.outputs)
+                if (op == binding.subPort) { isOutput = true; break; }
+
+            if (isOutput && behaviourLHS.count(binding.localSignal))
+                error("signal '" + binding.localSignal + "' is driven by both a behaviour and instance '" + inst.instanceName + "'");
+
+            if (isOutput)
+                behaviourLHS.insert(binding.localSignal);
+        }
+    }
+
+    // Dangling signal detection — every declared signal must appear somewhere
+    for (const auto& sig : arch.signals) {
+        bool used = false;
+
+        // check signal mapping
+        for (const auto& entry : arch.signalMapping)
+            if (entry.signal == sig) { used = true; break; }
+
+        // check behaviour LHS
+        if (behaviourLHS.count(sig)) used = true;
+
+        // check behaviour RHS (expressions)
+        if (!used) {
+            for (const auto& beh : arch.behaviours) {
+                function<bool(const shared_ptr<ExprNode>&)> hasSignal =
+                    [&](const shared_ptr<ExprNode>& node) -> bool {
+                    if (!node) return false;
+                    if (node->kind == ExprKind::LEAF) return node->name == sig;
+                    return hasSignal(node->left) || hasSignal(node->right);
+                };
+                if (hasSignal(beh.exprTree)) { used = true; break; }
+            }
+        }
+
+        // check instance bindings
+        if (!used) {
+            for (const auto& inst : arch.instances)
+                for (const auto& binding : inst.bindings)
+                    if (binding.localSignal == sig) { used = true; break; }
+        }
+
+        if (!used)
+            error("signal '" + sig + "' is declared but never used");
     }
 }
 

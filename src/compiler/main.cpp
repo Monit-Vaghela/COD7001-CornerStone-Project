@@ -52,12 +52,24 @@ int main(int argc, char* argv[]) {
         cirDir = cirPath.substr(0, lastSlash + 1);
 
     map<string, ProgramNode> subEntities;
-    for (const auto& subName : program.entity.uses) {
+    vector<string> toLoad(program.entity.uses.begin(), program.entity.uses.end());
+
+    while (!toLoad.empty()) {
+        string subName = toLoad.back();
+        toLoad.pop_back();
+
+        if (subEntities.count(subName)) continue;
+
         string subPath = cirDir + subName + ".cir";
         string subSrc  = readFile(subPath);
         auto   subToks = lexer.tokenize(subSrc);
         ProgramNode subProgram = parser.parseCir(subToks);
         subEntities[subName] = subProgram;
+
+        // Queue any sub-sub-entities
+        for (const auto& transitive : subProgram.entity.uses)
+            if (!subEntities.count(transitive))
+                toLoad.push_back(transitive);
     }
 
     // ── Stage 3: Semantic Analysis ──────────
