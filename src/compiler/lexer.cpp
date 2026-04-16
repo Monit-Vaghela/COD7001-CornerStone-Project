@@ -93,6 +93,13 @@ vector<Token> Lexer::tokenize(const string& source) {
             continue;
         }
 
+                
+        if (i + 1 < n && source[i] == '=' && source[i+1] == '>') {
+            tokens.push_back(Token(TokenType::ARROW, "=>", line));
+            i += 2;
+            continue;
+        }
+
         if (i + 1 < n && source[i] == '<' && source[i+1] == '=') {
             tokens.push_back(Token(TokenType::ARROW, "<=", line));
             i += 2;

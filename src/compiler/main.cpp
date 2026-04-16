@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
     string cirPath = argv[1];
     string tesPath = argv[2];
 
-    // ── Stage 1: Lex ────────────────────────
+// ── Stage 1: Lex ────────────────────────
     Lexer lexer;
     auto cirTokens = lexer.tokenize(readFile(cirPath));
     auto tesTokens = lexer.tokenize(readFile(tesPath));
@@ -44,13 +44,29 @@ int main(int argc, char* argv[]) {
     ProgramNode   program = parser.parseCir(cirTokens);
     SimulatorNode sim     = parser.parseTes(tesTokens);
 
+    // ── Stage 2b: Load sub-entities ─────────
+    // Get directory of the .cir file
+    string cirDir = "";
+    size_t lastSlash = cirPath.find_last_of("/\\");
+    if (lastSlash != string::npos)
+        cirDir = cirPath.substr(0, lastSlash + 1);
+
+    map<string, ProgramNode> subEntities;
+    for (const auto& subName : program.entity.uses) {
+        string subPath = cirDir + subName + ".cir";
+        string subSrc  = readFile(subPath);
+        auto   subToks = lexer.tokenize(subSrc);
+        ProgramNode subProgram = parser.parseCir(subToks);
+        subEntities[subName] = subProgram;
+    }
+
     // ── Stage 3: Semantic Analysis ──────────
     SemanticAnalyzer sem;
-    sem.analyze(program, sim);
+    sem.analyze(program, sim, subEntities);
 
     // ── Stage 4: Write JSON ─────────────────
     JsonWriter jw;
-    jw.writeCir(program, outputPath(cirPath, "_cir.json"));
+    jw.writeCir(program, outputPath(cirPath, "_cir.json"), subEntities);
     jw.writeTes(sim,     outputPath(tesPath, "_tes.json"));
 
     return 0;
