@@ -46,7 +46,6 @@ void SemanticAnalyzer::checkEntity(const EntityNode& entity) {
 
 void SemanticAnalyzer::checkArch(const EntityNode& entity, const ArchNode& arch,
                                   const map<string, ProgramNode>& subEntities) {
-    // Architecture name must match entity name
     if (arch.name != entity.name)
         error("architecture name '" + arch.name + "' does not match entity name '" + entity.name + "'");
 
@@ -54,22 +53,19 @@ void SemanticAnalyzer::checkArch(const EntityNode& entity, const ArchNode& arch,
     set<string> inputPorts(entity.inputs.begin(), entity.inputs.end());
     set<string> outputPorts(entity.outputs.begin(), entity.outputs.end());
 
-    // Build signal->port and signal->type maps from signalMapping
     map<string, string> signalToPort;
     set<string> inputMappedSignals;
     set<string> outputMappedSignals;
 
     for (const auto& entry : arch.signalMapping) {
-        // Signal must be declared
         if (!declaredSignals.count(entry.signal))
-            error("signal '" + entry.signal + "' in signalMapping is not declared in signals list");
+            error("signal '" + entry.signal + "' in signalMapping is not declared");
 
-        // Port must exist in entity
         if (!inputPorts.count(entry.port) && !outputPorts.count(entry.port))
             error("port '" + entry.port + "' in signalMapping is not declared in entity");
 
         if (signalToPort.count(entry.signal))
-            error("signal '" + entry.signal + "' is mapped more than once in signalMapping");
+            error("signal '" + entry.signal + "' mapped more than once");
 
         signalToPort[entry.signal] = entry.port;
 
@@ -79,133 +75,116 @@ void SemanticAnalyzer::checkArch(const EntityNode& entity, const ArchNode& arch,
             outputMappedSignals.insert(entry.signal);
     }
 
-    // Every input port must be mapped
     for (const auto& p : entity.inputs)
         if (!any_of(signalToPort.begin(), signalToPort.end(),
                     [&](const pair<string,string>& kv){ return kv.second == p; }))
-            error("input port '" + p + "' has no signal mapped to it");
+            error("input port '" + p + "' has no signal mapped");
 
-    // Every output port must be mapped
     for (const auto& p : entity.outputs)
         if (!any_of(signalToPort.begin(), signalToPort.end(),
                     [&](const pair<string,string>& kv){ return kv.second == p; }))
-            error("output port '" + p + "' has no signal mapped to it");
+            error("output port '" + p + "' has no signal mapped");
+
+    // FIXED DRIVER TRACKING 
+    set<string> behaviourDrivers;
+    set<string> instanceDrivers;
+    set<string> behaviourLHS;
 
     // Behaviour checks
-    set<string> behaviourLHS;
     for (const auto& beh : arch.behaviours) {
-        // LHS must be a declared signal
         if (!declaredSignals.count(beh.outputSignal))
-            error("behaviour LHS '" + beh.outputSignal + "' is not a declared signal");
+            error("behaviour LHS '" + beh.outputSignal + "' not declared");
 
-        // LHS must NOT be an input-mapped signal
         if (inputMappedSignals.count(beh.outputSignal))
-            error("behaviour LHS '" + beh.outputSignal + "' is mapped to an input port and cannot be assigned");
+            error("behaviour LHS '" + beh.outputSignal + "' is input-mapped");
 
-        if (behaviourLHS.count(beh.outputSignal))
-            error("signal '" + beh.outputSignal + "' has more than one behaviour assignment");
+        if (behaviourDrivers.count(beh.outputSignal))
+            error("signal '" + beh.outputSignal + "' has multiple behaviour assignments");
 
-        behaviourLHS.insert(beh.outputSignal);
-
-        // RHS leaves must all be declared signals
+        behaviourDrivers.insert(beh.outputSignal);
         checkExprSignals(beh.exprTree, declaredSignals, beh.outputSignal);
     }
 
-    // Edge behaviour checks
+    // Edge behaviours
     for (const auto& eb : arch.edgeBehaviours) {
         if (!declaredSignals.count(eb.outputSignal))
-            error("edge behaviour output '" + eb.outputSignal + "' is not a declared signal");
+            error("edge behaviour output '" + eb.outputSignal + "' not declared");
+
         if (inputMappedSignals.count(eb.outputSignal))
-            error("edge behaviour output '" + eb.outputSignal + "' is input-mapped and cannot be assigned");
+            error("edge behaviour output '" + eb.outputSignal + "' is input-mapped");
+
         if (!declaredSignals.count(eb.inputSignal))
-            error("edge behaviour input '" + eb.inputSignal + "' is not a declared signal");
+            error("edge behaviour input '" + eb.inputSignal + "' not declared");
+
         if (!declaredSignals.count(eb.clockSignal) && !inputMappedSignals.count(eb.clockSignal))
-            error("clock signal '" + eb.clockSignal + "' is not a declared signal");
-        behaviourLHS.insert(eb.outputSignal);
+            error("clock signal '" + eb.clockSignal + "' not declared");
+
+        behaviourDrivers.insert(eb.outputSignal);
     }
 
-    // Instance outputs also count as assignments
-    for (const auto& inst : arch.instances) {
-        if (!subEntities.count(inst.entityName)) continue;
-
-        const EntityNode& subEntity = subEntities.at(inst.entityName).entity;
-
-        set<string> subOutputPorts(subEntity.outputs.begin(), subEntity.outputs.end());
-
-        for (const auto& binding : inst.bindings) {
-            if (subOutputPorts.count(binding.subPort)) {
-                behaviourLHS.insert(binding.localSignal);
-            }
-        }
-    }
-
-    // Every output-mapped signal must have a behaviour or edge behaviour
-    for (const auto& sig : outputMappedSignals)
-        if (!behaviourLHS.count(sig))
-            error("output-mapped signal '" + sig + "' has no behaviour assignment");
-
-    // Instance checks
+    // Instance checks + driver collection
     for (const auto& inst : arch.instances) {
         if (!subEntities.count(inst.entityName))
             error("instance '" + inst.instanceName + "' uses unknown entity '" + inst.entityName + "'");
 
         const EntityNode& subEntity = subEntities.at(inst.entityName).entity;
+
         set<string> subPorts;
         for (const auto& p : subEntity.inputs)  subPorts.insert(p);
         for (const auto& p : subEntity.outputs) subPorts.insert(p);
 
+        set<string> subOutputs(subEntity.outputs.begin(), subEntity.outputs.end());
+
         for (const auto& binding : inst.bindings) {
             if (!subPorts.count(binding.subPort))
-                error("port '" + binding.subPort + "' does not exist in entity '" + inst.entityName + "'");
+                error("port '" + binding.subPort + "' invalid in '" + inst.entityName + "'");
+
             if (!declaredSignals.count(binding.localSignal))
-                error("signal '" + binding.localSignal + "' in instance '" + inst.instanceName + "' is not declared");
+                error("signal '" + binding.localSignal + "' in instance '" + inst.instanceName + "' not declared");
+
+            if (subOutputs.count(binding.subPort))
+                instanceDrivers.insert(binding.localSignal);
         }
     }
 
-    // Multiple driver detection — check no signal is driven by both a behaviour and an instance output
-    for (const auto& inst : arch.instances) {
-        if (!subEntities.count(inst.entityName)) continue;
-        const EntityNode& subEntity = subEntities.at(inst.entityName).entity;
-
-        for (const auto& binding : inst.bindings) {
-            // Check if this binding drives an output (port is in subEntity outputs)
-            bool isOutput = false;
-            for (const auto& op : subEntity.outputs)
-                if (op == binding.subPort) { isOutput = true; break; }
-
-            if (isOutput && behaviourLHS.count(binding.localSignal))
-                error("signal '" + binding.localSignal + "' is driven by both a behaviour and instance '" + inst.instanceName + "'");
-
-            if (isOutput)
-                behaviourLHS.insert(binding.localSignal);
+    // CONFLICT CHECK
+    for (const auto& sig : behaviourDrivers) {
+        if (instanceDrivers.count(sig)) {
+            error("signal '" + sig + "' driven by both behaviour and instance");
         }
     }
 
-    // Dangling signal detection — every declared signal must appear somewhere
+    // MERGE
+    behaviourLHS = behaviourDrivers;
+    behaviourLHS.insert(instanceDrivers.begin(), instanceDrivers.end());
+
+    // OUTPUT CHECK (AFTER MERGE)
+    for (const auto& sig : outputMappedSignals)
+        if (!behaviourLHS.count(sig))
+            error("output-mapped signal '" + sig + "' has no assignment");
+
+
+    // Dangling signal detection
     for (const auto& sig : arch.signals) {
         bool used = false;
 
-        // check signal mapping
         for (const auto& entry : arch.signalMapping)
             if (entry.signal == sig) { used = true; break; }
 
-        // check behaviour LHS
         if (behaviourLHS.count(sig)) used = true;
 
-        // check behaviour RHS (expressions)
         if (!used) {
             for (const auto& beh : arch.behaviours) {
                 function<bool(const shared_ptr<ExprNode>&)> hasSignal =
                     [&](const shared_ptr<ExprNode>& node) -> bool {
-                    if (!node) return false;
-                    if (node->kind == ExprKind::LEAF) return node->name == sig;
-                    return hasSignal(node->left) || hasSignal(node->right);
-                };
+                        if (!node) return false;
+                        if (node->kind == ExprKind::LEAF) return node->name == sig;
+                        return hasSignal(node->left) || hasSignal(node->right);
+                    };
                 if (hasSignal(beh.exprTree)) { used = true; break; }
             }
         }
 
-        // check instance bindings
         if (!used) {
             for (const auto& inst : arch.instances)
                 for (const auto& binding : inst.bindings)

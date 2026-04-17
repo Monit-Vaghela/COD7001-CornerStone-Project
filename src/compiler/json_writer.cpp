@@ -153,6 +153,15 @@ void JsonWriter::writeCir(const ProgramNode& program, const string& outPath,
         signalType[entry.signal]   = inputPorts.count(entry.port) ? "input" : "output";
     }
 
+    // Any declared signal not in signalMapping is an intermediate
+    set<string> mappedSignals;
+    for (const auto& entry : arch.signalMapping)
+        mappedSignals.insert(entry.signal);
+
+    for (const auto& sig : arch.signals)
+        if (!mappedSignals.count(sig))
+            intermediates.insert(sig);
+
     // Count gates
     int totalGates = 0, andGates = 0, orGates = 0, notGates = 0, xorGates = 0, xnorGates = 0;
     for (const auto& fb : flatBehaviours) {

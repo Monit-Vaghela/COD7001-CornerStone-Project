@@ -6,7 +6,8 @@
         },
 
         "inputs" : ["a", "b", "cin"],
-        "outputs" : ["sum", "carry"]
+        "outputs" : ["sum", "carry"],
+        "intermediates" : ["c1", "s1", "c2"]
     },
 
     "Architecture" : {
