@@ -99,6 +99,19 @@ if (<inputSignali> == "0" && <inputSignalj> == "0" ......){
 - this are useful for stuff like SR latch which has invalid state
 - havent defined how this will be implemented or send in JSON file
 - you can decide on your own.
+### input checking in tes.json
+- timestamp should start from 1
+- no two signals should have different value for same timestamp
+```json
+{"x" : 0, "timestamp" : 1},
+{"x" : 1, "timestamp" : 1},
+```
+- this is not allowed
+```json
+{"x" : 0, "timestamp" : 1},
+{"x" : 0, "timestamp" : 1},
+```
+- neither is this allowed
 
 ### large code generation
 - need to make sure that the code works properly for large cicuits

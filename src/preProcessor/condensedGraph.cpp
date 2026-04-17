@@ -90,6 +90,32 @@ vector<int> CondensedGraph::applyTopologicalSort() {
     return topo;
 }
 
+void CondensedGraph::assignLevels() {
+    vector<int> topo = applyTopologicalSort();
+    
+    // Initialize all levels to 0
+    for (auto& [id, node] : nodes) node->level = 0;
+    
+    // Process in topological order
+    for (int sccId : topo) {
+        CondensedNode* node = nodes[sccId];
+        for (auto* outEdge : node->out_edges) {
+            int neighborId = outEdge->to->sccId;
+            nodes[neighborId]->level = max(
+                nodes[neighborId]->level, 
+                node->level + 1
+            );
+        }
+    }
+    
+    // Propagate level down to individual GraphNodes
+    for (auto& [id, node] : nodes) {
+        for (GraphNode* member : node->scc_members) {
+            member->level = node->level;
+        }
+    }
+}
+
 void CondensedGraph::getReachability(vector<bitset<maxN>> &reachabilityMatrix){
     vector<int> topo = applyTopologicalSort();
     int n = topo.size();
@@ -115,7 +141,7 @@ void CondensedGraph::printGraph() {
 
         cout << "  Members: ";
         for (auto *member : node->scc_members) {
-            cout << member->gate->getId() << " ";  // assuming GraphNode has id
+            cout << member->process->getId() << " ";  // assuming GraphNode has id
         }
         cout << "\n";
 

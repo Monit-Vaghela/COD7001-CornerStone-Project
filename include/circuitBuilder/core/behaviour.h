@@ -62,7 +62,7 @@ public:
         return trigger; 
     }
     
-    const std::string& getId() const {
+    std::string getId() const override { 
         return behaviourId;
     }
 

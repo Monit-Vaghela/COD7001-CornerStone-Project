@@ -250,14 +250,13 @@ void runComparisional(JsonParser& parser){
     buildCircuitFromJson(&seqCircuit, parser);
     buildCircuitFromJson(&parCircuit, parser);
     
-    Logger::print_circuit(seqCircuit);
+    // Logger::print_circuit(seqCircuit);
     
     SequentialSimulator seqsim(&seqCircuit);
-    ParallelV2Simulator parSim(&parCircuit);
 
     cout << "\n------------SEQUENTIAL EXECUTION----------------\n";
-    Logger::print_state_header(seqCircuit);
-    Logger::print_circuit_state(seqCircuit);
+    // Logger::print_state_header(seqCircuit);
+    // Logger::print_circuit_state(seqCircuit);
     seqsim.stabilize();
 
 
@@ -270,12 +269,25 @@ void runComparisional(JsonParser& parser){
     duration<double> seqDuration = stop - start;
 
     cout << "\n----------- PARALLEL EXECUTION----------------\n";
-    Logger::print_state_header(parCircuit);
-    Logger::print_circuit_state(parCircuit);
+    CircuitGraph circuitGraph;
+    circuitGraph.build(parCircuit);
+    circuitGraph.applyTarjans();
+    // circuitGraph.printGraph();
+
+    CondensedGraph condensedGraph;
+    condensedGraph.build(circuitGraph);
+    condensedGraph.assignLevels();
+    // condensedGraph.printGraph();
+
+    vector<bitset<maxN>> reachabilityMatrix(condensedGraph.nodes.size());
+    condensedGraph.getReachability(reachabilityMatrix);
+    // condensedGraph.printReachabilityList(reachabilityMatrix);
+    ParallelV2Simulator parSim(&parCircuit, &circuitGraph, &condensedGraph);
+    // Logger::print_state_header(parCircuit);
+    // Logger::print_circuit_state(parCircuit);
     parSim.stabilize();
-
-
-    // SEQUENTIAL EXECUTION
+    // cout << "STABALIZED\n";
+    // PARALLEL EXECUTION
     addProcesses(&parSim, &parCircuit, parser);
 
     start = high_resolution_clock::now();

@@ -3,9 +3,6 @@
 
 void CircuitGraph::build(const Circuit& circuit){
 
-    unordered_map<Signal*, GraphEdge*> edgeMap;
-    unordered_map<Gate*, GraphNode*> nodeMap;
-
     // first we will convert signals to edges
     for(Signal* s: circuit.get_signals()){
         GraphEdge *edge = new GraphEdge(s);
@@ -19,37 +16,58 @@ void CircuitGraph::build(const Circuit& circuit){
     }
 
     // now we will convert all gates to nodes
-    for(Gate* g : circuit.get_gates()){
-        GraphNode* node = new GraphNode(g);
+    for(Process* p : circuit.get_processes()){
+        GraphNode* node = new GraphNode(p);
         nodes.push_back(node);
-        nodeMap[g] = node;
+        nodeMap[p] = node;
     }
 
     // now connect edges with nodes
-    for(Gate* g : circuit.get_gates()) {
-        GraphNode* node = nodeMap[g];
+    for(Process* p : circuit.get_processes()) {
+        GraphNode* node = nodeMap[p];
+        if(p->getType() == Process::ProcessType::GATE){
+            Gate *g = static_cast<Gate*>(p);
 
-        // get input signals for this gate and add to node data
-        for(Signal* s : g->getInputs()) {
-            GraphEdge *edge = edgeMap[s];
-            node->in_edges.push_back(edge);
+            // get input signals for this gate and add to node data
+            for(Signal* s : g->getInputs()) {
+                GraphEdge *edge = edgeMap[s];
+                node->in_edges.push_back(edge);
+            }
+
+            // similarly do for outputs
+            for(Signal* s : g->getOutputs()){
+                GraphEdge *edge = edgeMap[s];
+                node->out_edges.push_back(edge);
+                edge->from_node = node; // this edge comes from this node
+            }
         }
 
-        // similarly do for outputs
-        for(Signal* s : g->getOutputs()){
-            GraphEdge *edge = edgeMap[s];
-            node->out_edges.push_back(edge);
-            edge->from_node = node; // this edge comes from this node
+        else if(p->getType() == Process::ProcessType::BEHAVIOUR) {
+            Behaviour* b = static_cast<Behaviour*>(p);
+
+            // wire in_edges (trigger + data input)
+            node->in_edges.push_back(edgeMap[b->getTrigger()]);
+            node->in_edges.push_back(edgeMap[b->getInput()]);
+
+            // wire out_edges + from_node
+            GraphEdge* outEdge = edgeMap[b->getOutput()];
+            node->out_edges.push_back(outEdge);
+            outEdge->from_node = node;  // Q comes FROM B1
+
+            // wire data input's to_nodes -> B1 (the fix from before)
+            GraphEdge* inputEdge = edgeMap[b->getInput()];
+            bool alreadyWired = false;
+            for (GraphNode* n : inputEdge->to_nodes)
+                if (n == node) { alreadyWired = true; break; }
+            if (!alreadyWired)
+                inputEdge->to_nodes.push_back(node);
         }
     }
 
     // still need to fill the to_nodes to produce a sensitivity list
     for (Signal* s : circuit.get_signals()) {
         GraphEdge* edge = edgeMap[s];
-        for (Process* p : s->get_sensitive_list()) {
-            Gate* g = dynamic_cast<Gate*>(p);
-            if (g) edge->to_nodes.push_back(nodeMap[g]);
-        }
+        for (Process* p : s->get_sensitive_list()) edge->to_nodes.push_back(nodeMap[p]);
     }
 }
 
@@ -146,12 +164,20 @@ void CircuitGraph::printGraph() {
         }
     };
 
+    auto processTypeStr = [](Process::ProcessType t) -> std::string {
+        switch(t) {
+            case Process::ProcessType::GATE:       return "GATE";
+            case Process::ProcessType::BEHAVIOUR:  return "BEHAV";
+            default:                               return "OTHER";
+        }
+    };
+
     std::cout << "\n";
     std::cout << "╔══════════════════════════════════════════════════╗\n";
     std::cout << "║              CIRCUIT GRAPH                       ║\n";
     std::cout << "╚══════════════════════════════════════════════════╝\n";
 
-    // ── Edges (signals) ──────────────────────────────────────
+    // ── EDGES ───────────────────────────────────────────────
     std::cout << "\n┌─ EDGES (signals) ── " << edges.size() << " total\n";
     for (GraphEdge* e : edges) {
         Signal* s = e->signal;
@@ -159,13 +185,17 @@ void CircuitGraph::printGraph() {
         std::cout << "│\n";
         std::cout << "│  [" << signalTypeStr(s->get_type()) << "] "
                   << s->get_name();
+
         if (e->is_cyclic)
             std::cout << "  ⟲ FEEDBACK";
+
         std::cout << "\n";
 
         // producer
         if (e->from_node)
-            std::cout << "│      from  : " << e->from_node->gate->getId() << ")\n";
+            std::cout << "│      from  : "
+                      << e->from_node->process->getId()
+                      << " (" << processTypeStr(e->from_node->process->getType()) << ")\n";
         else
             std::cout << "│      from  : <primary input>\n";
 
@@ -176,20 +206,22 @@ void CircuitGraph::printGraph() {
             std::cout << "│      to    : ";
             for (size_t i = 0; i < e->to_nodes.size(); i++) {
                 if (i) std::cout << ", ";
-                std::cout << e->to_nodes[i]->gate->getId();
+                std::cout << e->to_nodes[i]->process->getId();
             }
             std::cout << "\n";
         }
     }
     std::cout << "│\n└─────────────────────────────────────────────────\n";
 
-    // ── Nodes (gates) ────────────────────────────────────────
-    std::cout << "\n┌─ NODES (gates) ── " << nodes.size() << " total\n";
+    // ── NODES ───────────────────────────────────────────────
+    std::cout << "\n┌─ NODES (processes) ── " << nodes.size() << " total\n";
     for (GraphNode* n : nodes) {
-        Gate* g = n->gate;
+        Process* p = n->process;
 
         std::cout << "│\n";
-        std::cout << "│  " << g->getId();
+        std::cout << "│  " << p->getId()
+                  << " [" << processTypeStr(p->getType()) << "]"
+                  << " (" << p->getName() << ")";
 
         if (n->scc_id != -1)
             std::cout << "  scc=" << n->scc_id;
@@ -229,7 +261,7 @@ void CircuitGraph::printGraph() {
     }
     std::cout << "│\n└─────────────────────────────────────────────────\n";
 
-    // ── Primary I/O summary ──────────────────────────────────
+    // ── PRIMARY INPUTS ──────────────────────────────────────
     std::cout << "\n┌─ PRIMARY INPUTS ── " << primary_inputs.size() << " total\n│  ";
     for (size_t i = 0; i < primary_inputs.size(); i++) {
         if (i) std::cout << ", ";
@@ -237,6 +269,7 @@ void CircuitGraph::printGraph() {
     }
     std::cout << "\n└─────────────────────────────────────────────────\n";
 
+    // ── PRIMARY OUTPUTS ─────────────────────────────────────
     std::cout << "\n┌─ PRIMARY OUTPUTS ── " << primary_outputs.size() << " total\n│  ";
     for (size_t i = 0; i < primary_outputs.size(); i++) {
         if (i) std::cout << ", ";

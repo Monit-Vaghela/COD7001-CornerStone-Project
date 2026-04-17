@@ -1,0 +1,45 @@
+$date
+    today
+$end
+$version
+    custom circuit simulator
+$end
+$timescale 1ns $end
+$scope module logic $end
+$var wire 1 ! x $end
+$var wire 1 " y $end
+$var wire 1 # z $end
+$var wire 1 $ sum $end
+$var wire 1 % carry $end
+$upscope $end
+$enddefinitions $end
+#0
+0!
+0"
+0#
+0$
+0%
+0!
+0"
+0#
+0$
+0%
+#1
+1#
+#2
+1"
+0#
+#3
+1#
+#4
+1!
+0"
+0#
+#5
+1#
+#6
+1"
+0#
+#7
+1#
+#8

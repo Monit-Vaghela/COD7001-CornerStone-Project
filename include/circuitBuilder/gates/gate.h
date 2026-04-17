@@ -112,8 +112,8 @@ public:
         return level;
     }
 
-    const std::string& getId() const {
-        return gateId;
+    std::string getId() const override { 
+        return gateId; 
     }
 
 private:

@@ -51,6 +51,7 @@ public:
     void getReachability(vector<bitset<maxN>> &reachabilityMatrix);
 
     vector<int> applyTopologicalSort();  
+    void assignLevels();
 
     void printGraph();
 

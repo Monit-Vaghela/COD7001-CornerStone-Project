@@ -14,6 +14,7 @@ public:
 
     virtual ProcessType getType() const = 0;
     virtual std::string getName() const = 0;
+    virtual std::string getId() const = 0;
     virtual ~Process() = default;
 };
 

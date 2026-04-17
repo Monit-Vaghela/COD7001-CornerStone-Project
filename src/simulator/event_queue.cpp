@@ -46,6 +46,8 @@ void EventQueue::printEventQueue() const {
         std::cout << "\ttime: " << e.time
                   << ", delta: " << e.delta
                   << ", Signal: " << e.signal->get_name()
+                  << ", currentValue: " << e.signal->get_value()
+                  << ", nextValue: " << e.value
                   << std::endl;
         }
         else if(e.type == Event::PROCESS_EXEC){
@@ -53,6 +55,7 @@ void EventQueue::printEventQueue() const {
                 std::cout << "time: " << e.time
                   << ", delta: " << e.delta
                   << ", Process: " << e.process->getName()
+                  << ", ProcessId: " << e.process->getId()
                   << std::endl;
         }
 

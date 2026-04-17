@@ -1,0 +1,245 @@
+{
+    "entity" : {
+        "metadata" : {
+            "noOfInputPorts" : 2,
+            "noOfOutputPorts" : 1
+        },
+
+        "inputs" : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7",
+                    "F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7",
+                    "IM"],
+        "outputs" : ["DB0", "DB1", "DB2", "DB3", "DB4", "DB5", "DB6", "DB7"],
+        "intermediates" : ["a0", "a1", "a2", "a3", "a4", "a5", "a6", "a7",
+                           "f0", "f1", "f2", "f3", "f4", "f5", "f6", "f7",
+                           "y01", "y02", "y11", "y12", "y21", "y22", "y31", "y32",
+                           "y41", "y42", "y51", "y52", "y61", "y62", "y71", "y72",
+                           "FF"]
+    },
+
+    "Architecture" : {
+        "metadata" : {
+            "noOfTotalGates" : 25,
+            "noOfAndGates" : 16,
+            "noOforGates" : 8,
+            "noOfNotGates" : 1,
+            "noOfXorGates" : 0,
+            "noOfXnorGates" : 0,
+            "noOfSignals" : 42
+        },
+
+        "SignalMapping" : 
+            [
+                {"A0" : "A0", "SignalType" : "input"},
+                {"A1" : "A1", "SignalType" : "input"},
+                {"A2" : "A2", "SignalType" : "input"},
+                {"A3" : "A3", "SignalType" : "input"},
+                {"A4" : "A4", "SignalType" : "input"},
+                {"A5" : "A5", "SignalType" : "input"},
+                {"A6" : "A6", "SignalType" : "input"},
+                {"A7" : "A7", "SignalType" : "input"},
+                {"F0" : "F0", "SignalType" : "input"},
+                {"F1" : "F1", "SignalType" : "input"},
+                {"F2" : "F2", "SignalType" : "input"},
+                {"F3" : "F3", "SignalType" : "input"},
+                {"F4" : "F4", "SignalType" : "input"},
+                {"F5" : "F5", "SignalType" : "input"},
+                {"F6" : "F6", "SignalType" : "input"},
+                {"F7" : "F7", "SignalType" : "input"},
+                {"IM" : "IM", "SignalType" : "input"},
+                {"DB0" : "DB0", "SignalType" : "output"},
+                {"DB1" : "DB1", "SignalType" : "output"},
+                {"DB2" : "DB2", "SignalType" : "output"},
+                {"DB3" : "DB3", "SignalType" : "output"},
+                {"DB4" : "DB4", "SignalType" : "output"},
+                {"DB5" : "DB5", "SignalType" : "output"},
+                {"DB6" : "DB6", "SignalType" : "output"},
+                {"DB7" : "DB7", "SignalType" : "output"},
+                {"FF" : "FF", "SignalType" : "output"}
+            ]
+        ,
+
+        "Behaviour" : [
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "FF", 
+                "gateExpressionInputs" : ["IM"], 
+                "gatesUsed" : ["not"], 
+                "expression" : "not(IM)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "a0", 
+                "gateExpressionInputs" : ["A0", "IM"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(A0, IM)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "f0", 
+                "gateExpressionInputs" : ["F0", "FF"], 
+                "gatesUsed" : ["and"], 
+                "expression" : "and(F0, FF)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "DB0", 
+                "gateExpressionInputs" : ["a0", "f0"], 
+                "gatesUsed" : ["or"], 
+                "expression" : "or(a0, f0)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "a1",
+                "gateExpressionInputs": ["A1", "IM"],
+                "gatesUsed": ["and"],
+                "expression": "and(A1, IM)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "f1",
+                "gateExpressionInputs": ["F1", "FF"],
+                "gatesUsed": ["and"],
+                "expression": "and(F1, FF)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "DB1",
+                "gateExpressionInputs": ["a1", "f1"],
+                "gatesUsed": ["or"],
+                "expression": "or(a1, f1)"
+            },
+
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "a2",
+                "gateExpressionInputs": ["A2", "IM"],
+                "gatesUsed": ["and"],
+                "expression": "and(A2, IM)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "f2",
+                "gateExpressionInputs": ["F2", "FF"],
+                "gatesUsed": ["and"],
+                "expression": "and(F2, FF)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "DB2",
+                "gateExpressionInputs": ["a2", "f2"],
+                "gatesUsed": ["or"],
+                "expression": "or(a2, f2)"
+            },
+
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "a3",
+                "gateExpressionInputs": ["A3", "IM"],
+                "gatesUsed": ["and"],
+                "expression": "and(A3, IM)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "f3",
+                "gateExpressionInputs": ["F3", "FF"],
+                "gatesUsed": ["and"],
+                "expression": "and(F3, FF)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "DB3",
+                "gateExpressionInputs": ["a3", "f3"],
+                "gatesUsed": ["or"],
+                "expression": "or(a3, f3)"
+            },
+
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "a4",
+                "gateExpressionInputs": ["A4", "IM"],
+                "gatesUsed": ["and"],
+                "expression": "and(A4, IM)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "f4",
+                "gateExpressionInputs": ["F4", "FF"],
+                "gatesUsed": ["and"],
+                "expression": "and(F4, FF)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "DB4",
+                "gateExpressionInputs": ["a4", "f4"],
+                "gatesUsed": ["or"],
+                "expression": "or(a4, f4)"
+            },
+
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "a5",
+                "gateExpressionInputs": ["A5", "IM"],
+                "gatesUsed": ["and"],
+                "expression": "and(A5, IM)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "f5",
+                "gateExpressionInputs": ["F5", "FF"],
+                "gatesUsed": ["and"],
+                "expression": "and(F5, FF)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "DB5",
+                "gateExpressionInputs": ["a5", "f5"],
+                "gatesUsed": ["or"],
+                "expression": "or(a5, f5)"
+            },
+
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "a6",
+                "gateExpressionInputs": ["A6", "IM"],
+                "gatesUsed": ["and"],
+                "expression": "and(A6, IM)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "f6",
+                "gateExpressionInputs": ["F6", "FF"],
+                "gatesUsed": ["and"],
+                "expression": "and(F6, FF)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "DB6",
+                "gateExpressionInputs": ["a6", "f6"],
+                "gatesUsed": ["or"],
+                "expression": "or(a6, f6)"
+            },
+
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "a7",
+                "gateExpressionInputs": ["A7", "IM"],
+                "gatesUsed": ["and"],
+                "expression": "and(A7, IM)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "f7",
+                "gateExpressionInputs": ["F7", "FF"],
+                "gatesUsed": ["and"],
+                "expression": "and(F7, FF)"
+            },
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "DB7",
+                "gateExpressionInputs": ["a7", "f7"],
+                "gatesUsed": ["or"],
+                "expression": "or(a7, f7)"
+            }
+        ]
+    }
+}

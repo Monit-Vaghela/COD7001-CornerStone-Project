@@ -2,12 +2,13 @@
 #include <circuitBuilder/utils/logger.h>
 #include <vector>
 #include <iostream>
+#include <unordered_set>
 
 using namespace std;
 
 SequentialSimulator::SequentialSimulator(Circuit* c)
     : Simulator(c) {
-        vcd = new VCDWriter("wave.vcd");
+        vcd = new VCDWriter("waveSeq.vcd");
         for (auto* s : circuit->get_signals()) vcd->registerSignal(s->get_name());
         vcd->endDefinitions();
     }
@@ -55,15 +56,24 @@ void SequentialSimulator::run() {
             current_batch.push_back(event_queue.pop());
         }
 
+        std::unordered_set<Process*> unique_processes;
         // Execute batch
         for (auto& e : current_batch) {
 
             if (e.type == Event::SIGNAL_UPDATE) {
+                simulatedEvents ++;
+                // cout << "Executing Signal Change : " << e.signal->get_name() << endl; 
                 e.signal->set_next(e.value);
             }
 
             else if (e.type == Event::PROCESS_EXEC) {
-                e.process->execute();
+                if(unique_processes.find(e.process) == unique_processes.end()){
+                    simulatedEvents ++;
+                    // cout << "Executing Process : " << e.process->getId() << endl;
+                    unique_processes.insert(e.process);
+                    e.process->execute();
+                }
+                
             }
         }
 
@@ -90,7 +100,7 @@ void SequentialSimulator::run() {
             // cout << "\tSignal " << signal->get_name() << " Pushed Processes : " << endl;
             for (auto* process : signal->get_sensitive_list()) {
                 // cout << "\t\t" << process->getName() << ", (T, D) : " << T << ", " << D + 1 << endl; 
-                simulatedEvents ++;
+                
                 event_queue.push(
                     Event(T, D + 1, process)
                 );
@@ -101,6 +111,7 @@ void SequentialSimulator::run() {
 
     // Final state print
     if (last_time != -1) {
+        vcd->dumpTime(current_time + 1);
         Logger::print_circuit_state(*circuit);
         cout << "Sequential Simulated " << simulatedEvents << endl;
     }

@@ -1,0 +1,40 @@
+{
+    "entity" : {
+        "metadata" : {
+            "noOfInputPorts" : 2,
+            "noOfOutputPorts" : 1
+        },
+
+        "inputs" : ["a", "b"],
+        "outputs" : ["c"]
+    },
+
+    "Architecture" : {
+        "metadata" : {
+            "noOfTotalGates" : 1,
+            "noOfAndGates" : 1,
+            "noOforGates" : 0,
+            "noOfNotGates" : 0,
+            "noOfXorGates" : 0,
+            "noOfXnorGates" : 0,
+            "noOfSignals" : 3
+        },
+
+        "SignalMapping" : 
+            [
+                {"x" : "a", "SignalType" : "input"},
+                {"y" : "b", "SignalType" : "input"},
+                {"z" : "c", "SignalType" : "output"}
+            ]
+        ,
+
+        "Behaviour" : [
+            {
+                "OutputSignal" : "z", 
+                "gateExpressionInputs" : ["x", "y"], 
+                "gatesUsed" : ["and"], 
+                "expressionStack" : "and(x, y)"
+            }
+        ]
+    }
+}
