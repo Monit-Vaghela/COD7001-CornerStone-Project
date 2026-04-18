@@ -1,0 +1,16 @@
+entity XorUsingNand{
+    inputs : ["A", "B"];
+    outputs : ["Y"];
+}
+
+architecture XorUsingNand {
+    signals : ["A", "B", "Y"];
+    signalMapping : [
+        "A" <= "A",
+        "B" <= "B",
+        "Y" <= "Y"
+    ];
+    behaviour {
+        Y <= not ( (not (not A and B)) and (not (not B and A)) );
+    }
+}

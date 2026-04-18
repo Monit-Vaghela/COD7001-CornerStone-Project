@@ -1,0 +1,18 @@
+entity HalfAdder {
+    inputs : ["a", "b"];
+    outputs : ["c", "sum"];
+}
+
+architecture HalfAdder {
+    signals : ["x", "y", "mus", "yrrac"];
+    signalMapping : [
+        "x" <= "a",
+        "y" <= "b",
+        "mus" <= "sum",
+        "yrrac" <= "c"
+    ];
+    behaviour{
+        mus <= x xor y;
+        yrrac <= x and y;
+    }
+}

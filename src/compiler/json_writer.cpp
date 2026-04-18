@@ -84,50 +84,96 @@ void JsonWriter::writeCir(const ProgramNode& program, const string& outPath,
         flatten(beh.exprTree, beh.outputSignal);
 
     // Inline instances — expand each sub-entity into flat behaviours with prefixed signals
-    for (const auto& inst : arch.instances) {
+for (const auto& inst : arch.instances) {
         if (!subEntities.count(inst.entityName)) continue;
 
-        // Build port → local signal map from bindings
         map<string, string> portToLocal;
         for (const auto& binding : inst.bindings)
             portToLocal[binding.subPort] = binding.localSignal;
 
         const ProgramNode& sub = subEntities.at(inst.entityName);
 
-        // Reset sub-flattener and flatten sub-entity behaviours
+        // Recursively flatten sub-entity including its own instances
         JsonWriter subWriter;
         subWriter.yCounter = yCounter;
-        subWriter.flatBehaviours.clear();
-        subWriter.intermediates.clear();
 
+        // First flatten sub's regular behaviours
         for (const auto& beh : sub.arch.behaviours)
             subWriter.flatten(beh.exprTree, beh.outputSignal);
 
-        // Build sub signal → port map
-        map<string, string> subSignalToPort;
-        for (const auto& entry : sub.arch.signalMapping)
-            subSignalToPort[entry.signal] = entry.port;
+        // Then recursively inline sub's instances
+        for (const auto& subInst : sub.arch.instances) {
+            if (!subEntities.count(subInst.entityName)) continue;
 
-        // Remap sub flat behaviours into parent namespace
+            map<string, string> subPortToLocal;
+            for (const auto& binding : subInst.bindings)
+                subPortToLocal[binding.subPort] = binding.localSignal;
+
+            const ProgramNode& subSub = subEntities.at(subInst.entityName);
+
+            JsonWriter subSubWriter;
+            subSubWriter.yCounter = subWriter.yCounter;
+
+            for (const auto& beh : subSub.arch.behaviours)
+                subSubWriter.flatten(beh.exprTree, beh.outputSignal);
+
+            // Build subSub signal->port map
+            map<string, string> subSubSigToPort;
+            for (const auto& entry : subSub.arch.signalMapping)
+                subSubSigToPort[entry.signal] = entry.port;
+
+            // Remap subSub behaviours into sub namespace
+            for (auto& fb : subSubWriter.flatBehaviours) {
+                string outPort = subSubSigToPort.count(fb.outputSignal) ?
+                                 subSubSigToPort[fb.outputSignal] : "";
+                if (!outPort.empty() && subPortToLocal.count(outPort))
+                    fb.outputSignal = subPortToLocal[outPort];
+                else if (subSubWriter.intermediates.count(fb.outputSignal))
+                    fb.outputSignal = subInst.instanceName + "_" + fb.outputSignal;
+
+                for (auto& inp : fb.inputs) {
+                    string inPort = subSubSigToPort.count(inp) ? subSubSigToPort[inp] : "";
+                    if (!inPort.empty() && subPortToLocal.count(inPort))
+                        inp = subPortToLocal[inPort];
+                    else if (subSubWriter.intermediates.count(inp))
+                        inp = subInst.instanceName + "_" + inp;
+                }
+
+                if (fb.inputs.size() == 1)
+                    fb.expression = fb.gate + "(" + fb.inputs[0] + ")";
+                else if (fb.inputs.size() == 2)
+                    fb.expression = fb.gate + "(" + fb.inputs[0] + ", " + fb.inputs[1] + ")";
+
+                subWriter.flatBehaviours.push_back(fb);
+            }
+
+            subWriter.yCounter = subSubWriter.yCounter;
+            for (const auto& im : subSubWriter.intermediates)
+                subWriter.intermediates.insert(subInst.instanceName + "_" + im);
+        }
+
+        // Build sub signal->port map
+        map<string, string> subSigToPort;
+        for (const auto& entry : sub.arch.signalMapping)
+            subSigToPort[entry.signal] = entry.port;
+
+        // Remap sub behaviours into parent namespace
         for (auto& fb : subWriter.flatBehaviours) {
-            // Remap output signal
-            string outPort = subSignalToPort.count(fb.outputSignal) ?
-                             subSignalToPort[fb.outputSignal] : "";
+            string outPort = subSigToPort.count(fb.outputSignal) ?
+                             subSigToPort[fb.outputSignal] : "";
             if (!outPort.empty() && portToLocal.count(outPort))
                 fb.outputSignal = portToLocal[outPort];
             else if (subWriter.intermediates.count(fb.outputSignal))
                 fb.outputSignal = inst.instanceName + "_" + fb.outputSignal;
 
-            // Remap input signals
             for (auto& inp : fb.inputs) {
-                string inPort = subSignalToPort.count(inp) ? subSignalToPort[inp] : "";
+                string inPort = subSigToPort.count(inp) ? subSigToPort[inp] : "";
                 if (!inPort.empty() && portToLocal.count(inPort))
                     inp = portToLocal[inPort];
                 else if (subWriter.intermediates.count(inp))
                     inp = inst.instanceName + "_" + inp;
             }
 
-            // Rebuild expression string
             if (fb.inputs.size() == 1)
                 fb.expression = fb.gate + "(" + fb.inputs[0] + ")";
             else if (fb.inputs.size() == 2)
@@ -136,10 +182,7 @@ void JsonWriter::writeCir(const ProgramNode& program, const string& outPath,
             flatBehaviours.push_back(fb);
         }
 
-        // Update yCounter to avoid collisions
         yCounter = subWriter.yCounter;
-
-        // Add remapped intermediates
         for (const auto& im : subWriter.intermediates)
             intermediates.insert(inst.instanceName + "_" + im);
     }

@@ -1,12 +1,11 @@
 entity FullAdder  {
     inputs : ["a", "b", "cin"];
     outputs : ["sum", "carry"];
-    intermediates : ["c1", "c2"];
     uses ["HalfAdder"];
 }
 
 architecture FullAdder {
-    signals : ["x", "y", "z", "sum", "carry", "s1"];
+    signals : ["x", "y", "z", "sum", "carry", "s1", "c1", "c2"];
     signalMapping : [
         "x" <= "a",
         "y" <= "b",

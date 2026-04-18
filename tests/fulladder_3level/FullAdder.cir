@@ -1,0 +1,21 @@
+entity FullAdder  {
+    inputs : ["a", "b", "cin"];
+    outputs : ["sum", "carry"];
+    uses ["HalfAdder"];
+}
+
+architecture FullAdder {
+    signals : ["x", "y", "z", "sum", "carry", "s1", "c1", "c2"];
+    signalMapping : [
+        "x" <= "a",
+        "y" <= "b",
+        "z" <= "cin",
+        "sum" <= "sum",
+        "carry" <= "carry"
+    ];
+    behaviour {
+        instance ha1 of HalfAdder (a => x, b => y, sum => s1, c => c1);
+        instance ha2 of HalfAdder (a => s1, b => z, sum => sum, c => c2);
+        carry <= c1 or c2;
+    }
+}
