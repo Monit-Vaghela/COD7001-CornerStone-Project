@@ -27,7 +27,7 @@ void SequentialSimulator::run() {
         // cout << "\n---------------Event Queue------------------\n";
         // event_queue.printEventQueue();
         // cout << simulatedEvents << endl;
-        if(simulatedEvents > 10000) {
+        if(simulatedEvents > 100000) {
             cout << "[Simulator / Error] : Stuck in looping Delta Cycles\n";
             return;
         }
@@ -36,7 +36,7 @@ void SequentialSimulator::run() {
 
         // Logging when time advances
         if (last_time != -1 && T != last_time) {
-            Logger::print_circuit_state(*circuit);
+            // Logger::print_circuit_state(*circuit);
         }
 
         current_time = T;
@@ -47,12 +47,10 @@ void SequentialSimulator::run() {
         }
 
         std::vector<Event> current_batch;
-
         // Gather all events with same time & delta
         while (!event_queue.empty() &&
                event_queue.top().time == T &&
                event_queue.top().delta == D) {
-
             current_batch.push_back(event_queue.pop());
         }
 
@@ -112,7 +110,8 @@ void SequentialSimulator::run() {
     // Final state print
     if (last_time != -1) {
         vcd->dumpTime(current_time + 1);
-        Logger::print_circuit_state(*circuit);
+        // Logger::print_circuit_state(*circuit);
+        cout << endl; 
         cout << "Sequential Simulated " << simulatedEvents << endl;
     }
 
@@ -129,7 +128,7 @@ void SequentialSimulator::stabilize() {
 
     // Drain events but stop advancing real time, only delta cycles
     while (!event_queue.empty()) {
-        if(stop > 1000) {
+        if(stop > 100000) {
             cout << "[Simulator / Error] Cant stabalize circuit. check inputs\n";
             return;
         }

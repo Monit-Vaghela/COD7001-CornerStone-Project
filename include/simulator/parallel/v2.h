@@ -15,6 +15,8 @@ public:
     CircuitGraph* circuitGraph;
     CondensedGraph* condensedGraph;
     map<int, std::vector<Process*>> processesByLevel;
+    int maxLevel;
+    vector<Signal*> allSignals;
     void run() override;
     void stabilize();
 };

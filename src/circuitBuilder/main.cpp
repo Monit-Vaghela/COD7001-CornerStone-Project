@@ -229,7 +229,7 @@ void runSequential(JsonParser& parser){
     // first to need one intital simulation step in order to 
     // correctly set the intermediatory and outputs
     // schedule initial evaluation
-    Logger::print_state_header(seqCircuit);
+    // Logger::print_state_header(seqCircuit);
     // Logger::print_circuit_state(seqCircuit);
     seqsim.stabilize();
 
