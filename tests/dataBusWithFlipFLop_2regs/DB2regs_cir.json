@@ -1,0 +1,920 @@
+{
+    "entity" : {
+        "metadata" : {
+            "noOfInputPorts" : 12,
+            "noOfOutputPorts" : 8
+        },
+
+        "inputs" : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "IM", "CLK", "S0", "R"],
+        "outputs" : ["DB0", "DB1", "DB2", "DB3", "DB4", "DB5", "DB6", "DB7"],
+        "intermediates" : ["FF", "Q00", "Q01", "Q02", "Q03", "Q04", "Q05", "Q06", "Q07", "Q10", "Q11", "Q12", "Q13", "Q14", "Q15", "Q16", "Q17", "db0_y1", "db0_y2", "db0_y3", "db0_y4", "db1_y5", "db1_y6", "db1_y7", "db1_y8", "db2_y10", "db2_y11", "db2_y12", "db2_y9", "db3_y13", "db3_y14", "db3_y15", "db3_y16", "db4_y17", "db4_y18", "db4_y19", "db4_y20", "db5_y21", "db5_y22", "db5_y23", "db5_y24", "db6_y25", "db6_y26", "db6_y27", "db6_y28", "db7_y29", "db7_y30", "db7_y31", "db7_y32", "reg0_EDFF0_y33", "reg0_EDFF0_y34", "reg0_EDFF0_y35", "reg0_EDFF0_y36", "reg0_EDFF1_y37", "reg0_EDFF1_y38", "reg0_EDFF1_y39", "reg0_EDFF1_y40", "reg0_EDFF2_y41", "reg0_EDFF2_y42", "reg0_EDFF2_y43", "reg0_EDFF2_y44", "reg0_EDFF3_y45", "reg0_EDFF3_y46", "reg0_EDFF3_y47", "reg0_EDFF3_y48", "reg0_EDFF4_y49", "reg0_EDFF4_y50", "reg0_EDFF4_y51", "reg0_EDFF4_y52", "reg0_EDFF5_y53", "reg0_EDFF5_y54", "reg0_EDFF5_y55", "reg0_EDFF5_y56", "reg0_EDFF6_y57", "reg0_EDFF6_y58", "reg0_EDFF6_y59", "reg0_EDFF6_y60", "reg0_EDFF7_y61", "reg0_EDFF7_y62", "reg0_EDFF7_y63", "reg0_EDFF7_y64", "reg1_EDFF0_y65", "reg1_EDFF0_y66", "reg1_EDFF0_y67", "reg1_EDFF0_y68", "reg1_EDFF1_y69", "reg1_EDFF1_y70", "reg1_EDFF1_y71", "reg1_EDFF1_y72", "reg1_EDFF2_y73", "reg1_EDFF2_y74", "reg1_EDFF2_y75", "reg1_EDFF2_y76", "reg1_EDFF3_y77", "reg1_EDFF3_y78", "reg1_EDFF3_y79", "reg1_EDFF3_y80", "reg1_EDFF4_y81", "reg1_EDFF4_y82", "reg1_EDFF4_y83", "reg1_EDFF4_y84", "reg1_EDFF5_y85", "reg1_EDFF5_y86", "reg1_EDFF5_y87", "reg1_EDFF5_y88", "reg1_EDFF6_y89", "reg1_EDFF6_y90", "reg1_EDFF6_y91", "reg1_EDFF6_y92", "reg1_EDFF7_y93", "reg1_EDFF7_y94", "reg1_EDFF7_y95", "reg1_EDFF7_y96", "s0", "w0", "w1"]
+    },
+
+    "Architecture" : {
+        "metadata" : {
+            "noOfTotalGates" : 124,
+            "noOfAndGates" : 74,
+            "noOforGates" : 32,
+            "noOfNotGates" : 18,
+            "noOfXorGates" : 0,
+            "noOfXnorGates" : 0,
+            "noOfSignals" : 40
+        },
+
+        "SignalMapping" : 
+            [
+                {"A0" : "A0", "SignalType" : "input"},
+                {"A1" : "A1", "SignalType" : "input"},
+                {"A2" : "A2", "SignalType" : "input"},
+                {"A3" : "A3", "SignalType" : "input"},
+                {"A4" : "A4", "SignalType" : "input"},
+                {"A5" : "A5", "SignalType" : "input"},
+                {"A6" : "A6", "SignalType" : "input"},
+                {"A7" : "A7", "SignalType" : "input"},
+                {"DB0" : "DB0", "SignalType" : "output"},
+                {"DB1" : "DB1", "SignalType" : "output"},
+                {"DB2" : "DB2", "SignalType" : "output"},
+                {"DB3" : "DB3", "SignalType" : "output"},
+                {"DB4" : "DB4", "SignalType" : "output"},
+                {"DB5" : "DB5", "SignalType" : "output"},
+                {"DB6" : "DB6", "SignalType" : "output"},
+                {"DB7" : "DB7", "SignalType" : "output"},
+                {"IM" : "IM", "SignalType" : "input"},
+                {"CLK" : "CLK", "SignalType" : "input"},
+                {"S0" : "S0", "SignalType" : "input"},
+                {"R" : "R", "SignalType" : "input"}
+            ]
+        ,
+
+        "Behaviour" : [
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "FF",
+                "gateExpressionInputs" : ["IM"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(IM)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "s0",
+                "gateExpressionInputs" : ["S0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "w0",
+                "gateExpressionInputs" : ["FF", "s0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(FF, s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "w1",
+                "gateExpressionInputs" : ["FF", "S0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(FF, S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db0_y1",
+                "gateExpressionInputs" : ["A0", "IM"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(A0, IM)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db0_y2",
+                "gateExpressionInputs" : ["w0", "Q00"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w0, Q00)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db0_y3",
+                "gateExpressionInputs" : ["w1", "Q10"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w1, Q10)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db0_y4",
+                "gateExpressionInputs" : ["db0_y2", "db0_y3"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db0_y2, db0_y3)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "DB0",
+                "gateExpressionInputs" : ["db0_y1", "db0_y4"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db0_y1, db0_y4)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db1_y5",
+                "gateExpressionInputs" : ["A1", "IM"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(A1, IM)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db1_y6",
+                "gateExpressionInputs" : ["w0", "Q01"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w0, Q01)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db1_y7",
+                "gateExpressionInputs" : ["w1", "Q11"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w1, Q11)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db1_y8",
+                "gateExpressionInputs" : ["db1_y6", "db1_y7"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db1_y6, db1_y7)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "DB1",
+                "gateExpressionInputs" : ["db1_y5", "db1_y8"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db1_y5, db1_y8)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db2_y9",
+                "gateExpressionInputs" : ["A2", "IM"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(A2, IM)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db2_y10",
+                "gateExpressionInputs" : ["w0", "Q02"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w0, Q02)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db2_y11",
+                "gateExpressionInputs" : ["w1", "Q12"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w1, Q12)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db2_y12",
+                "gateExpressionInputs" : ["db2_y10", "db2_y11"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db2_y10, db2_y11)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "DB2",
+                "gateExpressionInputs" : ["db2_y9", "db2_y12"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db2_y9, db2_y12)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db3_y13",
+                "gateExpressionInputs" : ["A3", "IM"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(A3, IM)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db3_y14",
+                "gateExpressionInputs" : ["w0", "Q03"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w0, Q03)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db3_y15",
+                "gateExpressionInputs" : ["w1", "Q13"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w1, Q13)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db3_y16",
+                "gateExpressionInputs" : ["db3_y14", "db3_y15"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db3_y14, db3_y15)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "DB3",
+                "gateExpressionInputs" : ["db3_y13", "db3_y16"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db3_y13, db3_y16)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db4_y17",
+                "gateExpressionInputs" : ["A4", "IM"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(A4, IM)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db4_y18",
+                "gateExpressionInputs" : ["w0", "Q04"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w0, Q04)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db4_y19",
+                "gateExpressionInputs" : ["w1", "Q14"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w1, Q14)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db4_y20",
+                "gateExpressionInputs" : ["db4_y18", "db4_y19"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db4_y18, db4_y19)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "DB4",
+                "gateExpressionInputs" : ["db4_y17", "db4_y20"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db4_y17, db4_y20)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db5_y21",
+                "gateExpressionInputs" : ["A5", "IM"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(A5, IM)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db5_y22",
+                "gateExpressionInputs" : ["w0", "Q05"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w0, Q05)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db5_y23",
+                "gateExpressionInputs" : ["w1", "Q15"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w1, Q15)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db5_y24",
+                "gateExpressionInputs" : ["db5_y22", "db5_y23"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db5_y22, db5_y23)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "DB5",
+                "gateExpressionInputs" : ["db5_y21", "db5_y24"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db5_y21, db5_y24)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db6_y25",
+                "gateExpressionInputs" : ["A6", "IM"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(A6, IM)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db6_y26",
+                "gateExpressionInputs" : ["w0", "Q06"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w0, Q06)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db6_y27",
+                "gateExpressionInputs" : ["w1", "Q16"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w1, Q16)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db6_y28",
+                "gateExpressionInputs" : ["db6_y26", "db6_y27"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db6_y26, db6_y27)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "DB6",
+                "gateExpressionInputs" : ["db6_y25", "db6_y28"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db6_y25, db6_y28)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db7_y29",
+                "gateExpressionInputs" : ["A7", "IM"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(A7, IM)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db7_y30",
+                "gateExpressionInputs" : ["w0", "Q07"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w0, Q07)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db7_y31",
+                "gateExpressionInputs" : ["w1", "Q17"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(w1, Q17)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "db7_y32",
+                "gateExpressionInputs" : ["db7_y30", "db7_y31"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db7_y30, db7_y31)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "DB7",
+                "gateExpressionInputs" : ["db7_y29", "db7_y32"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(db7_y29, db7_y32)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF0_y33",
+                "gateExpressionInputs" : ["R", "DB0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF0_y34",
+                "gateExpressionInputs" : ["reg0_EDFF0_y33", "s0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg0_EDFF0_y33, s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF0_y35",
+                "gateExpressionInputs" : ["s0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF0_y36",
+                "gateExpressionInputs" : ["Q00", "reg0_EDFF0_y35"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q00, reg0_EDFF0_y35)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg0_EDFF0_y34", "reg0_EDFF0_y36"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg0_EDFF0_y34, reg0_EDFF0_y36)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF1_y37",
+                "gateExpressionInputs" : ["R", "DB1"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB1)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF1_y38",
+                "gateExpressionInputs" : ["reg0_EDFF1_y37", "s0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg0_EDFF1_y37, s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF1_y39",
+                "gateExpressionInputs" : ["s0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF1_y40",
+                "gateExpressionInputs" : ["Q01", "reg0_EDFF1_y39"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q01, reg0_EDFF1_y39)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg0_EDFF1_y38", "reg0_EDFF1_y40"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg0_EDFF1_y38, reg0_EDFF1_y40)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF2_y41",
+                "gateExpressionInputs" : ["R", "DB2"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB2)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF2_y42",
+                "gateExpressionInputs" : ["reg0_EDFF2_y41", "s0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg0_EDFF2_y41, s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF2_y43",
+                "gateExpressionInputs" : ["s0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF2_y44",
+                "gateExpressionInputs" : ["Q02", "reg0_EDFF2_y43"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q02, reg0_EDFF2_y43)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg0_EDFF2_y42", "reg0_EDFF2_y44"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg0_EDFF2_y42, reg0_EDFF2_y44)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF3_y45",
+                "gateExpressionInputs" : ["R", "DB3"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB3)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF3_y46",
+                "gateExpressionInputs" : ["reg0_EDFF3_y45", "s0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg0_EDFF3_y45, s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF3_y47",
+                "gateExpressionInputs" : ["s0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF3_y48",
+                "gateExpressionInputs" : ["Q03", "reg0_EDFF3_y47"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q03, reg0_EDFF3_y47)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg0_EDFF3_y46", "reg0_EDFF3_y48"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg0_EDFF3_y46, reg0_EDFF3_y48)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF4_y49",
+                "gateExpressionInputs" : ["R", "DB4"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB4)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF4_y50",
+                "gateExpressionInputs" : ["reg0_EDFF4_y49", "s0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg0_EDFF4_y49, s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF4_y51",
+                "gateExpressionInputs" : ["s0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF4_y52",
+                "gateExpressionInputs" : ["Q04", "reg0_EDFF4_y51"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q04, reg0_EDFF4_y51)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg0_EDFF4_y50", "reg0_EDFF4_y52"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg0_EDFF4_y50, reg0_EDFF4_y52)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF5_y53",
+                "gateExpressionInputs" : ["R", "DB5"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB5)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF5_y54",
+                "gateExpressionInputs" : ["reg0_EDFF5_y53", "s0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg0_EDFF5_y53, s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF5_y55",
+                "gateExpressionInputs" : ["s0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF5_y56",
+                "gateExpressionInputs" : ["Q05", "reg0_EDFF5_y55"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q05, reg0_EDFF5_y55)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg0_EDFF5_y54", "reg0_EDFF5_y56"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg0_EDFF5_y54, reg0_EDFF5_y56)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF6_y57",
+                "gateExpressionInputs" : ["R", "DB6"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB6)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF6_y58",
+                "gateExpressionInputs" : ["reg0_EDFF6_y57", "s0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg0_EDFF6_y57, s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF6_y59",
+                "gateExpressionInputs" : ["s0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF6_y60",
+                "gateExpressionInputs" : ["Q06", "reg0_EDFF6_y59"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q06, reg0_EDFF6_y59)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg0_EDFF6_y58", "reg0_EDFF6_y60"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg0_EDFF6_y58, reg0_EDFF6_y60)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF7_y61",
+                "gateExpressionInputs" : ["R", "DB7"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB7)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF7_y62",
+                "gateExpressionInputs" : ["reg0_EDFF7_y61", "s0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg0_EDFF7_y61, s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF7_y63",
+                "gateExpressionInputs" : ["s0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(s0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg0_EDFF7_y64",
+                "gateExpressionInputs" : ["Q07", "reg0_EDFF7_y63"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q07, reg0_EDFF7_y63)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg0_EDFF7_y62", "reg0_EDFF7_y64"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg0_EDFF7_y62, reg0_EDFF7_y64)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF0_y65",
+                "gateExpressionInputs" : ["R", "DB0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF0_y66",
+                "gateExpressionInputs" : ["reg1_EDFF0_y65", "S0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg1_EDFF0_y65, S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF0_y67",
+                "gateExpressionInputs" : ["S0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF0_y68",
+                "gateExpressionInputs" : ["Q10", "reg1_EDFF0_y67"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q10, reg1_EDFF0_y67)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg1_EDFF0_y66", "reg1_EDFF0_y68"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg1_EDFF0_y66, reg1_EDFF0_y68)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF1_y69",
+                "gateExpressionInputs" : ["R", "DB1"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB1)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF1_y70",
+                "gateExpressionInputs" : ["reg1_EDFF1_y69", "S0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg1_EDFF1_y69, S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF1_y71",
+                "gateExpressionInputs" : ["S0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF1_y72",
+                "gateExpressionInputs" : ["Q11", "reg1_EDFF1_y71"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q11, reg1_EDFF1_y71)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg1_EDFF1_y70", "reg1_EDFF1_y72"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg1_EDFF1_y70, reg1_EDFF1_y72)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF2_y73",
+                "gateExpressionInputs" : ["R", "DB2"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB2)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF2_y74",
+                "gateExpressionInputs" : ["reg1_EDFF2_y73", "S0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg1_EDFF2_y73, S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF2_y75",
+                "gateExpressionInputs" : ["S0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF2_y76",
+                "gateExpressionInputs" : ["Q12", "reg1_EDFF2_y75"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q12, reg1_EDFF2_y75)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg1_EDFF2_y74", "reg1_EDFF2_y76"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg1_EDFF2_y74, reg1_EDFF2_y76)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF3_y77",
+                "gateExpressionInputs" : ["R", "DB3"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB3)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF3_y78",
+                "gateExpressionInputs" : ["reg1_EDFF3_y77", "S0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg1_EDFF3_y77, S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF3_y79",
+                "gateExpressionInputs" : ["S0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF3_y80",
+                "gateExpressionInputs" : ["Q13", "reg1_EDFF3_y79"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q13, reg1_EDFF3_y79)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg1_EDFF3_y78", "reg1_EDFF3_y80"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg1_EDFF3_y78, reg1_EDFF3_y80)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF4_y81",
+                "gateExpressionInputs" : ["R", "DB4"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB4)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF4_y82",
+                "gateExpressionInputs" : ["reg1_EDFF4_y81", "S0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg1_EDFF4_y81, S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF4_y83",
+                "gateExpressionInputs" : ["S0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF4_y84",
+                "gateExpressionInputs" : ["Q14", "reg1_EDFF4_y83"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q14, reg1_EDFF4_y83)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg1_EDFF4_y82", "reg1_EDFF4_y84"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg1_EDFF4_y82, reg1_EDFF4_y84)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF5_y85",
+                "gateExpressionInputs" : ["R", "DB5"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB5)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF5_y86",
+                "gateExpressionInputs" : ["reg1_EDFF5_y85", "S0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg1_EDFF5_y85, S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF5_y87",
+                "gateExpressionInputs" : ["S0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF5_y88",
+                "gateExpressionInputs" : ["Q15", "reg1_EDFF5_y87"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q15, reg1_EDFF5_y87)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg1_EDFF5_y86", "reg1_EDFF5_y88"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg1_EDFF5_y86, reg1_EDFF5_y88)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF6_y89",
+                "gateExpressionInputs" : ["R", "DB6"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB6)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF6_y90",
+                "gateExpressionInputs" : ["reg1_EDFF6_y89", "S0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg1_EDFF6_y89, S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF6_y91",
+                "gateExpressionInputs" : ["S0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF6_y92",
+                "gateExpressionInputs" : ["Q16", "reg1_EDFF6_y91"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q16, reg1_EDFF6_y91)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg1_EDFF6_y90", "reg1_EDFF6_y92"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg1_EDFF6_y90, reg1_EDFF6_y92)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF7_y93",
+                "gateExpressionInputs" : ["R", "DB7"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(R, DB7)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF7_y94",
+                "gateExpressionInputs" : ["reg1_EDFF7_y93", "S0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(reg1_EDFF7_y93, S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF7_y95",
+                "gateExpressionInputs" : ["S0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(S0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "reg1_EDFF7_y96",
+                "gateExpressionInputs" : ["Q17", "reg1_EDFF7_y95"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(Q17, reg1_EDFF7_y95)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["reg1_EDFF7_y94", "reg1_EDFF7_y96"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(reg1_EDFF7_y94, reg1_EDFF7_y96)"
+            }
+        ]
+    }
+}

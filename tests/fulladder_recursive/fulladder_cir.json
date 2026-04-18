@@ -12,11 +12,11 @@
 
     "Architecture" : {
         "metadata" : {
-            "noOfTotalGates" : 5,
+            "noOfTotalGates" : 3,
             "noOfAndGates" : 2,
             "noOforGates" : 1,
             "noOfNotGates" : 0,
-            "noOfXorGates" : 2,
+            "noOfXorGates" : 0,
             "noOfXnorGates" : 0,
             "noOfSignals" : 8
         },
@@ -41,24 +41,10 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "s1",
-                "gateExpressionInputs" : ["x", "y"],
-                "gatesUsed" : ["xor"],
-                "expression" : "xor(x, y)"
-            },
-            {
-                "ProcessType" : "Gate",
                 "OutputSignal" : "c1",
                 "gateExpressionInputs" : ["x", "y"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(x, y)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "sum",
-                "gateExpressionInputs" : ["s1", "z"],
-                "gatesUsed" : ["xor"],
-                "expression" : "xor(s1, z)"
             },
             {
                 "ProcessType" : "Gate",

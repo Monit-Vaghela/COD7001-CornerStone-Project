@@ -1,6 +1,7 @@
 #include <simulator/parallel/v2.h>
 #include <circuitBuilder/utils/logger.h>
 #include <circuitBuilder/gates/gate.h>
+#include <circuitBuilder/utils/Dashboardjson.h>
 #include <vector>
 #include <iostream>
 #include <unordered_set>
@@ -18,6 +19,7 @@ using namespace std;
 static constexpr int OMP_THRESHOLD = 16;
 
 vector<map<int, int>> deltaSimulations;
+std::vector<std::pair<int,int>> deltaTimes;
 
 ParallelV2Simulator::ParallelV2Simulator(Circuit* c, CircuitGraph* cir, CondensedGraph* cond)
     : Simulator(c), circuitGraph(cir), condensedGraph(cond) {
@@ -67,6 +69,7 @@ void ParallelV2Simulator::run() {
         int T = event_queue.top().time;
         int D = event_queue.top().delta;
 
+        deltaTimes.push_back({T, D});
         current_time = T;
         current_delta = D;
         if (T != last_time) {
@@ -207,6 +210,17 @@ void ParallelV2Simulator::run() {
         }
         vcd->dumpTime(current_time + 1);
         cout << "Parallel Simulated " << simulatedEvents << "\n";
+
+        std::vector<DashboardJSON::ParDeltaRecord> parRecords;
+        for (int i = 0; i < (int)deltaSimulations.size(); i++) {
+            parRecords.push_back({
+                deltaTimes[i].first,   // time
+                deltaTimes[i].second,  // delta
+                deltaSimulations[i],   // levelMap (already map<int,int>)
+                OMP_THRESHOLD
+            });
+        }
+        DashboardJSON::exportPar(parRecords, "dashboard/par_stats.json");
     }
 
     delete vcd;

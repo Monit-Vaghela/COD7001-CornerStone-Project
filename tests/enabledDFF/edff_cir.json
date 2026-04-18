@@ -1,0 +1,80 @@
+{
+    "entity" : {
+        "metadata" : {
+            "noOfInputPorts" : 3,
+            "noOfOutputPorts" : 2
+        },
+
+        "inputs" : ["D", "CLK", "E"],
+        "outputs" : ["Q", "Qb"],
+        "intermediates" : ["Deff", "y1", "y2", "y3"]
+    },
+
+    "Architecture" : {
+        "metadata" : {
+            "noOfTotalGates" : 5,
+            "noOfAndGates" : 2,
+            "noOforGates" : 1,
+            "noOfNotGates" : 2,
+            "noOfXorGates" : 0,
+            "noOfXnorGates" : 0,
+            "noOfSignals" : 6
+        },
+
+        "SignalMapping" : 
+            [
+                {"D" : "D", "SignalType" : "input"},
+                {"CLK" : "CLK", "SignalType" : "input"},
+                {"Q" : "Q", "SignalType" : "output"},
+                {"Qb" : "Qb", "SignalType" : "output"},
+                {"E" : "E", "SignalType" : "input"}
+            ]
+        ,
+
+        "Behaviour" : [
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y1",
+                "gateExpressionInputs" : ["D", "E"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(D, E)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y2",
+                "gateExpressionInputs" : ["E"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(E)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y3",
+                "gateExpressionInputs" : ["y2", "Q"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(y2, Q)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Deff",
+                "gateExpressionInputs" : ["y1", "y3"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(y1, y3)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "Qb",
+                "gateExpressionInputs" : ["Q"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(Q)"
+            }
+,
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q",
+                "InputSignal" : "Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            }
+        ]
+    }
+}

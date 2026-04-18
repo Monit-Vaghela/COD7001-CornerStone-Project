@@ -1,6 +1,7 @@
 entity HalfAdder {
     inputs : ["a", "b"];
     outputs : ["c", "sum"];
+    uses ["XorUsingNand"];
 }
 
 architecture HalfAdder {
@@ -12,7 +13,7 @@ architecture HalfAdder {
         "yrrac" <= "c"
     ];
     behaviour{
-        mus <= x xor y;
+        instance x1 of XorUsingNand ("A" => x, "B" => y, "Y" => mus);
         yrrac <= x and y;
     }
 }

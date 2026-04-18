@@ -1,0 +1,41 @@
+{
+    "simulation" : {
+        "metadata" : {
+            "noOfProcesses" : 29,
+            "initialTimeStamp" : 1,
+            "finalTimeStamp" : 11
+        },
+        "Processes" : 
+        [
+            {"CLK" : 0, "timestamp" : 1},
+            {"A0" : 0, "timestamp" : 2},
+            {"A1" : 1, "timestamp" : 2},
+            {"A2" : 1, "timestamp" : 2},
+            {"A3" : 0, "timestamp" : 2},
+            {"A4" : 1, "timestamp" : 2},
+            {"A5" : 0, "timestamp" : 2},
+            {"A6" : 0, "timestamp" : 2},
+            {"A7" : 1, "timestamp" : 2},
+            {"IM" : 1, "timestamp" : 2},
+            {"CLK" : 1, "timestamp" : 3},
+            {"CLK" : 0, "timestamp" : 4},
+            {"R" : 1, "timestamp" : 5},
+            {"S0" : 1, "timestamp" : 5},
+            {"CLK" : 1, "timestamp" : 6},
+            {"CLK" : 0, "timestamp" : 7},
+            {"A0" : 1, "timestamp" : 8},
+            {"A1" : 0, "timestamp" : 8},
+            {"A2" : 0, "timestamp" : 8},
+            {"A3" : 1, "timestamp" : 8},
+            {"A4" : 0, "timestamp" : 8},
+            {"A5" : 1, "timestamp" : 8},
+            {"A6" : 1, "timestamp" : 8},
+            {"A7" : 0, "timestamp" : 8},
+            {"R" : 1, "timestamp" : 9},
+            {"S0" : 0, "timestamp" : 9},
+            {"CLK" : 1, "timestamp" : 10},
+            {"S0" : 1, "timestamp" : 10},
+            {"IM" : 0, "timestamp" : 11}
+        ]
+    }
+}

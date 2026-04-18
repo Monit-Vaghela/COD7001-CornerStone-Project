@@ -1,0 +1,65 @@
+entity DB2regs {
+    inputs : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7",
+              "IM", "CLK", "S0", "R"];
+    outputs : ["DB0", "DB1", "DB2", "DB3", "DB4", "DB5", "DB6", "DB7"];
+    uses ["regs", "DBline"];
+}
+
+architecture DB2regs {
+    signals : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7",
+              "IM", "DB0", "DB1", "DB2", "DB3", "DB4", "DB5", 
+              "DB6", "DB7", "FF", "CLK", "S0", "s0",
+
+              "Q00", "Q01", "Q02", "Q03", "Q04", "Q05", "Q06", "Q07",
+              "Q10", "Q11", "Q12", "Q13", "Q14", "Q15", "Q16", "Q17",
+              "R", "w0", "w1"];
+
+    signalMapping : [
+        "A0" <= "A0",
+        "A1" <= "A1",
+        "A2" <= "A2",
+        "A3" <= "A3",
+        "A4" <= "A4",
+        "A5" <= "A5",
+        "A6" <= "A6",
+        "A7" <= "A7",
+
+        "DB0" <= "DB0",
+        "DB1" <= "DB1",
+        "DB2" <= "DB2",
+        "DB3" <= "DB3",
+        "DB4" <= "DB4",
+        "DB5" <= "DB5",
+        "DB6" <= "DB6",
+        "DB7" <= "DB7",
+
+        "IM" <= "IM",
+        "CLK" <= "CLK",
+        "S0" <= "S0",
+        "R" <= "R"
+    ];
+
+    behaviour {
+        FF <= not(IM);
+        s0 <= not(S0);
+        w0 <= FF and s0;
+        w1 <= FF and S0;
+
+        instance db0 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q00, Q1 => Q10, A => A0, DB => DB0);
+        instance db1 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q01, Q1 => Q11, A => A1, DB => DB1);
+        instance db2 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q02, Q1 => Q12, A => A2, DB => DB2);
+        instance db3 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q03, Q1 => Q13, A => A3, DB => DB3);
+        instance db4 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q04, Q1 => Q14, A => A4, DB => DB4);
+        instance db5 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q05, Q1 => Q15, A => A5, DB => DB5);
+        instance db6 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q06, Q1 => Q16, A => A6, DB => DB6);
+        instance db7 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q07, Q1 => Q17, A => A7, DB => DB7);
+
+        instance reg0 of regs (CLK => CLK, E => s0, R => R, 
+                               D0 => DB0, D1 => DB1, D2 => DB2, D3 => DB3, D4 => DB4, D5 => DB5, D6 => DB6, D7 => DB7,
+                               Q0 => Q00, Q1 => Q01, Q2 => Q02, Q3 => Q03, Q4 => Q04, Q5 => Q05, Q6 => Q06, Q7 => Q07);
+        instance reg1 of regs (CLK => CLK, E => S0, R => R, 
+                               D0 => DB0, D1 => DB1, D2 => DB2, D3 => DB3, D4 => DB4, D5 => DB5, D6 => DB6, D7 => DB7,
+                               Q0 => Q10, Q1 => Q11, Q2 => Q12, Q3 => Q13, Q4 => Q14, Q5 => Q15, Q6 => Q16, Q7 => Q17);
+
+    }
+}

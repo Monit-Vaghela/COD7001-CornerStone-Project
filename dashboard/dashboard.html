@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulator Dashboard</title>
+<style>
+  :root {
+    --bg:       #f7f6f3;
+    --surface:  #ffffff;
+    --surface2: #f1efe8;
+    --border:   rgba(0,0,0,0.10);
+    --text:     #1a1a18;
+    --muted:    #73726c;
+    --radius:   10px;
+    --blue:     #378ADD;
+    --green:    #1D9E75;
+    --amber:    #BA7517;
+    --red:      #D85A30;
+    --purple:   #7F77DD;
+    --gray:     #888780;
+    --teal:     #0F6E56;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:      #1c1c1a;
+      --surface: #252522;
+      --surface2:#2e2e2b;
+      --border:  rgba(255,255,255,0.10);
+      --text:    #e2e0d6;
+      --muted:   #9c9a92;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  /* ── layout ── */
+  .page { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+  /* ── load panel ── */
+  #load-panel {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    margin-bottom: 16px;
+  }
+  .load-status { font-size: 12px; color: var(--muted); }
+  .load-status .ok   { color: var(--green); }
+  .load-status .err  { color: var(--red); }
+  .load-status .warn { color: var(--amber); }
+  #load-panel.hidden { display: none; }
+
+  /* ── stat cards ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .stat {
+    background: var(--surface2);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+  }
+  .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+  .stat-val   { font-size: 22px; font-weight: 500; }
+
+  /* ── timeline ── */
+  .timeline-wrap {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 16px;
+  }
+  .timeline-header {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .timeline-header h2 { font-size: 14px; font-weight: 500; }
+  .tl-controls { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+  .tl-controls button {
+    font-size: 12px; padding: 4px 12px;
+    background: transparent; border: 0.5px solid var(--border);
+    border-radius: 6px; cursor: pointer; color: var(--text);
+  }
+  .tl-controls button:hover { background: var(--surface2); }
+  .tl-controls button.active { border-color: var(--blue); color: var(--blue); }
+  .speed-row { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+  .speed-row input[type=range] { width: 80px; }
+
+  /* ── scrubber ── */
+  .scrubber-row {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: var(--muted);
+  }
+  .scrubber-label { font-weight: 500; font-size: 14px; color: var(--text); min-width: 50px; }
+  .track {
+    flex: 1; height: 6px;
+    background: var(--surface2); border-radius: 3px;
+    position: relative; cursor: pointer;
+  }
+  .track-fill {
+    height: 100%; background: var(--blue);
+    border-radius: 3px; transition: width 0.35s;
+    pointer-events: none;
+  }
+  /* tick marks on track */
+  .track-ticks { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+
+  /* ── chart grid ── */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 700px) { .chart-grid { grid-template-columns: 1fr; } }
+  .chart-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+  }
+  .chart-card h3 {
+    font-size: 12px; font-weight: 500; color: var(--muted);
+    margin-bottom: 6px;
+    text-transform: lowercase; letter-spacing: 0;
+  }
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-bottom: 6px; font-size: 11px; color: var(--muted);
+  }
+  .leg { display: flex; align-items: center; gap: 4px; }
+  .leg-sq { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .leg-ln { width: 16px; height: 2px; border-radius: 1px; flex-shrink: 0; }
+  .chart-wrap { position: relative; height: 200px; }
+  .chart-wrap canvas { position: absolute; inset: 0; }
+
+  /* ── no data placeholder ── */
+  .placeholder {
+    display: flex; align-items: center; justify-content: center;
+    height: 200px; color: var(--muted); font-size: 13px;
+    border: 1px dashed var(--border); border-radius: 8px;
+  }
+
+  /* ── footer note ── */
+  .footer-note {
+    font-size: 11px; color: var(--muted);
+    margin-top: 10px; padding-top: 10px;
+    border-top: 0.5px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>Simulator Performance Dashboard</h1>
+  <p class="subtitle" id="subtitle">Loading <code>seq_stats.json</code> and <code>par_stats.json</code>…</p>
+
+  <!-- ── status bar ── -->
+  <div id="load-panel">
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <div class="load-status" id="load-status" style="margin:0;flex:1">Fetching data files…</div>
+      <button onclick="loadDemo()" style="font-size:12px;padding:4px 12px;background:transparent;border:0.5px solid var(--border);border-radius:6px;cursor:pointer;color:var(--muted)">load demo instead</button>
+    </div>
+  </div>
+
+  <!-- ── stat cards ── -->
+  <div class="stat-grid" id="stat-grid">
+    <div class="stat"><div class="stat-label">δ cycle</div><div class="stat-val" id="s-delta">—</div></div>
+    <div class="stat"><div class="stat-label">time stamp</div><div class="stat-val" id="s-time">—</div></div>
+    <div class="stat"><div class="stat-label">seq events</div><div class="stat-val" id="s-seq">—</div></div>
+    <div class="stat"><div class="stat-label">par events</div><div class="stat-val" id="s-par">—</div></div>
+    <div class="stat"><div class="stat-label">speedup</div><div class="stat-val" id="s-speedup">—</div></div>
+    <div class="stat"><div class="stat-label">par fraction</div><div class="stat-val" id="s-parfrac">—</div></div>
+    <div class="stat"><div class="stat-label">serial fallback</div><div class="stat-val" id="s-fallback">—</div></div>
+    <div class="stat"><div class="stat-label">OMP threshold</div><div class="stat-val" id="s-thresh">—</div></div>
+  </div>
+
+  <!-- ── timeline / scrubber ── -->
+  <div class="timeline-wrap">
+    <div class="timeline-header">
+      <h2>Delta cycle timeline</h2>
+      <div class="tl-controls">
+        <button id="btn-prev" onclick="step(-1)">← prev</button>
+        <button id="btn-next" onclick="step(1)">next →</button>
+        <button id="btn-play" onclick="togglePlay()">▶ play</button>
+        <div class="speed-row">
+          <span>speed</span>
+          <input type="range" min="100" max="2000" value="1000" step="100"
+                 id="speed-sl" oninput="setSpeed(this.value)">
+          <span id="speed-lbl">1.0s/δ</span>
+        </div>
+      </div>
+    </div>
+    <div class="scrubber-row">
+      <span class="scrubber-label" id="sc-cur">δ 0</span>
+      <div class="track" id="track" onclick="trackClick(event)">
+        <div class="track-fill" id="track-fill" style="width:0%"></div>
+      </div>
+      <span id="sc-total" style="min-width:40px;text-align:right">/ 0</span>
+    </div>
+  </div>
+
+  <!-- ── charts ── -->
+  <div class="chart-grid">
+
+    <!-- chart 1: events per level (par) at current delta -->
+    <div class="chart-card">
+      <h3>events per level — current δ (parallel)</h3>
+      <div class="legend" id="leg1"></div>
+      <div class="chart-wrap">
+        <canvas id="c1" role="img" aria-label="Bar chart of events per circuit level at the current delta cycle"></canvas>
+      </div>
+    </div>
+
+    <!-- chart 2: work vs overhead cumulative -->
+    <div class="chart-card">
+      <h3>work vs overhead — cumulative</h3>
+      <div class="legend">
+        <span class="leg"><span class="leg-ln" style="background:var(--blue)"></span>useful (par &ge; threshold)</span>
+        <span class="leg"><span class="leg-ln" style="background:var(--red)"></span>serial fallback (&lt; threshold)</span>
+        <span class="leg"><span class="leg-ln" style="background:var(--gray);opacity:.5"></span>seq events</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="c2" role="img" aria-label="Line chart showing useful parallel events, serial fallback events, and sequential events per delta cycle"></canvas>
+      </div>
+    </div>
+
+    <!-- chart 3: speedup per delta -->
+    <div class="chart-card">
+      <h3>speedup vs sequential — per δ</h3>
+      <div class="legend">
+        <span class="leg"><span class="leg-ln" style="background:var(--green)"></span>speedup (seq / par)</span>
+        <span class="leg"><span class="leg-ln" style="background:var(--gray);opacity:.4"></span>1× baseline</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="c3" role="img" aria-label="Line chart of speedup versus sequential simulation per delta cycle"></canvas>
+      </div>
+    </div>
+
+    <!-- chart 4: parallel fraction -->
+    <div class="chart-card">
+      <h3>thread utilisation — % events parallelised</h3>
+      <div class="legend">
+        <span class="leg"><span class="leg-sq" style="background:var(--purple);opacity:.7"></span>par fraction per δ</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="c4" role="img" aria-label="Area chart showing fraction of parallel events per delta cycle"></canvas>
+      </div>
+    </div>
+
+  </div><!-- .chart-grid -->
+
+  <div class="footer-note">
+    Serial fallback = levels where event count &lt; OMP_THRESHOLD (not worth spawning threads).
+    Speedup = seq events / par events at the same (T,D) — measures logical work, not wall time.
+    Load both JSON files for full speedup data; parallel-only gives utilisation only.
+  </div>
+
+</div><!-- .page -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+'use strict';
+
+// ─── state ────────────────────────────────────────────────────────────────
+let SEQ = [];   // SeqDeltaRecord[]  { time, delta, events }
+let PAR = [];   // ParDeltaRecord[]  { time, delta, ompThreshold, levelMap:{level->count} }
+let MERGED = []; // MergedRecord[]   built after both are loaded
+let currentIdx = 0;
+let playing = false;
+let playTimer = null;
+let playInterval = 1000;
+
+// Colours for circuit levels (-1 .. N)
+const LEVEL_COLORS = [
+  '#888780', // -1  signal_update
+  '#378ADD', //  0  fallback
+  '#1D9E75', //  1
+  '#7F77DD', //  2
+  '#D85A30', //  3
+  '#D4537E', //  4
+  '#BA7517', //  5
+  '#0F6E56', //  6
+  '#378ADD', //  7  wrap
+  '#1D9E75', //  8
+];
+function levelColor(level) {
+  if (level === -1) return LEVEL_COLORS[0];
+  return LEVEL_COLORS[1 + (level % (LEVEL_COLORS.length - 1))];
+}
+function levelLabel(level) {
+  if (level === -1) return 'sig_update';
+  if (level === 0)  return 'L0 (fallback)';
+  return 'L' + level;
+}
+
+// ─── auto-fetch on load ───────────────────────────────────────────────────
+// Requires the HTML to be served over HTTP (e.g. python3 -m http.server 8080).
+// Falls back gracefully if files are missing or if opened via file://.
+
+async function fetchJSON(filename) {
+  const resp = await fetch(filename);
+  if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText);
+  return resp.json();
+}
+
+async function autoLoad() {
+  const status = document.getElementById('load-status');
+
+  // Detect file:// — fetch is blocked there by browsers
+  if (location.protocol === 'file:') {
+    status.innerHTML =
+      '<span class="warn">⚠ Opened via file:// — fetch is blocked by browsers. ' +
+      'Serve this folder over HTTP instead: ' +
+      '<code>python3 -m http.server 8080</code> then open ' +
+      '<code>http://localhost:8080/dashboard.html</code></span>';
+    document.getElementById('subtitle').textContent =
+      'Showing demo data. Run a local server to load real results.';
+    loadDemo();
+    return;
+  }
+
+  const msgs = [];
+  let seqOk = false, parOk = false;
+
+  try {
+    SEQ = await fetchJSON('seq_stats.json');
+    msgs.push(`<span class="ok">✓ seq_stats.json — ${SEQ.length} records</span>`);
+    seqOk = true;
+  } catch (e) {
+    msgs.push(`<span class="warn">seq_stats.json not found (${e.message}) — seq speedup unavailable</span>`);
+  }
+
+  try {
+    PAR = await fetchJSON('par_stats.json');
+    msgs.push(`<span class="ok">✓ par_stats.json — ${PAR.length} records</span>`);
+    parOk = true;
+  } catch (e) {
+    msgs.push(`<span class="warn">par_stats.json not found (${e.message})</span>`);
+  }
+
+  status.innerHTML = msgs.join(' &nbsp;|&nbsp; ');
+
+  if (seqOk || parOk) {
+    document.getElementById('subtitle').textContent =
+      'Stepping through delta cycles — use ← → or space to navigate.';
+    build();
+  } else {
+    status.innerHTML += ' &nbsp;|&nbsp; <span class="err">No data files found — loading demo</span>';
+    document.getElementById('subtitle').textContent =
+      'Showing demo data. Place seq_stats.json and par_stats.json alongside this file.';
+    loadDemo();
+  }
+}
+
+// ─── demo data (mirrors the real schema exactly) ─────────────────────────
+function loadDemo() {
+  const OMP = 16;
+  const n = 28;
+  SEQ = []; PAR = [];
+  const levels = [-1, 0, 1, 2, 3, 4, 5];
+  let t = 0;
+  for (let d = 0; d < n; d++) {
+    // simulate time advancing every 6 deltas
+    if (d > 0 && d % 6 === 0) t += 10;
+    const burst = d < 8 ? (d + 1) * 22 : Math.max(4, 180 - d * 5);
+    const levelMap = {};
+    let parTotal = 0;
+    for (const lv of levels) {
+      const c = lv === -1
+        ? Math.round(burst * 0.12 * (0.7 + Math.random() * 0.6))
+        : Math.round(burst * (0.85 + Math.random() * 0.3) *
+            Math.max(0.04, 1 - Math.abs(lv - 2) * 0.16));
+      levelMap[String(lv)] = c;
+      parTotal += c;
+    }
+    PAR.push({ time: t, delta: d, ompThreshold: OMP, levelMap });
+    // seq does ~1.6-2.2x more work (no parallelism)
+    SEQ.push({ time: t, delta: d, events: Math.round(parTotal * (1.7 + Math.random() * 0.5)) });
+  }
+  document.getElementById('load-status').innerHTML =
+    '<span class="ok">✓ demo data loaded — ' + n + ' delta cycles</span>';
+  build();
+}
+
+// ─── merge SEQ + PAR into a unified array indexed by position ────────────
+function build() {
+  // Align by (time, delta) key. Either side may be absent.
+  const map = new Map();
+  for (const r of SEQ) {
+    const k = r.time + ':' + r.delta;
+    map.set(k, { time: r.time, delta: r.delta, seqEvents: r.events,
+                 parEvents: null, levelMap: null, ompThreshold: 16 });
+  }
+  for (const r of PAR) {
+    const k = r.time + ':' + r.delta;
+    // parse levelMap keys to ints
+    const lm = {};
+    for (const [lv, cnt] of Object.entries(r.levelMap)) lm[parseInt(lv)] = cnt;
+    const parTotal = Object.values(lm).reduce((a, b) => a + b, 0);
+    if (map.has(k)) {
+      const rec = map.get(k);
+      rec.parEvents = parTotal;
+      rec.levelMap  = lm;
+      rec.ompThreshold = r.ompThreshold || 16;
+    } else {
+      map.set(k, { time: r.time, delta: r.delta, seqEvents: null,
+                   parEvents: parTotal, levelMap: lm, ompThreshold: r.ompThreshold || 16 });
+    }
+  }
+
+  // Sort by time then delta
+  MERGED = Array.from(map.values())
+    .sort((a, b) => a.time !== b.time ? a.time - b.time : a.delta - b.delta);
+
+  currentIdx = 0;
+  initCharts();
+  render();
+}
+
+// ─── per-record helpers ───────────────────────────────────────────────────
+function computeFallback(rec) {
+  if (!rec.levelMap) return 0;
+  const thresh = rec.ompThreshold;
+  let fb = 0;
+  for (const [, cnt] of Object.entries(rec.levelMap)) {
+    if (cnt < thresh) fb += cnt;
+  }
+  return fb;
+}
+
+function sortedLevels(rec) {
+  if (!rec.levelMap) return [];
+  return Object.keys(rec.levelMap)
+    .map(Number)
+    .sort((a, b) => a - b);
+}
+
+// ─── Chart.js setup ───────────────────────────────────────────────────────
+let C1, C2, C3, C4;
+
+const TICK_COLOR  = () => getComputedStyle(document.documentElement).getPropertyValue('--muted').trim() || '#888';
+const GRID_COLOR  = 'rgba(128,128,128,0.12)';
+
+function baseTicks() {
+  return { color: TICK_COLOR(), font: { size: 11 } };
+}
+function baseGrid() {
+  return { color: GRID_COLOR };
+}
+
+function initCharts() {
+  // Destroy previous instances if rebuilding
+  [C1, C2, C3, C4].forEach(ch => { if (ch) ch.destroy(); });
+
+  // Chart 1 — bar: events per level at current delta
+  C1 = new Chart(document.getElementById('c1'), {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [{
+        data: [],
+        backgroundColor: [],
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 350 },
+      plugins: { legend: { display: false },
+                 tooltip: { callbacks: { label: ctx => ' ' + ctx.raw + ' events' } } },
+      scales: {
+        x: { ticks: baseTicks(), grid: baseGrid() },
+        y: { ticks: baseTicks(), grid: baseGrid(), beginAtZero: true }
+      }
+    }
+  });
+
+  // Chart 2 — line: work vs overhead cumulative
+  C2 = new Chart(document.getElementById('c2'), {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: 'useful', data: [], borderColor: '#378ADD',
+          backgroundColor: 'rgba(55,138,221,0.08)', fill: true,
+          tension: 0.3, pointRadius: 2.5, borderWidth: 1.5 },
+        { label: 'serial fallback', data: [], borderColor: '#D85A30',
+          backgroundColor: 'rgba(216,90,48,0.07)', fill: true,
+          tension: 0.3, pointRadius: 2.5, borderWidth: 1.5,
+          borderDash: [4, 3] },
+        { label: 'seq events', data: [], borderColor: '#888780',
+          backgroundColor: 'transparent', fill: false,
+          tension: 0.3, pointRadius: 2, borderWidth: 1,
+          borderDash: [2, 4] }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 300 },
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: baseTicks(), grid: baseGrid() },
+        y: { ticks: baseTicks(), grid: baseGrid(), beginAtZero: true }
+      }
+    }
+  });
+
+  // Chart 3 — line: speedup
+  C3 = new Chart(document.getElementById('c3'), {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        { label: 'speedup', data: [], borderColor: '#1D9E75',
+          backgroundColor: 'rgba(29,158,117,0.08)', fill: true,
+          tension: 0.3, pointRadius: 2.5, borderWidth: 1.5 },
+        { label: '1×', data: [], borderColor: '#888780',
+          backgroundColor: 'transparent', fill: false,
+          borderDash: [4, 3], borderWidth: 1, pointRadius: 0 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 300 },
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: baseTicks(), grid: baseGrid() },
+        y: { ticks: baseTicks(), grid: baseGrid(), beginAtZero: true,
+             suggestedMax: 4 }
+      }
+    }
+  });
+
+  // Chart 4 — area: par fraction
+  C4 = new Chart(document.getElementById('c4'), {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [{
+        label: '% parallel', data: [], borderColor: '#7F77DD',
+        backgroundColor: 'rgba(127,119,221,0.12)', fill: true,
+        tension: 0.3, pointRadius: 2.5, borderWidth: 1.5
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 300 },
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: baseTicks(), grid: baseGrid() },
+        y: { ticks: { ...baseTicks(), callback: v => v + '%' },
+             grid: baseGrid(), beginAtZero: true, max: 100 }
+      }
+    }
+  });
+}
+
+// ─── render current state ─────────────────────────────────────────────────
+function render() {
+  if (!MERGED.length) return;
+  const rec = MERGED[currentIdx];
+  const thresh = rec.ompThreshold;
+
+  // Stat cards
+  const fallback = computeFallback(rec);
+  const useful   = rec.parEvents != null ? rec.parEvents - fallback : null;
+  const speedup  = (rec.seqEvents != null && rec.parEvents != null && rec.parEvents > 0)
+                 ? rec.seqEvents / rec.parEvents : null;
+  const parFrac  = (rec.parEvents != null && rec.parEvents > 0 && useful != null)
+                 ? Math.round((useful / rec.parEvents) * 100) : null;
+
+  document.getElementById('s-delta').textContent   = rec.delta;
+  document.getElementById('s-time').textContent    = 'T=' + rec.time;
+  document.getElementById('s-seq').textContent     = rec.seqEvents != null ? rec.seqEvents : '—';
+  document.getElementById('s-par').textContent     = rec.parEvents != null ? rec.parEvents : '—';
+  document.getElementById('s-speedup').textContent = speedup != null ? speedup.toFixed(2) + '×' : '—';
+  document.getElementById('s-parfrac').textContent = parFrac  != null ? parFrac + '%' : '—';
+  document.getElementById('s-fallback').textContent= fallback > 0 ? fallback : '0';
+  document.getElementById('s-thresh').textContent  = thresh;
+
+  // Scrubber
+  document.getElementById('sc-cur').textContent   = 'δ ' + rec.delta;
+  document.getElementById('sc-total').textContent = '/ ' + (MERGED[MERGED.length - 1].delta);
+  const pct = MERGED.length > 1 ? (currentIdx / (MERGED.length - 1)) * 100 : 0;
+  document.getElementById('track-fill').style.width = pct.toFixed(1) + '%';
+
+  // ── Chart 1: levels at this delta ──
+  if (rec.levelMap) {
+    const lvs = sortedLevels(rec);
+    const labels = lvs.map(levelLabel);
+    const data   = lvs.map(l => rec.levelMap[l]);
+    const colors = lvs.map(l => levelColor(l));
+    C1.data.labels = labels;
+    C1.data.datasets[0].data = data;
+    C1.data.datasets[0].backgroundColor = colors;
+    // rebuild legend
+    document.getElementById('leg1').innerHTML = lvs.map(l =>
+      `<span class="leg"><span class="leg-sq" style="background:${levelColor(l)}"></span>${levelLabel(l)}</span>`
+    ).join('');
+  } else {
+    C1.data.labels = [];
+    C1.data.datasets[0].data = [];
+  }
+  C1.update();
+
+  // ── Charts 2, 3, 4: history up to currentIdx ──
+  const slice  = MERGED.slice(0, currentIdx + 1);
+  const labels = slice.map(r => 'δ' + r.delta);
+  const useful2 = [], fallback2 = [], seq2 = [], speedup2 = [], parFrac2 = [];
+
+  for (const r of slice) {
+    const fb  = computeFallback(r);
+    const uf  = r.parEvents != null ? r.parEvents - fb : null;
+    useful2.push(uf != null ? uf : null);
+    fallback2.push(fb);
+    seq2.push(r.seqEvents);
+    const sp = (r.seqEvents != null && r.parEvents != null && r.parEvents > 0)
+               ? parseFloat((r.seqEvents / r.parEvents).toFixed(3)) : null;
+    speedup2.push(sp);
+    const pf = (r.parEvents != null && r.parEvents > 0 && uf != null)
+               ? Math.round((uf / r.parEvents) * 100) : null;
+    parFrac2.push(pf);
+  }
+
+  C2.data.labels = labels;
+  C2.data.datasets[0].data = useful2;
+  C2.data.datasets[1].data = fallback2;
+  C2.data.datasets[2].data = seq2;
+  C2.update();
+
+  C3.data.labels = labels;
+  C3.data.datasets[0].data = speedup2;
+  C3.data.datasets[1].data = Array(labels.length).fill(1);
+  C3.update();
+
+  C4.data.labels = labels;
+  C4.data.datasets[0].data = parFrac2;
+  C4.update();
+}
+
+// ─── controls ─────────────────────────────────────────────────────────────
+function step(dir) {
+  if (!MERGED.length) return;
+  currentIdx = Math.max(0, Math.min(MERGED.length - 1, currentIdx + dir));
+  render();
+}
+
+function togglePlay() {
+  playing = !playing;
+  const btn = document.getElementById('btn-play');
+  btn.textContent = playing ? '⏸ pause' : '▶ play';
+  btn.classList.toggle('active', playing);
+  if (playing) {
+    playTimer = setInterval(() => {
+      if (currentIdx >= MERGED.length - 1) { currentIdx = 0; }
+      else { currentIdx++; }
+      render();
+    }, playInterval);
+  } else {
+    clearInterval(playTimer);
+  }
+}
+
+function setSpeed(v) {
+  playInterval = parseInt(v);
+  document.getElementById('speed-lbl').textContent = (playInterval / 1000).toFixed(1) + 's/δ';
+  if (playing) { clearInterval(playTimer); togglePlay(); togglePlay(); }
+}
+
+function trackClick(e) {
+  if (!MERGED.length) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const frac = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  currentIdx = Math.round(frac * (MERGED.length - 1));
+  render();
+}
+
+// ─── keyboard shortcuts ───────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowRight' || e.key === 'l') step(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'h') step(-1);
+  if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+});
+
+// ─── init ─────────────────────────────────────────────────────────────────
+autoLoad();
+</script>
+</body>
+</html>

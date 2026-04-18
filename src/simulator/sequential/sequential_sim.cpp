@@ -1,5 +1,6 @@
 #include <simulator/sequential/sequential_sim.h>
 #include <circuitBuilder/utils/logger.h>
+#include <circuitBuilder/utils/Dashboardjson.h>
 #include <vector>
 #include <iostream>
 #include <unordered_set>
@@ -15,7 +16,7 @@ SequentialSimulator::SequentialSimulator(Circuit* c)
 
 
 void SequentialSimulator::run() {
-
+    std::vector<DashboardJSON::SeqDeltaRecord> seqRecords;
     for (auto* s : circuit->get_signals()) {
         vcd->dumpValue(s->get_name(), s->get_value());
     }
@@ -53,7 +54,7 @@ void SequentialSimulator::run() {
                event_queue.top().delta == D) {
             current_batch.push_back(event_queue.pop());
         }
-
+        seqRecords.push_back({ T, D, (int)current_batch.size() });
         std::unordered_set<Process*> unique_processes;
         // Execute batch
         for (auto& e : current_batch) {
@@ -113,6 +114,7 @@ void SequentialSimulator::run() {
         // Logger::print_circuit_state(*circuit);
         cout << endl; 
         cout << "Sequential Simulated " << simulatedEvents << endl;
+        DashboardJSON::exportSeq(seqRecords, "dashboard/seq_stats.json");
     }
 
     delete vcd;

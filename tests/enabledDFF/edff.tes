@@ -1,0 +1,13 @@
+simulator dff {
+    processes {
+        process(["D" <= 0, "CLK" <= 0], 1);
+        process(["D" <= 0, "CLK" <= 1], 2);
+        process(["CLK" <= 1], 3);
+        process(["D" <= 1, "CLK" <= 0], 4);
+        process(["CLK" <= 1], 5);
+        process(["E" <= 0, "CLK" <= 0], 6);
+        process(["D" <= 0, "CLK" <= 1], 7);
+        process(["E" <= 1, "CLK" <= 0], 8);
+        process(["CLK" <= 1], 9);
+    }
+}
