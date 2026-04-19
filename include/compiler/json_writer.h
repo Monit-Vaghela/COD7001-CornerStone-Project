@@ -18,13 +18,12 @@ class JsonWriter {
 public:
     void writeCir(const ProgramNode& program, const std::string& outPath, const std::map<std::string, ProgramNode>& subEntities);
     void writeTes(const SimulatorNode& sim,   const std::string& outPath);
-
-private:
     // Flattening: converts nested ExprNode tree → list of single-gate FlatBehaviours
     // Intermediate signals get names y1, y2, y3...
     int yCounter;
-    std::vector<FlatBehaviour> flatBehaviours;
-    std::set<std::string>      intermediates;
+    std::vector<FlatBehaviour>     flatBehaviours;
+    std::vector<EdgeBehaviourNode> flatEdgeBehaviours;  // ← ADDED
+    std::set<std::string>          intermediates;
 
     // Recursively flatten one expression tree.
     // Returns the signal name that holds the result of this node.

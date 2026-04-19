@@ -7,7 +7,7 @@
 
         "inputs" : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "IM", "CLK", "S0", "R"],
         "outputs" : ["DB0", "DB1", "DB2", "DB3", "DB4", "DB5", "DB6", "DB7"],
-        "intermediates" : ["FF", "Q00", "Q01", "Q02", "Q03", "Q04", "Q05", "Q06", "Q07", "Q10", "Q11", "Q12", "Q13", "Q14", "Q15", "Q16", "Q17", "db0_y1", "db0_y2", "db0_y3", "db0_y4", "db1_y5", "db1_y6", "db1_y7", "db1_y8", "db2_y10", "db2_y11", "db2_y12", "db2_y9", "db3_y13", "db3_y14", "db3_y15", "db3_y16", "db4_y17", "db4_y18", "db4_y19", "db4_y20", "db5_y21", "db5_y22", "db5_y23", "db5_y24", "db6_y25", "db6_y26", "db6_y27", "db6_y28", "db7_y29", "db7_y30", "db7_y31", "db7_y32", "reg0_EDFF0_y33", "reg0_EDFF0_y34", "reg0_EDFF0_y35", "reg0_EDFF0_y36", "reg0_EDFF1_y37", "reg0_EDFF1_y38", "reg0_EDFF1_y39", "reg0_EDFF1_y40", "reg0_EDFF2_y41", "reg0_EDFF2_y42", "reg0_EDFF2_y43", "reg0_EDFF2_y44", "reg0_EDFF3_y45", "reg0_EDFF3_y46", "reg0_EDFF3_y47", "reg0_EDFF3_y48", "reg0_EDFF4_y49", "reg0_EDFF4_y50", "reg0_EDFF4_y51", "reg0_EDFF4_y52", "reg0_EDFF5_y53", "reg0_EDFF5_y54", "reg0_EDFF5_y55", "reg0_EDFF5_y56", "reg0_EDFF6_y57", "reg0_EDFF6_y58", "reg0_EDFF6_y59", "reg0_EDFF6_y60", "reg0_EDFF7_y61", "reg0_EDFF7_y62", "reg0_EDFF7_y63", "reg0_EDFF7_y64", "reg1_EDFF0_y65", "reg1_EDFF0_y66", "reg1_EDFF0_y67", "reg1_EDFF0_y68", "reg1_EDFF1_y69", "reg1_EDFF1_y70", "reg1_EDFF1_y71", "reg1_EDFF1_y72", "reg1_EDFF2_y73", "reg1_EDFF2_y74", "reg1_EDFF2_y75", "reg1_EDFF2_y76", "reg1_EDFF3_y77", "reg1_EDFF3_y78", "reg1_EDFF3_y79", "reg1_EDFF3_y80", "reg1_EDFF4_y81", "reg1_EDFF4_y82", "reg1_EDFF4_y83", "reg1_EDFF4_y84", "reg1_EDFF5_y85", "reg1_EDFF5_y86", "reg1_EDFF5_y87", "reg1_EDFF5_y88", "reg1_EDFF6_y89", "reg1_EDFF6_y90", "reg1_EDFF6_y91", "reg1_EDFF6_y92", "reg1_EDFF7_y93", "reg1_EDFF7_y94", "reg1_EDFF7_y95", "reg1_EDFF7_y96", "s0", "w0", "w1"]
+        "intermediates" : ["FF", "Q00", "Q01", "Q02", "Q03", "Q04", "Q05", "Q06", "Q07", "Q10", "Q11", "Q12", "Q13", "Q14", "Q15", "Q16", "Q17", "db0_y1", "db0_y2", "db0_y3", "db0_y4", "db1_y5", "db1_y6", "db1_y7", "db1_y8", "db2_y10", "db2_y11", "db2_y12", "db2_y9", "db3_y13", "db3_y14", "db3_y15", "db3_y16", "db4_y17", "db4_y18", "db4_y19", "db4_y20", "db5_y21", "db5_y22", "db5_y23", "db5_y24", "db6_y25", "db6_y26", "db6_y27", "db6_y28", "db7_y29", "db7_y30", "db7_y31", "db7_y32", "reg0_EDFF0_Deff", "reg0_EDFF0_y33", "reg0_EDFF0_y34", "reg0_EDFF0_y35", "reg0_EDFF0_y36", "reg0_EDFF1_Deff", "reg0_EDFF1_y37", "reg0_EDFF1_y38", "reg0_EDFF1_y39", "reg0_EDFF1_y40", "reg0_EDFF2_Deff", "reg0_EDFF2_y41", "reg0_EDFF2_y42", "reg0_EDFF2_y43", "reg0_EDFF2_y44", "reg0_EDFF3_Deff", "reg0_EDFF3_y45", "reg0_EDFF3_y46", "reg0_EDFF3_y47", "reg0_EDFF3_y48", "reg0_EDFF4_Deff", "reg0_EDFF4_y49", "reg0_EDFF4_y50", "reg0_EDFF4_y51", "reg0_EDFF4_y52", "reg0_EDFF5_Deff", "reg0_EDFF5_y53", "reg0_EDFF5_y54", "reg0_EDFF5_y55", "reg0_EDFF5_y56", "reg0_EDFF6_Deff", "reg0_EDFF6_y57", "reg0_EDFF6_y58", "reg0_EDFF6_y59", "reg0_EDFF6_y60", "reg0_EDFF7_Deff", "reg0_EDFF7_y61", "reg0_EDFF7_y62", "reg0_EDFF7_y63", "reg0_EDFF7_y64", "reg1_EDFF0_Deff", "reg1_EDFF0_y65", "reg1_EDFF0_y66", "reg1_EDFF0_y67", "reg1_EDFF0_y68", "reg1_EDFF1_Deff", "reg1_EDFF1_y69", "reg1_EDFF1_y70", "reg1_EDFF1_y71", "reg1_EDFF1_y72", "reg1_EDFF2_Deff", "reg1_EDFF2_y73", "reg1_EDFF2_y74", "reg1_EDFF2_y75", "reg1_EDFF2_y76", "reg1_EDFF3_Deff", "reg1_EDFF3_y77", "reg1_EDFF3_y78", "reg1_EDFF3_y79", "reg1_EDFF3_y80", "reg1_EDFF4_Deff", "reg1_EDFF4_y81", "reg1_EDFF4_y82", "reg1_EDFF4_y83", "reg1_EDFF4_y84", "reg1_EDFF5_Deff", "reg1_EDFF5_y85", "reg1_EDFF5_y86", "reg1_EDFF5_y87", "reg1_EDFF5_y88", "reg1_EDFF6_Deff", "reg1_EDFF6_y89", "reg1_EDFF6_y90", "reg1_EDFF6_y91", "reg1_EDFF6_y92", "reg1_EDFF7_Deff", "reg1_EDFF7_y93", "reg1_EDFF7_y94", "reg1_EDFF7_y95", "reg1_EDFF7_y96", "s0", "w0", "w1"]
     },
 
     "Architecture" : {
@@ -385,7 +385,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg0_EDFF0_Deff",
                 "gateExpressionInputs" : ["reg0_EDFF0_y34", "reg0_EDFF0_y36"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg0_EDFF0_y34, reg0_EDFF0_y36)"
@@ -420,7 +420,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg0_EDFF1_Deff",
                 "gateExpressionInputs" : ["reg0_EDFF1_y38", "reg0_EDFF1_y40"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg0_EDFF1_y38, reg0_EDFF1_y40)"
@@ -455,7 +455,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg0_EDFF2_Deff",
                 "gateExpressionInputs" : ["reg0_EDFF2_y42", "reg0_EDFF2_y44"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg0_EDFF2_y42, reg0_EDFF2_y44)"
@@ -490,7 +490,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg0_EDFF3_Deff",
                 "gateExpressionInputs" : ["reg0_EDFF3_y46", "reg0_EDFF3_y48"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg0_EDFF3_y46, reg0_EDFF3_y48)"
@@ -525,7 +525,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg0_EDFF4_Deff",
                 "gateExpressionInputs" : ["reg0_EDFF4_y50", "reg0_EDFF4_y52"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg0_EDFF4_y50, reg0_EDFF4_y52)"
@@ -560,7 +560,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg0_EDFF5_Deff",
                 "gateExpressionInputs" : ["reg0_EDFF5_y54", "reg0_EDFF5_y56"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg0_EDFF5_y54, reg0_EDFF5_y56)"
@@ -595,7 +595,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg0_EDFF6_Deff",
                 "gateExpressionInputs" : ["reg0_EDFF6_y58", "reg0_EDFF6_y60"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg0_EDFF6_y58, reg0_EDFF6_y60)"
@@ -630,7 +630,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg0_EDFF7_Deff",
                 "gateExpressionInputs" : ["reg0_EDFF7_y62", "reg0_EDFF7_y64"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg0_EDFF7_y62, reg0_EDFF7_y64)"
@@ -665,7 +665,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg1_EDFF0_Deff",
                 "gateExpressionInputs" : ["reg1_EDFF0_y66", "reg1_EDFF0_y68"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg1_EDFF0_y66, reg1_EDFF0_y68)"
@@ -700,7 +700,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg1_EDFF1_Deff",
                 "gateExpressionInputs" : ["reg1_EDFF1_y70", "reg1_EDFF1_y72"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg1_EDFF1_y70, reg1_EDFF1_y72)"
@@ -735,7 +735,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg1_EDFF2_Deff",
                 "gateExpressionInputs" : ["reg1_EDFF2_y74", "reg1_EDFF2_y76"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg1_EDFF2_y74, reg1_EDFF2_y76)"
@@ -770,7 +770,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg1_EDFF3_Deff",
                 "gateExpressionInputs" : ["reg1_EDFF3_y78", "reg1_EDFF3_y80"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg1_EDFF3_y78, reg1_EDFF3_y80)"
@@ -805,7 +805,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg1_EDFF4_Deff",
                 "gateExpressionInputs" : ["reg1_EDFF4_y82", "reg1_EDFF4_y84"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg1_EDFF4_y82, reg1_EDFF4_y84)"
@@ -840,7 +840,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg1_EDFF5_Deff",
                 "gateExpressionInputs" : ["reg1_EDFF5_y86", "reg1_EDFF5_y88"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg1_EDFF5_y86, reg1_EDFF5_y88)"
@@ -875,7 +875,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg1_EDFF6_Deff",
                 "gateExpressionInputs" : ["reg1_EDFF6_y90", "reg1_EDFF6_y92"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg1_EDFF6_y90, reg1_EDFF6_y92)"
@@ -910,10 +910,122 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "Deff",
+                "OutputSignal" : "reg1_EDFF7_Deff",
                 "gateExpressionInputs" : ["reg1_EDFF7_y94", "reg1_EDFF7_y96"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(reg1_EDFF7_y94, reg1_EDFF7_y96)"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q00",
+                "InputSignal" : "reg0_EDFF0_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q01",
+                "InputSignal" : "reg0_EDFF1_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q02",
+                "InputSignal" : "reg0_EDFF2_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q03",
+                "InputSignal" : "reg0_EDFF3_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q04",
+                "InputSignal" : "reg0_EDFF4_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q05",
+                "InputSignal" : "reg0_EDFF5_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q06",
+                "InputSignal" : "reg0_EDFF6_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q07",
+                "InputSignal" : "reg0_EDFF7_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q10",
+                "InputSignal" : "reg1_EDFF0_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q11",
+                "InputSignal" : "reg1_EDFF1_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q12",
+                "InputSignal" : "reg1_EDFF2_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q13",
+                "InputSignal" : "reg1_EDFF3_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q14",
+                "InputSignal" : "reg1_EDFF4_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q15",
+                "InputSignal" : "reg1_EDFF5_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q16",
+                "InputSignal" : "reg1_EDFF6_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
+            },
+            {
+                "ProcessType" : "Behaviour",
+                "OutputSignal" : "Q17",
+                "InputSignal" : "reg1_EDFF7_Deff",
+                "edgetype" : "rising",
+                "clockSignal" : "CLK"
             }
         ]
     }
