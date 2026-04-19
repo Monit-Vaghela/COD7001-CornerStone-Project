@@ -16,6 +16,11 @@ struct FlatBehaviour {
 
 class JsonWriter {
 public:
+    // in json_writer.h
+    JsonWriter inlineInstance(
+    const InstanceNode& inst,
+    const std::map<std::string, ProgramNode>& subEntities,
+    int& yCounterRef);
     void writeCir(const ProgramNode& program, const std::string& outPath, const std::map<std::string, ProgramNode>& subEntities);
     void writeTes(const SimulatorNode& sim,   const std::string& outPath);
     // Flattening: converts nested ExprNode tree → list of single-gate FlatBehaviours

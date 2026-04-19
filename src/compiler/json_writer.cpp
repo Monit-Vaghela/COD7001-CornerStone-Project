@@ -114,6 +114,101 @@ static EdgeBehaviourNode remapEdgeBehaviour(
 // ─────────────────────────────────────────────
 //  cir.json writer
 // ─────────────────────────────────────────────
+// Add this helper function before writeCir
+
+JsonWriter JsonWriter::inlineInstance(
+        const InstanceNode&                     inst,
+        const map<string, ProgramNode>&         subEntities,
+        int&                                    yCounterRef)
+{
+    if (!subEntities.count(inst.entityName)) return JsonWriter();
+
+    map<string, string> portToLocal;
+    for (const auto& binding : inst.bindings)
+        portToLocal[binding.subPort] = binding.localSignal;
+
+    const ProgramNode& sub = subEntities.at(inst.entityName);
+
+    map<string, string> subSigToPort;
+    for (const auto& entry : sub.arch.signalMapping)
+        subSigToPort[entry.signal] = entry.port;
+
+    JsonWriter subWriter;
+    subWriter.yCounter = yCounterRef;
+
+    // Flatten sub's own combinational behaviours
+    for (const auto& beh : sub.arch.behaviours)
+        subWriter.flatten(beh.exprTree, beh.outputSignal);
+
+    // Collect sub's own edge behaviours
+    for (const auto& eb : sub.arch.edgeBehaviours)
+        subWriter.flatEdgeBehaviours.push_back(eb);
+
+    // RECURSIVELY inline sub's instances
+    for (const auto& subInst : sub.arch.instances) {
+        JsonWriter subSubWriter = inlineInstance(subInst, subEntities, subWriter.yCounter);
+
+        map<string, string> subSubSigToPort;
+        if (subEntities.count(subInst.entityName)) {
+            for (const auto& entry : subEntities.at(subInst.entityName).arch.signalMapping)
+                subSubSigToPort[entry.signal] = entry.port;
+        }
+
+        map<string, string> subPortToLocal;
+        for (const auto& binding : subInst.bindings)
+            subPortToLocal[binding.subPort] = binding.localSignal;
+
+        set<string> subSubInternals;
+        if (subEntities.count(subInst.entityName)) {
+            subSubInternals = buildInternalSignals(
+                subSubWriter,
+                subEntities.at(subInst.entityName).arch,
+                subSubSigToPort);
+        }
+
+        const string subInstPrefix = subInst.instanceName + "_";
+
+        // Remap gate behaviours
+        for (auto fb : subSubWriter.flatBehaviours) {
+            string outPort = subSubSigToPort.count(fb.outputSignal) ?
+                             subSubSigToPort[fb.outputSignal] : "";
+            if (!outPort.empty() && subPortToLocal.count(outPort))
+                fb.outputSignal = subPortToLocal[outPort];
+            else if (subSubInternals.count(fb.outputSignal))
+                fb.outputSignal = subInstPrefix + fb.outputSignal;
+
+            for (auto& inp : fb.inputs) {
+                string inPort = subSubSigToPort.count(inp) ? subSubSigToPort[inp] : "";
+                if (!inPort.empty() && subPortToLocal.count(inPort))
+                    inp = subPortToLocal[inPort];
+                else if (subSubInternals.count(inp))
+                    inp = subInstPrefix + inp;
+            }
+
+            if (fb.inputs.size() == 1)
+                fb.expression = fb.gate + "(" + fb.inputs[0] + ")";
+            else if (fb.inputs.size() == 2)
+                fb.expression = fb.gate + "(" + fb.inputs[0] + ", " + fb.inputs[1] + ")";
+
+            subWriter.flatBehaviours.push_back(fb);
+        }
+
+        // Remap edge behaviours — THIS IS THE KEY FIX
+        for (const auto& eb : subSubWriter.flatEdgeBehaviours) {
+            EdgeBehaviourNode remapped = remapEdgeBehaviour(
+                eb, subSubSigToPort, subPortToLocal,
+                subSubInternals, subInstPrefix);
+            subWriter.flatEdgeBehaviours.push_back(remapped);
+        }
+
+        subWriter.yCounter = subSubWriter.yCounter;
+        for (const auto& im : subSubInternals)
+            subWriter.intermediates.insert(subInstPrefix + im);
+    }
+
+    yCounterRef = subWriter.yCounter;
+    return subWriter;
+}
 
 void JsonWriter::writeCir(const ProgramNode& program, const string& outPath,
                            const map<string, ProgramNode>& subEntities) {
@@ -140,104 +235,22 @@ void JsonWriter::writeCir(const ProgramNode& program, const string& outPath,
 
         const ProgramNode& sub = subEntities.at(inst.entityName);
 
-        // Build sub signal->port map
         map<string, string> subSigToPort;
         for (const auto& entry : sub.arch.signalMapping)
             subSigToPort[entry.signal] = entry.port;
 
-        // ── Build subWriter ──────────────────────────────────────────────────
-        JsonWriter subWriter;
-        subWriter.yCounter = yCounter;
+        // Use recursive helper instead of hardcoded 2-level inlining
+        JsonWriter subWriter = inlineInstance(inst, subEntities, yCounter);
 
-        // Flatten sub's own combinational behaviours
-        for (const auto& beh : sub.arch.behaviours)
-            subWriter.flatten(beh.exprTree, beh.outputSignal);
-
-        // Collect sub's own edge behaviours
-        for (const auto& eb : sub.arch.edgeBehaviours)
-            subWriter.flatEdgeBehaviours.push_back(eb);
-
-        // ── Recursively inline sub's instances ───────────────────────────────
-        for (const auto& subInst : sub.arch.instances) {
-            if (!subEntities.count(subInst.entityName)) continue;
-
-            map<string, string> subPortToLocal;
-            for (const auto& binding : subInst.bindings)
-                subPortToLocal[binding.subPort] = binding.localSignal;
-
-            const ProgramNode& subSub = subEntities.at(subInst.entityName);
-
-            JsonWriter subSubWriter;
-            subSubWriter.yCounter = subWriter.yCounter;
-
-            // Flatten subSub combinational behaviours
-            for (const auto& beh : subSub.arch.behaviours)
-                subSubWriter.flatten(beh.exprTree, beh.outputSignal);
-
-            // Collect subSub edge behaviours
-            for (const auto& eb : subSub.arch.edgeBehaviours)
-                subSubWriter.flatEdgeBehaviours.push_back(eb);
-
-            // Build subSub signal->port map
-            map<string, string> subSubSigToPort;
-            for (const auto& entry : subSub.arch.signalMapping)
-                subSubSigToPort[entry.signal] = entry.port;
-
-            // ALL internals of subSub (y-names + named non-port signals like Deff)
-            set<string> subSubInternals =
-                buildInternalSignals(subSubWriter, subSub.arch, subSubSigToPort);
-
-            const string subInstPrefix = subInst.instanceName + "_";
-
-            // Remap subSub gate behaviours into sub namespace
-            for (auto fb : subSubWriter.flatBehaviours) {
-                string outPort = subSubSigToPort.count(fb.outputSignal) ?
-                                 subSubSigToPort[fb.outputSignal] : "";
-                if (!outPort.empty() && subPortToLocal.count(outPort))
-                    fb.outputSignal = subPortToLocal[outPort];
-                else if (subSubInternals.count(fb.outputSignal))
-                    fb.outputSignal = subInstPrefix + fb.outputSignal;
-
-                for (auto& inp : fb.inputs) {
-                    string inPort = subSubSigToPort.count(inp) ?
-                                    subSubSigToPort[inp] : "";
-                    if (!inPort.empty() && subPortToLocal.count(inPort))
-                        inp = subPortToLocal[inPort];
-                    else if (subSubInternals.count(inp))
-                        inp = subInstPrefix + inp;
-                }
-
-                if (fb.inputs.size() == 1)
-                    fb.expression = fb.gate + "(" + fb.inputs[0] + ")";
-                else if (fb.inputs.size() == 2)
-                    fb.expression = fb.gate + "(" + fb.inputs[0] + ", " + fb.inputs[1] + ")";
-
-                subWriter.flatBehaviours.push_back(fb);
-            }
-
-            // Remap subSub edge behaviours into sub namespace
-            for (const auto& eb : subSubWriter.flatEdgeBehaviours) {
-                EdgeBehaviourNode remapped = remapEdgeBehaviour(
-                    eb, subSubSigToPort, subPortToLocal,
-                    subSubInternals, subInstPrefix);
-                subWriter.flatEdgeBehaviours.push_back(remapped);
-            }
-
-            subWriter.yCounter = subSubWriter.yCounter;
-            for (const auto& im : subSubInternals)
-                subWriter.intermediates.insert(subInstPrefix + im);
-        }
-
-        // ALL internals of sub (after sub's own instances have been inlined)
         set<string> subInternals =
             buildInternalSignals(subWriter, sub.arch, subSigToPort);
 
         const string instPrefix = inst.instanceName + "_";
 
-        // Remap sub gate behaviours into parent namespace
+        // Remap gate behaviours (same as before)
         for (auto fb : subWriter.flatBehaviours) {
             string outPort = subSigToPort.count(fb.outputSignal) ?
-                             subSigToPort[fb.outputSignal] : "";
+                            subSigToPort[fb.outputSignal] : "";
             if (!outPort.empty() && portToLocal.count(outPort))
                 fb.outputSignal = portToLocal[outPort];
             else if (subInternals.count(fb.outputSignal))
@@ -259,14 +272,13 @@ void JsonWriter::writeCir(const ProgramNode& program, const string& outPath,
             flatBehaviours.push_back(fb);
         }
 
-        // Remap sub edge behaviours into parent namespace
+        // Remap edge behaviours
         for (const auto& eb : subWriter.flatEdgeBehaviours) {
             EdgeBehaviourNode remapped = remapEdgeBehaviour(
                 eb, subSigToPort, portToLocal, subInternals, instPrefix);
             flatEdgeBehaviours.push_back(remapped);
         }
 
-        yCounter = subWriter.yCounter;
         for (const auto& im : subInternals)
             intermediates.insert(instPrefix + im);
     }

@@ -202,12 +202,12 @@ void ParallelV2Simulator::run() {
 
     // Final state dump
     if (last_time != -1) {
-        for (auto& levelMap : deltaSimulations) {
-            for (auto& [level, count] : levelMap) {
-                cout << count << ", ";
-            }
-            cout << "\n";
-        }
+        // for (auto& levelMap : deltaSimulations) {
+        //     for (auto& [level, count] : levelMap) {
+        //         cout << count << ", ";
+        //     }
+        //     cout << "\n";
+        // }
         vcd->dumpTime(current_time + 1);
         cout << "Parallel Simulated " << simulatedEvents << "\n";
 
