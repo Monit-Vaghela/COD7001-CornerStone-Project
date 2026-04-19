@@ -1,0 +1,6 @@
+simulator ALU {
+    processes {
+        process(["A" <= 0, "B" <= 1, "op0" <= 0, "op1" <= 0], 1);
+        process(["A" <= 0, "B" <= 1, "op0" <= 0, "op1" <= 1, "Carry" <= 1, "AI" <= 1], 2);
+    }
+}

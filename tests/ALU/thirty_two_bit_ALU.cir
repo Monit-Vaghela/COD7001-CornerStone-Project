@@ -1,0 +1,118 @@
+entity thirty_two_bit_ALU {
+    inputs : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7",
+              "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15",
+              "A16", "A17", "A18", "A19", "A20", "A21", "A22", "A23",
+              "A24", "A25", "A26", "A27", "A28", "A29", "A30", "A31",
+
+              "B0", "B1", "B2", "B3", "B4", "B5", "B6", "B7",
+              "B8", "B9", "B10", "B11", "B12", "B13", "B14", "B15",
+              "B16", "B17", "B18", "B19", "B20", "B21", "B22", "B23",
+              "B24", "B25", "B26", "B27", "B28", "B29", "B30", "B31",
+
+              "AI", "BI", "Carry", "op0", "op1"];
+
+    outputs : ["res0", "res1", "res2", "res3", "res4", "res5", "res6", "res7",
+              "res8", "res9", "res10", "res11", "res12", "res13", "res14", "res15",
+              "res16", "res17", "res18", "res19", "res20", "res21", "res22", "res23",
+              "res24", "res25", "res26", "res27", "res28", "res29", "res30", "res31",
+
+              "OF"
+              ];
+    uses ["ALU"];
+}
+
+
+architecture thirty_two_bit_ALU {
+    signals : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7",
+              "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15",
+              "A16", "A17", "A18", "A19", "A20", "A21", "A22", "A23",
+              "A24", "A25", "A26", "A27", "A28", "A29", "A30", "A31",
+              
+              "B0", "B1", "B2", "B3", "B4", "B5", "B6", "B7",
+              "B8", "B9", "B10", "B11", "B12", "B13", "B14", "B15",
+              "B16", "B17", "B18", "B19", "B20", "B21", "B22", "B23",
+              "B24", "B25", "B26", "B27", "B28", "B29", "B30", "B31",
+              
+              "AI", "BI", "Carry", "op0", "op1",
+              "res0", "res1", "res2", "res3", "res4", "res5", "res6", "res7",
+              "res8", "res9", "res10", "res11", "res12", "res13", "res14", "res15",
+              "res16", "res17", "res18", "res19", "res20", "res21", "res22", "res23",
+              "res24", "res25", "res26", "res27", "res28", "res29", "res30", "res31",
+
+              "cout0", "cout1", "cout2", "cout3", "cout4", "cout5", "cout6", "cout7",
+              "cout8", "cout9", "cout10", "cout11", "cout12", "cout13", "cout14", "cout15",
+              "cout16", "cout17", "cout18", "cout19", "cout20", "cout21", "cout22", "cout23",
+              "cout24", "cout25", "cout26", "cout27", "cout28", "cout29", "cout30", "cout31",
+              "OF"
+              ];
+    
+    signalMapping : [
+        "A0" <= "A0",   "A1" <= "A1",   "A2" <= "A2",   "A3" <= "A3",
+        "A4" <= "A4",   "A5" <= "A5",   "A6" <= "A6",   "A7" <= "A7",
+        "A8" <= "A8",   "A9" <= "A9",   "A10" <= "A10", "A11" <= "A11",
+        "A12" <= "A12", "A13" <= "A13", "A14" <= "A14", "A15" <= "A15",
+        "A16" <= "A16", "A17" <= "A17", "A18" <= "A18", "A19" <= "A19",
+        "A20" <= "A20", "A21" <= "A21", "A22" <= "A22", "A23" <= "A23",
+        "A24" <= "A24", "A25" <= "A25", "A26" <= "A26", "A27" <= "A27",
+        "A28" <= "A28", "A29" <= "A29", "A30" <= "A30", "A31" <= "A31",
+
+        "B0" <= "B0",   "B1" <= "B1",   "B2" <= "B2",   "B3" <= "B3",
+        "B4" <= "B4",   "B5" <= "B5",   "B6" <= "B6",   "B7" <= "B7",
+        "B8" <= "B8",   "B9" <= "B9",   "B10" <= "B10", "B11" <= "B11",
+        "B12" <= "B12", "B13" <= "B13", "B14" <= "B14", "B15" <= "B15",
+        "B16" <= "B16", "B17" <= "B17", "B18" <= "B18", "B19" <= "B19",
+        "B20" <= "B20", "B21" <= "B21", "B22" <= "B22", "B23" <= "B23",
+        "B24" <= "B24", "B25" <= "B25", "B26" <= "B26", "B27" <= "B27",
+        "B28" <= "B28", "B29" <= "B29", "B30" <= "B30", "B31" <= "B31",
+
+        "AI" <= "AI", "BI" <= "BI", "Carry" <= "Carry", "op0" <= "op0", "op1" <= "op1",
+
+        "res0" <= "res0",   "res1" <= "res1",   "res2" <= "res2",   "res3" <= "res3",
+        "res4" <= "res4",   "res5" <= "res5",   "res6" <= "res6",   "res7" <= "res7",
+        "res8" <= "res8",   "res9" <= "res9",   "res10" <= "res10", "res11" <= "res11",
+        "res12" <= "res12", "res13" <= "res13", "res14" <= "res14", "res15" <= "res15",
+        "res16" <= "res16", "res17" <= "res17", "res18" <= "res18", "res19" <= "res19",
+        "res20" <= "res20", "res21" <= "res21", "res22" <= "res22", "res23" <= "res23",
+        "res24" <= "res24", "res25" <= "res25", "res26" <= "res26", "res27" <= "res27",
+        "res28" <= "res28", "res29" <= "res29", "res30" <= "res30", "res31" <= "res31",
+
+        "OF" <= "OF"
+    ];
+
+    behaviour {
+    instance alu0  of ALU(A => A0,  B => B0,  AI => AI, BI => BI, Carry => Carry,   op0 => op0, op1 => op1, res => res0,  cout => cout0);
+    instance alu1  of ALU(A => A1,  B => B1,  AI => AI, BI => BI, Carry => cout0,   op0 => op0, op1 => op1, res => res1,  cout => cout1);
+    instance alu2  of ALU(A => A2,  B => B2,  AI => AI, BI => BI, Carry => cout1,   op0 => op0, op1 => op1, res => res2,  cout => cout2);
+    instance alu3  of ALU(A => A3,  B => B3,  AI => AI, BI => BI, Carry => cout2,   op0 => op0, op1 => op1, res => res3,  cout => cout3);
+    instance alu4  of ALU(A => A4,  B => B4,  AI => AI, BI => BI, Carry => cout3,   op0 => op0, op1 => op1, res => res4,  cout => cout4);
+    instance alu5  of ALU(A => A5,  B => B5,  AI => AI, BI => BI, Carry => cout4,   op0 => op0, op1 => op1, res => res5,  cout => cout5);
+    instance alu6  of ALU(A => A6,  B => B6,  AI => AI, BI => BI, Carry => cout5,   op0 => op0, op1 => op1, res => res6,  cout => cout6);
+    instance alu7  of ALU(A => A7,  B => B7,  AI => AI, BI => BI, Carry => cout6,   op0 => op0, op1 => op1, res => res7,  cout => cout7);
+    instance alu8  of ALU(A => A8,  B => B8,  AI => AI, BI => BI, Carry => cout7,   op0 => op0, op1 => op1, res => res8,  cout => cout8);
+    instance alu9  of ALU(A => A9,  B => B9,  AI => AI, BI => BI, Carry => cout8,   op0 => op0, op1 => op1, res => res9,  cout => cout9);
+    instance alu10 of ALU(A => A10, B => B10, AI => AI, BI => BI, Carry => cout9,   op0 => op0, op1 => op1, res => res10, cout => cout10);
+    instance alu11 of ALU(A => A11, B => B11, AI => AI, BI => BI, Carry => cout10,  op0 => op0, op1 => op1, res => res11, cout => cout11);
+    instance alu12 of ALU(A => A12, B => B12, AI => AI, BI => BI, Carry => cout11,  op0 => op0, op1 => op1, res => res12, cout => cout12);
+    instance alu13 of ALU(A => A13, B => B13, AI => AI, BI => BI, Carry => cout12,  op0 => op0, op1 => op1, res => res13, cout => cout13);
+    instance alu14 of ALU(A => A14, B => B14, AI => AI, BI => BI, Carry => cout13,  op0 => op0, op1 => op1, res => res14, cout => cout14);
+    instance alu15 of ALU(A => A15, B => B15, AI => AI, BI => BI, Carry => cout14,  op0 => op0, op1 => op1, res => res15, cout => cout15);
+    instance alu16 of ALU(A => A16, B => B16, AI => AI, BI => BI, Carry => cout15,  op0 => op0, op1 => op1, res => res16, cout => cout16);
+    instance alu17 of ALU(A => A17, B => B17, AI => AI, BI => BI, Carry => cout16,  op0 => op0, op1 => op1, res => res17, cout => cout17);
+    instance alu18 of ALU(A => A18, B => B18, AI => AI, BI => BI, Carry => cout17,  op0 => op0, op1 => op1, res => res18, cout => cout18);
+    instance alu19 of ALU(A => A19, B => B19, AI => AI, BI => BI, Carry => cout18,  op0 => op0, op1 => op1, res => res19, cout => cout19);
+    instance alu20 of ALU(A => A20, B => B20, AI => AI, BI => BI, Carry => cout19,  op0 => op0, op1 => op1, res => res20, cout => cout20);
+    instance alu21 of ALU(A => A21, B => B21, AI => AI, BI => BI, Carry => cout20,  op0 => op0, op1 => op1, res => res21, cout => cout21);
+    instance alu22 of ALU(A => A22, B => B22, AI => AI, BI => BI, Carry => cout21,  op0 => op0, op1 => op1, res => res22, cout => cout22);
+    instance alu23 of ALU(A => A23, B => B23, AI => AI, BI => BI, Carry => cout22,  op0 => op0, op1 => op1, res => res23, cout => cout23);
+    instance alu24 of ALU(A => A24, B => B24, AI => AI, BI => BI, Carry => cout23,  op0 => op0, op1 => op1, res => res24, cout => cout24);
+    instance alu25 of ALU(A => A25, B => B25, AI => AI, BI => BI, Carry => cout24,  op0 => op0, op1 => op1, res => res25, cout => cout25);
+    instance alu26 of ALU(A => A26, B => B26, AI => AI, BI => BI, Carry => cout25,  op0 => op0, op1 => op1, res => res26, cout => cout26);
+    instance alu27 of ALU(A => A27, B => B27, AI => AI, BI => BI, Carry => cout26,  op0 => op0, op1 => op1, res => res27, cout => cout27);
+    instance alu28 of ALU(A => A28, B => B28, AI => AI, BI => BI, Carry => cout27,  op0 => op0, op1 => op1, res => res28, cout => cout28);
+    instance alu29 of ALU(A => A29, B => B29, AI => AI, BI => BI, Carry => cout28,  op0 => op0, op1 => op1, res => res29, cout => cout29);
+    instance alu30 of ALU(A => A30, B => B30, AI => AI, BI => BI, Carry => cout29,  op0 => op0, op1 => op1, res => res30, cout => cout30);
+    instance alu31 of ALU(A => A31, B => B31, AI => AI, BI => BI, Carry => cout30,  op0 => op0, op1 => op1, res => res31, cout => cout31);
+
+    OF <= cout30 xor cout31;
+    }
+}

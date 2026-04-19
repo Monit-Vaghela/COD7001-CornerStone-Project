@@ -1,0 +1,152 @@
+entity thirty_two_bit_ALU_with_state {
+    inputs : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7",
+              "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15",
+              "A16", "A17", "A18", "A19", "A20", "A21", "A22", "A23",
+              "A24", "A25", "A26", "A27", "A28", "A29", "A30", "A31",
+
+              "B0", "B1", "B2", "B3", "B4", "B5", "B6", "B7",
+              "B8", "B9", "B10", "B11", "B12", "B13", "B14", "B15",
+              "B16", "B17", "B18", "B19", "B20", "B21", "B22", "B23",
+              "B24", "B25", "B26", "B27", "B28", "B29", "B30", "B31",
+
+              "AI", "BI", "Carry", "op0", "op1", "E", "CLK"];
+
+    outputs : ["Q0", "Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7",
+              "Q8", "Q9", "Q10", "Q11", "Q12", "Q13", "Q14", "Q15",
+              "Q16", "Q17", "Q18", "Q19", "Q20", "Q21", "Q22", "Q23",
+              "Q24", "Q25", "Q26", "Q27", "Q28", "Q29", "Q30", "Q31",
+
+              "OF"
+              ];
+    uses ["thirty_two_bit_ALU", "edff"];
+}
+
+
+architecture thirty_two_bit_ALU_with_state {
+    signals : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7",
+              "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15",
+              "A16", "A17", "A18", "A19", "A20", "A21", "A22", "A23",
+              "A24", "A25", "A26", "A27", "A28", "A29", "A30", "A31",
+              
+              "B0", "B1", "B2", "B3", "B4", "B5", "B6", "B7",
+              "B8", "B9", "B10", "B11", "B12", "B13", "B14", "B15",
+              "B16", "B17", "B18", "B19", "B20", "B21", "B22", "B23",
+              "B24", "B25", "B26", "B27", "B28", "B29", "B30", "B31",
+              
+              "AI", "BI", "Carry", "op0", "op1", "CLK", "E", 
+
+              "Q0", "Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7",
+              "Q8", "Q9", "Q10", "Q11", "Q12", "Q13", "Q14", "Q15",
+              "Q16", "Q17", "Q18", "Q19", "Q20", "Q21", "Q22", "Q23",
+              "Q24", "Q25", "Q26", "Q27", "Q28", "Q29", "Q30", "Q31",
+
+              "res0", "res1", "res2", "res3", "res4", "res5", "res6", "res7",
+              "res8", "res9", "res10", "res11", "res12", "res13", "res14", "res15",
+              "res16", "res17", "res18", "res19", "res20", "res21", "res22", "res23",
+              "res24", "res25", "res26", "res27", "res28", "res29", "res30", "res31",
+
+              "OF"
+              ];
+    
+    signalMapping : [
+        "A0" <= "A0",   "A1" <= "A1",   "A2" <= "A2",   "A3" <= "A3",
+        "A4" <= "A4",   "A5" <= "A5",   "A6" <= "A6",   "A7" <= "A7",
+        "A8" <= "A8",   "A9" <= "A9",   "A10" <= "A10", "A11" <= "A11",
+        "A12" <= "A12", "A13" <= "A13", "A14" <= "A14", "A15" <= "A15",
+        "A16" <= "A16", "A17" <= "A17", "A18" <= "A18", "A19" <= "A19",
+        "A20" <= "A20", "A21" <= "A21", "A22" <= "A22", "A23" <= "A23",
+        "A24" <= "A24", "A25" <= "A25", "A26" <= "A26", "A27" <= "A27",
+        "A28" <= "A28", "A29" <= "A29", "A30" <= "A30", "A31" <= "A31",
+
+        "B0" <= "B0",   "B1" <= "B1",   "B2" <= "B2",   "B3" <= "B3",
+        "B4" <= "B4",   "B5" <= "B5",   "B6" <= "B6",   "B7" <= "B7",
+        "B8" <= "B8",   "B9" <= "B9",   "B10" <= "B10", "B11" <= "B11",
+        "B12" <= "B12", "B13" <= "B13", "B14" <= "B14", "B15" <= "B15",
+        "B16" <= "B16", "B17" <= "B17", "B18" <= "B18", "B19" <= "B19",
+        "B20" <= "B20", "B21" <= "B21", "B22" <= "B22", "B23" <= "B23",
+        "B24" <= "B24", "B25" <= "B25", "B26" <= "B26", "B27" <= "B27",
+        "B28" <= "B28", "B29" <= "B29", "B30" <= "B30", "B31" <= "B31",
+
+        "AI" <= "AI", "BI" <= "BI", "Carry" <= "Carry", "op0" <= "op0", "op1" <= "op1",
+        "CLK" <= "CLK", "E" <= "E",
+
+        "Q0" <= "Q0",   "Q1" <= "Q1",   "Q2" <= "Q2",   "Q3" <= "Q3",
+        "Q4" <= "Q4",   "Q5" <= "Q5",   "Q6" <= "Q6",   "Q7" <= "Q7",
+        "Q8" <= "Q8",   "Q9" <= "Q9",   "Q10" <= "Q10", "Q11" <= "Q11",
+        "Q12" <= "Q12", "Q13" <= "Q13", "Q14" <= "Q14", "Q15" <= "Q15",
+        "Q16" <= "Q16", "Q17" <= "Q17", "Q18" <= "Q18", "Q19" <= "Q19",
+        "Q20" <= "Q20", "Q21" <= "Q21", "Q22" <= "Q22", "Q23" <= "Q23",
+        "Q24" <= "Q24", "Q25" <= "Q25", "Q26" <= "Q26", "Q27" <= "Q27",
+        "Q28" <= "Q28", "Q29" <= "Q29", "Q30" <= "Q30", "Q31" <= "Q31",
+
+        "OF" <= "OF"
+    ];
+
+    behaviour {
+
+        instance ALU of thirty_two_bit_ALU(
+            A0  => A0,  A1  => A1,  A2  => A2,  A3  => A3,
+            A4  => A4,  A5  => A5,  A6  => A6,  A7  => A7,
+            A8  => A8,  A9  => A9,  A10 => A10, A11 => A11,
+            A12 => A12, A13 => A13, A14 => A14, A15 => A15,
+            A16 => A16, A17 => A17, A18 => A18, A19 => A19,
+            A20 => A20, A21 => A21, A22 => A22, A23 => A23,
+            A24 => A24, A25 => A25, A26 => A26, A27 => A27,
+            A28 => A28, A29 => A29, A30 => A30, A31 => A31,
+
+            B0  => B0,  B1  => B1,  B2  => B2,  B3  => B3,
+            B4  => B4,  B5  => B5,  B6  => B6,  B7  => B7,
+            B8  => B8,  B9  => B9,  B10 => B10, B11 => B11,
+            B12 => B12, B13 => B13, B14 => B14, B15 => B15,
+            B16 => B16, B17 => B17, B18 => B18, B19 => B19,
+            B20 => B20, B21 => B21, B22 => B22, B23 => B23,
+            B24 => B24, B25 => B25, B26 => B26, B27 => B27,
+            B28 => B28, B29 => B29, B30 => B30, B31 => B31,
+
+            AI => AI, BI => BI, Carry => Carry, op0 => op0, op1 => op1,
+            res0  => res0,  res1  => res1,  res2  => res2,  res3  => res3,
+            res4  => res4,  res5  => res5,  res6  => res6,  res7  => res7,
+            res8  => res8,  res9  => res9,  res10 => res10, res11 => res11,
+            res12 => res12, res13 => res13, res14 => res14, res15 => res15,
+            res16 => res16, res17 => res17, res18 => res18, res19 => res19,
+            res20 => res20, res21 => res21, res22 => res22, res23 => res23,
+            res24 => res24, res25 => res25, res26 => res26, res27 => res27,
+            res28 => res28, res29 => res29, res30 => res30, res31 => res31,
+
+            OF => OF
+        );
+
+        instance edff0  of edff(D => res0,  CLK => CLK, E => E, Q => Q0);
+        instance edff1  of edff(D => res1,  CLK => CLK, E => E, Q => Q1);
+        instance edff2  of edff(D => res2,  CLK => CLK, E => E, Q => Q2);
+        instance edff3  of edff(D => res3,  CLK => CLK, E => E, Q => Q3);
+        instance edff4  of edff(D => res4,  CLK => CLK, E => E, Q => Q4);
+        instance edff5  of edff(D => res5,  CLK => CLK, E => E, Q => Q5);
+        instance edff6  of edff(D => res6,  CLK => CLK, E => E, Q => Q6);
+        instance edff7  of edff(D => res7,  CLK => CLK, E => E, Q => Q7);
+        instance edff8  of edff(D => res8,  CLK => CLK, E => E, Q => Q8);
+        instance edff9  of edff(D => res9,  CLK => CLK, E => E, Q => Q9);
+        instance edff10 of edff(D => res10, CLK => CLK, E => E, Q => Q10);
+        instance edff11 of edff(D => res11, CLK => CLK, E => E, Q => Q11);
+        instance edff12 of edff(D => res12, CLK => CLK, E => E, Q => Q12);
+        instance edff13 of edff(D => res13, CLK => CLK, E => E, Q => Q13);
+        instance edff14 of edff(D => res14, CLK => CLK, E => E, Q => Q14);
+        instance edff15 of edff(D => res15, CLK => CLK, E => E, Q => Q15);
+        instance edff16 of edff(D => res16, CLK => CLK, E => E, Q => Q16);
+        instance edff17 of edff(D => res17, CLK => CLK, E => E, Q => Q17);
+        instance edff18 of edff(D => res18, CLK => CLK, E => E, Q => Q18);
+        instance edff19 of edff(D => res19, CLK => CLK, E => E, Q => Q19);
+        instance edff20 of edff(D => res20, CLK => CLK, E => E, Q => Q20);
+        instance edff21 of edff(D => res21, CLK => CLK, E => E, Q => Q21);
+        instance edff22 of edff(D => res22, CLK => CLK, E => E, Q => Q22);
+        instance edff23 of edff(D => res23, CLK => CLK, E => E, Q => Q23);
+        instance edff24 of edff(D => res24, CLK => CLK, E => E, Q => Q24);
+        instance edff25 of edff(D => res25, CLK => CLK, E => E, Q => Q25);
+        instance edff26 of edff(D => res26, CLK => CLK, E => E, Q => Q26);
+        instance edff27 of edff(D => res27, CLK => CLK, E => E, Q => Q27);
+        instance edff28 of edff(D => res28, CLK => CLK, E => E, Q => Q28);
+        instance edff29 of edff(D => res29, CLK => CLK, E => E, Q => Q29);
+        instance edff30 of edff(D => res30, CLK => CLK, E => E, Q => Q30);
+        instance edff31 of edff(D => res31, CLK => CLK, E => E, Q => Q31);
+    }
+}

@@ -1,0 +1,18 @@
+entity inverter {
+    inputs : ["A", "AI"];
+    outputs : ["AIRes"];
+}
+
+architecture inverter {
+    signals : ["A", "AI", "AIRes"];
+    signalMapping : [
+        "A" <= "A",
+        "AI" <= "AI",
+        "AIRes" <= "AIRes"
+    ];
+
+    behaviour{
+        AIRes <= (not(A) and AI) or (A and not(AI));
+    }
+}
+

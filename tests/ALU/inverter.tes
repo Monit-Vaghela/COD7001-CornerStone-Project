@@ -1,0 +1,8 @@
+simulator inverter {
+    processes {
+        process(["A" <= 0, "AI" <= 0], 1);
+        process(["A" <= 0, "AI" <= 1], 2);
+        process(["A" <= 1, "AI" <= 0], 3);
+        process(["A" <= 1, "AI" <= 1], 4);
+    }
+}

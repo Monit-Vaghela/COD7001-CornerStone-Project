@@ -1,0 +1,34 @@
+entity ALU {
+    inputs : ["A", "B", "AI", "BI", "Carry", "op0", "op1"];
+    outputs : ["res", "cout"];
+}
+
+architecture ALU {
+    signals : ["A", "B", "AI", "BI", "Carry", "op0", "op1", "res", "AIRes", "BIRes", "cout",
+               "andRes", "orRes", "sumRes", "xnorRes"];
+    signalMapping : [
+        "A" <= "A",
+        "B" <= "B",
+        "AI" <= "AI",
+        "BI" <= "BI",
+        "Carry" <= "Carry",
+        "op0" <= "op0",
+        "op1" <= "op1",
+        "res" <= "res",
+        "cout" <= "cout"
+    ];
+    behaviour {
+        AIRes <= A xor AI;
+        BIRes <= B xor BI;
+
+        andRes <= AIRes and BIRes;
+        orRes <= AIRes or BIRes;
+        sumRes <= (AIRes xor BIRes) xor Carry;
+        xnorRes <= AIRes xnor BIRes;
+
+        res <= (andRes and (not(op1) and not(op0))) or (orRes and (not(op1) and op0)) or  (sumRes and (op1 and not(op0))) or (xnorRes and (op1 and op0));
+        cout <= (AIRes and BIRes) or ((AIRes xor BIRes) and Carry);
+    }
+
+}
+

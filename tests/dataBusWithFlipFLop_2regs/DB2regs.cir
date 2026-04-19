@@ -1,65 +1,129 @@
 entity DB2regs {
     inputs : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7",
+              "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15",
+              "A16", "A17", "A18", "A19", "A20", "A21", "A22", "A23",
+              "A24", "A25", "A26", "A27", "A28", "A29", "A30", "A31",
               "IM", "CLK", "S0", "R"];
-    outputs : ["DB0", "DB1", "DB2", "DB3", "DB4", "DB5", "DB6", "DB7"];
+    outputs : ["DB0", "DB1", "DB2", "DB3", "DB4", "DB5", "DB6", "DB7",
+               "DB8", "DB9", "DB10", "DB11", "DB12", "DB13", "DB14", "DB15",
+               "DB16", "DB17", "DB18", "DB19", "DB20", "DB21", "DB22", "DB23",
+               "DB24", "DB25", "DB26", "DB27", "DB28", "DB29", "DB30", "DB31"];
     uses ["regs", "DBline"];
 }
-
 architecture DB2regs {
     signals : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7",
-              "IM", "DB0", "DB1", "DB2", "DB3", "DB4", "DB5", 
-              "DB6", "DB7", "FF", "CLK", "S0", "s0",
-
-              "Q00", "Q01", "Q02", "Q03", "Q04", "Q05", "Q06", "Q07",
-              "Q10", "Q11", "Q12", "Q13", "Q14", "Q15", "Q16", "Q17",
-              "R", "w0", "w1"];
-
+               "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15",
+               "A16", "A17", "A18", "A19", "A20", "A21", "A22", "A23",
+               "A24", "A25", "A26", "A27", "A28", "A29", "A30", "A31",
+               "IM",
+               "DB0",  "DB1",  "DB2",  "DB3",  "DB4",  "DB5",  "DB6",  "DB7",
+               "DB8",  "DB9",  "DB10", "DB11", "DB12", "DB13", "DB14", "DB15",
+               "DB16", "DB17", "DB18", "DB19", "DB20", "DB21", "DB22", "DB23",
+               "DB24", "DB25", "DB26", "DB27", "DB28", "DB29", "DB30", "DB31",
+               "FF", "CLK", "S0", "s0",
+               "Q00", "Q01", "Q02", "Q03", "Q04", "Q05", "Q06", "Q07",
+               "Q08", "Q09", "Q010", "Q011", "Q012", "Q013", "Q014", "Q015",
+               "Q016", "Q017", "Q018", "Q019", "Q020", "Q021", "Q022", "Q023",
+               "Q024", "Q025", "Q026", "Q027", "Q028", "Q029", "Q030", "Q031",
+               "Q10", "Q11", "Q12", "Q13", "Q14", "Q15", "Q16", "Q17",
+               "Q18", "Q19", "Q110", "Q111", "Q112", "Q113", "Q114", "Q115",
+               "Q116", "Q117", "Q118", "Q119", "Q120", "Q121", "Q122", "Q123",
+               "Q124", "Q125", "Q126", "Q127", "Q128", "Q129", "Q130", "Q131",
+               "R", "w0", "w1"];
     signalMapping : [
-        "A0" <= "A0",
-        "A1" <= "A1",
-        "A2" <= "A2",
-        "A3" <= "A3",
-        "A4" <= "A4",
-        "A5" <= "A5",
-        "A6" <= "A6",
-        "A7" <= "A7",
-
-        "DB0" <= "DB0",
-        "DB1" <= "DB1",
-        "DB2" <= "DB2",
-        "DB3" <= "DB3",
-        "DB4" <= "DB4",
-        "DB5" <= "DB5",
-        "DB6" <= "DB6",
-        "DB7" <= "DB7",
-
+        "A0" <= "A0",   "A1" <= "A1",   "A2" <= "A2",   "A3" <= "A3",
+        "A4" <= "A4",   "A5" <= "A5",   "A6" <= "A6",   "A7" <= "A7",
+        "A8" <= "A8",   "A9" <= "A9",   "A10" <= "A10", "A11" <= "A11",
+        "A12" <= "A12", "A13" <= "A13", "A14" <= "A14", "A15" <= "A15",
+        "A16" <= "A16", "A17" <= "A17", "A18" <= "A18", "A19" <= "A19",
+        "A20" <= "A20", "A21" <= "A21", "A22" <= "A22", "A23" <= "A23",
+        "A24" <= "A24", "A25" <= "A25", "A26" <= "A26", "A27" <= "A27",
+        "A28" <= "A28", "A29" <= "A29", "A30" <= "A30", "A31" <= "A31",
+        "DB0"  <= "DB0",  "DB1"  <= "DB1",  "DB2"  <= "DB2",  "DB3"  <= "DB3",
+        "DB4"  <= "DB4",  "DB5"  <= "DB5",  "DB6"  <= "DB6",  "DB7"  <= "DB7",
+        "DB8"  <= "DB8",  "DB9"  <= "DB9",  "DB10" <= "DB10", "DB11" <= "DB11",
+        "DB12" <= "DB12", "DB13" <= "DB13", "DB14" <= "DB14", "DB15" <= "DB15",
+        "DB16" <= "DB16", "DB17" <= "DB17", "DB18" <= "DB18", "DB19" <= "DB19",
+        "DB20" <= "DB20", "DB21" <= "DB21", "DB22" <= "DB22", "DB23" <= "DB23",
+        "DB24" <= "DB24", "DB25" <= "DB25", "DB26" <= "DB26", "DB27" <= "DB27",
+        "DB28" <= "DB28", "DB29" <= "DB29", "DB30" <= "DB30", "DB31" <= "DB31",
         "IM" <= "IM",
         "CLK" <= "CLK",
         "S0" <= "S0",
         "R" <= "R"
     ];
-
     behaviour {
         FF <= not(IM);
         s0 <= not(S0);
         w0 <= FF and s0;
         w1 <= FF and S0;
+        instance db0  of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q00,  Q1 => Q10,  A => A0,  DB => DB0);
+        instance db1  of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q01,  Q1 => Q11,  A => A1,  DB => DB1);
+        instance db2  of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q02,  Q1 => Q12,  A => A2,  DB => DB2);
+        instance db3  of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q03,  Q1 => Q13,  A => A3,  DB => DB3);
+        instance db4  of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q04,  Q1 => Q14,  A => A4,  DB => DB4);
+        instance db5  of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q05,  Q1 => Q15,  A => A5,  DB => DB5);
+        instance db6  of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q06,  Q1 => Q16,  A => A6,  DB => DB6);
+        instance db7  of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q07,  Q1 => Q17,  A => A7,  DB => DB7);
+        instance db8  of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q08,  Q1 => Q18,  A => A8,  DB => DB8);
+        instance db9  of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q09,  Q1 => Q19,  A => A9,  DB => DB9);
+        instance db10 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q010, Q1 => Q110, A => A10, DB => DB10);
+        instance db11 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q011, Q1 => Q111, A => A11, DB => DB11);
+        instance db12 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q012, Q1 => Q112, A => A12, DB => DB12);
+        instance db13 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q013, Q1 => Q113, A => A13, DB => DB13);
+        instance db14 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q014, Q1 => Q114, A => A14, DB => DB14);
+        instance db15 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q015, Q1 => Q115, A => A15, DB => DB15);
+        instance db16 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q016, Q1 => Q116, A => A16, DB => DB16);
+        instance db17 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q017, Q1 => Q117, A => A17, DB => DB17);
+        instance db18 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q018, Q1 => Q118, A => A18, DB => DB18);
+        instance db19 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q019, Q1 => Q119, A => A19, DB => DB19);
+        instance db20 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q020, Q1 => Q120, A => A20, DB => DB20);
+        instance db21 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q021, Q1 => Q121, A => A21, DB => DB21);
+        instance db22 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q022, Q1 => Q122, A => A22, DB => DB22);
+        instance db23 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q023, Q1 => Q123, A => A23, DB => DB23);
+        instance db24 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q024, Q1 => Q124, A => A24, DB => DB24);
+        instance db25 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q025, Q1 => Q125, A => A25, DB => DB25);
+        instance db26 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q026, Q1 => Q126, A => A26, DB => DB26);
+        instance db27 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q027, Q1 => Q127, A => A27, DB => DB27);
+        instance db28 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q028, Q1 => Q128, A => A28, DB => DB28);
+        instance db29 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q029, Q1 => Q129, A => A29, DB => DB29);
+        instance db30 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q030, Q1 => Q130, A => A30, DB => DB30);
+        instance db31 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q031, Q1 => Q131, A => A31, DB => DB31);
 
-        instance db0 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q00, Q1 => Q10, A => A0, DB => DB0);
-        instance db1 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q01, Q1 => Q11, A => A1, DB => DB1);
-        instance db2 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q02, Q1 => Q12, A => A2, DB => DB2);
-        instance db3 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q03, Q1 => Q13, A => A3, DB => DB3);
-        instance db4 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q04, Q1 => Q14, A => A4, DB => DB4);
-        instance db5 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q05, Q1 => Q15, A => A5, DB => DB5);
-        instance db6 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q06, Q1 => Q16, A => A6, DB => DB6);
-        instance db7 of DBline (IM => IM, w0 => w0, w1 => w1, Q0 => Q07, Q1 => Q17, A => A7, DB => DB7);
+        instance reg0 of regs (CLK => CLK, E => s0, R => R,
+                               D0  => DB0,  D1  => DB1,  D2  => DB2,  D3  => DB3,
+                               D4  => DB4,  D5  => DB5,  D6  => DB6,  D7  => DB7,
+                               D8  => DB8,  D9  => DB9,  D10 => DB10, D11 => DB11,
+                               D12 => DB12, D13 => DB13, D14 => DB14, D15 => DB15,
+                               D16 => DB16, D17 => DB17, D18 => DB18, D19 => DB19,
+                               D20 => DB20, D21 => DB21, D22 => DB22, D23 => DB23,
+                               D24 => DB24, D25 => DB25, D26 => DB26, D27 => DB27,
+                               D28 => DB28, D29 => DB29, D30 => DB30, D31 => DB31,
+                               Q0  => Q00,  Q1  => Q01,  Q2  => Q02,  Q3  => Q03,
+                               Q4  => Q04,  Q5  => Q05,  Q6  => Q06,  Q7  => Q07,
+                               Q8  => Q08,  Q9  => Q09,  Q10 => Q010, Q11 => Q011,
+                               Q12 => Q012, Q13 => Q013, Q14 => Q014, Q15 => Q015,
+                               Q16 => Q016, Q17 => Q017, Q18 => Q018, Q19 => Q019,
+                               Q20 => Q020, Q21 => Q021, Q22 => Q022, Q23 => Q023,
+                               Q24 => Q024, Q25 => Q025, Q26 => Q026, Q27 => Q027,
+                               Q28 => Q028, Q29 => Q029, Q30 => Q030, Q31 => Q031);
 
-        instance reg0 of regs (CLK => CLK, E => s0, R => R, 
-                               D0 => DB0, D1 => DB1, D2 => DB2, D3 => DB3, D4 => DB4, D5 => DB5, D6 => DB6, D7 => DB7,
-                               Q0 => Q00, Q1 => Q01, Q2 => Q02, Q3 => Q03, Q4 => Q04, Q5 => Q05, Q6 => Q06, Q7 => Q07);
-        instance reg1 of regs (CLK => CLK, E => S0, R => R, 
-                               D0 => DB0, D1 => DB1, D2 => DB2, D3 => DB3, D4 => DB4, D5 => DB5, D6 => DB6, D7 => DB7,
-                               Q0 => Q10, Q1 => Q11, Q2 => Q12, Q3 => Q13, Q4 => Q14, Q5 => Q15, Q6 => Q16, Q7 => Q17);
-
+        instance reg1 of regs (CLK => CLK, E => S0, R => R,
+                               D0  => DB0,  D1  => DB1,  D2  => DB2,  D3  => DB3,
+                               D4  => DB4,  D5  => DB5,  D6  => DB6,  D7  => DB7,
+                               D8  => DB8,  D9  => DB9,  D10 => DB10, D11 => DB11,
+                               D12 => DB12, D13 => DB13, D14 => DB14, D15 => DB15,
+                               D16 => DB16, D17 => DB17, D18 => DB18, D19 => DB19,
+                               D20 => DB20, D21 => DB21, D22 => DB22, D23 => DB23,
+                               D24 => DB24, D25 => DB25, D26 => DB26, D27 => DB27,
+                               D28 => DB28, D29 => DB29, D30 => DB30, D31 => DB31,
+                               Q0  => Q10,  Q1  => Q11,  Q2  => Q12,  Q3  => Q13,
+                               Q4  => Q14,  Q5  => Q15,  Q6  => Q16,  Q7  => Q17,
+                               Q8  => Q18,  Q9  => Q19,  Q10 => Q110, Q11 => Q111,
+                               Q12 => Q112, Q13 => Q113, Q14 => Q114, Q15 => Q115,
+                               Q16 => Q116, Q17 => Q117, Q18 => Q118, Q19 => Q119,
+                               Q20 => Q120, Q21 => Q121, Q22 => Q122, Q23 => Q123,
+                               Q24 => Q124, Q25 => Q125, Q26 => Q126, Q27 => Q127,
+                               Q28 => Q128, Q29 => Q129, Q30 => Q130, Q31 => Q131);
     }
 }

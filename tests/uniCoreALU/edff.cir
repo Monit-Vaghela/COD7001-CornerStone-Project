@@ -1,0 +1,21 @@
+entity edff {
+    inputs : ["D", "CLK", "E", "R"];
+    outputs : ["Q"];
+}
+
+architecture edff {
+    signals : ["D", "CLK", "Q", "E", "Deff", "R"];
+    signalMapping : [
+        "D" <= "D",
+        "CLK" <= "CLK",
+        "Q" <= "Q",
+        "E" <= "E",
+        "R" <= "R"
+    ];
+    behaviour {
+        Deff <= (R and E and D) or (Q and not(R and E));
+        if is_risingEdge(CLK) {
+            Q <= Deff;
+        }
+    }
+}

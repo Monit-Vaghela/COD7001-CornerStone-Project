@@ -1,0 +1,22 @@
+entity DBline {
+    inputs : ["IM", "w0", "w1", 
+              "Q0", "Q1", "A"];
+    outputs : ["DB"];
+}
+
+architecture DBline {
+    signals : ["IM", "w0", "w1", 
+              "Q0", "Q1", "A", "DB"];
+    signalMapping : [
+        "IM" <= "IM",
+        "w0" <= "w0",
+        "w1" <= "w1",
+        "Q0" <= "Q0",
+        "Q1" <= "Q1",
+        "A" <= "A",
+        "DB" <= "DB"
+    ];
+    behaviour {
+        DB <= (A and IM) or ((w0 and Q0) or (w1 and Q1));
+    }
+}

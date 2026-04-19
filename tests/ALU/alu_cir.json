@@ -1,0 +1,250 @@
+{
+    "entity" : {
+        "metadata" : {
+            "noOfInputPorts" : 7,
+            "noOfOutputPorts" : 1
+        },
+
+        "inputs" : ["A", "B", "AI", "BI", "Carry", "op0", "op1"],
+        "outputs" : ["res"],
+        "intermediates" : ["AIRes", "BIRes", "andRes", "invA_y16", "invA_y17", "invA_y18", "invA_y19", "invA_y20", "invA_y21", "invA_y22", "invA_y23", "orRes", "sumRes", "xnorRes", "y1", "y2", "y3", "y4", "y5", "y6", "y7", "y8", "y9", "y10", "y11", "y12", "y13", "y14", "y15"]
+    },
+
+    "Architecture" : {
+        "metadata" : {
+            "noOfTotalGates" : 30,
+            "noOfAndGates" : 13,
+            "noOforGates" : 6,
+            "noOfNotGates" : 8,
+            "noOfXorGates" : 2,
+            "noOfXnorGates" : 1,
+            "noOfSignals" : 14
+        },
+
+        "SignalMapping" : 
+            [
+                {"A" : "A", "SignalType" : "input"},
+                {"B" : "B", "SignalType" : "input"},
+                {"AI" : "AI", "SignalType" : "input"},
+                {"BI" : "BI", "SignalType" : "input"},
+                {"Carry" : "Carry", "SignalType" : "input"},
+                {"op0" : "op0", "SignalType" : "input"},
+                {"op1" : "op1", "SignalType" : "input"},
+                {"res" : "res", "SignalType" : "output"}
+            ]
+        ,
+
+        "Behaviour" : [
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "andRes",
+                "gateExpressionInputs" : ["AIRes", "BIRes"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(AIRes, BIRes)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "orRes",
+                "gateExpressionInputs" : ["AIRes", "BIRes"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(AIRes, BIRes)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y1",
+                "gateExpressionInputs" : ["AIRes", "BIRes"],
+                "gatesUsed" : ["xor"],
+                "expression" : "xor(AIRes, BIRes)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "sumRes",
+                "gateExpressionInputs" : ["y1", "Carry"],
+                "gatesUsed" : ["xor"],
+                "expression" : "xor(y1, Carry)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "xnorRes",
+                "gateExpressionInputs" : ["AIRes", "BIRes"],
+                "gatesUsed" : ["xnor"],
+                "expression" : "xnor(AIRes, BIRes)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y2",
+                "gateExpressionInputs" : ["op1"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(op1)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y3",
+                "gateExpressionInputs" : ["op0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(op0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y4",
+                "gateExpressionInputs" : ["y2", "y3"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(y2, y3)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y5",
+                "gateExpressionInputs" : ["andRes", "y4"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(andRes, y4)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y6",
+                "gateExpressionInputs" : ["op1"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(op1)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y7",
+                "gateExpressionInputs" : ["y6", "op0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(y6, op0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y8",
+                "gateExpressionInputs" : ["orRes", "y7"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(orRes, y7)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y9",
+                "gateExpressionInputs" : ["y5", "y8"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(y5, y8)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y10",
+                "gateExpressionInputs" : ["op0"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(op0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y11",
+                "gateExpressionInputs" : ["op1", "y10"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(op1, y10)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y12",
+                "gateExpressionInputs" : ["sumRes", "y11"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(sumRes, y11)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y13",
+                "gateExpressionInputs" : ["y9", "y12"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(y9, y12)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y14",
+                "gateExpressionInputs" : ["op1", "op0"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(op1, op0)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y15",
+                "gateExpressionInputs" : ["xnorRes", "y14"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(xnorRes, y14)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "res",
+                "gateExpressionInputs" : ["y13", "y15"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(y13, y15)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "invA_y16",
+                "gateExpressionInputs" : ["A"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(A)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "invA_y17",
+                "gateExpressionInputs" : ["invA_y16", "AI"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(invA_y16, AI)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "invA_y18",
+                "gateExpressionInputs" : ["AI"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(AI)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "invA_y19",
+                "gateExpressionInputs" : ["A", "invA_y18"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(A, invA_y18)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "AIRes",
+                "gateExpressionInputs" : ["invA_y17", "invA_y19"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(invA_y17, invA_y19)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "invA_y20",
+                "gateExpressionInputs" : ["B"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(B)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "invA_y21",
+                "gateExpressionInputs" : ["invA_y20", "BI"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(invA_y20, BI)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "invA_y22",
+                "gateExpressionInputs" : ["BI"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(BI)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "invA_y23",
+                "gateExpressionInputs" : ["B", "invA_y22"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(B, invA_y22)"
+            },
+            {
+                "ProcessType" : "Gate",
+                "OutputSignal" : "BIRes",
+                "gateExpressionInputs" : ["invA_y21", "invA_y23"],
+                "gatesUsed" : ["or"],
+                "expression" : "or(invA_y21, invA_y23)"
+            }
+        ]
+    }
+}
