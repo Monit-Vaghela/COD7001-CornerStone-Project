@@ -1,13 +1,12 @@
 entity singleCoreALU {
-    inputs  : ["IM", "CLK", "S0", "R",
-               "A0",  "A1",  "A2",  "A3",  "A4",  "A5",  "A6",  "A7",
-               "A8",  "A9",  "A10", "A11", "A12", "A13", "A14", "A15",
-               "A16", "A17", "A18", "A19", "A20", "A21", "A22", "A23",
-               "A24", "A25", "A26", "A27", "A28", "A29", "A30", "A31",
-               "AI", "BI", "Carry", "op0", "op1",
-               "EALU"];
-    outputs : ["res0",  "res1",  "res2",  "res3",  "res4",  "res5",  "res6",  "res7",
-               "res8",  "res9",  "res10", "res11", "res12", "res13", "res14", "res15",
+    inputs : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7",
+              "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15",
+              "A16", "A17", "A18", "A19", "A20", "A21", "A22", "A23",
+              "A24", "A25", "A26", "A27", "A28", "A29", "A30", "A31",
+              "IM", "CLK", "S0", "R",
+              "AI", "BI", "Carry", "op0", "op1", "Ealu"];
+    outputs : ["res0", "res1", "res2", "res3", "res4", "res5", "res6", "res7",
+               "res8", "res9", "res10", "res11", "res12", "res13", "res14", "res15",
                "res16", "res17", "res18", "res19", "res20", "res21", "res22", "res23",
                "res24", "res25", "res26", "res27", "res28", "res29", "res30", "res31",
                "OF"];
@@ -15,59 +14,44 @@ entity singleCoreALU {
 }
 
 architecture singleCoreALU {
-    signals : ["IM", "CLK", "S0", "R",
-               "A0",  "A1",  "A2",  "A3",  "A4",  "A5",  "A6",  "A7",
-               "A8",  "A9",  "A10", "A11", "A12", "A13", "A14", "A15",
+    signals : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7",
+               "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15",
                "A16", "A17", "A18", "A19", "A20", "A21", "A22", "A23",
                "A24", "A25", "A26", "A27", "A28", "A29", "A30", "A31",
-               "AI", "BI", "Carry", "op0", "op1",
-               "EALU",
-
+               "IM", "CLK", "S0", "R",
+               "AI", "BI", "Carry", "op0", "op1", "Ealu",
                "DB0",  "DB1",  "DB2",  "DB3",  "DB4",  "DB5",  "DB6",  "DB7",
                "DB8",  "DB9",  "DB10", "DB11", "DB12", "DB13", "DB14", "DB15",
                "DB16", "DB17", "DB18", "DB19", "DB20", "DB21", "DB22", "DB23",
                "DB24", "DB25", "DB26", "DB27", "DB28", "DB29", "DB30", "DB31",
-
-               "Q00",  "Q01",  "Q02",  "Q03",  "Q04",  "Q05",  "Q06",  "Q07",
-               "Q08",  "Q09",  "Q010", "Q011", "Q012", "Q013", "Q014", "Q015",
+               "Q00", "Q01", "Q02", "Q03", "Q04", "Q05", "Q06", "Q07",
+               "Q08", "Q09", "Q010", "Q011", "Q012", "Q013", "Q014", "Q015",
                "Q016", "Q017", "Q018", "Q019", "Q020", "Q021", "Q022", "Q023",
                "Q024", "Q025", "Q026", "Q027", "Q028", "Q029", "Q030", "Q031",
-
-               "Q10",  "Q11",  "Q12",  "Q13",  "Q14",  "Q15",  "Q16",  "Q17",
-               "Q18",  "Q19",  "Q110", "Q111", "Q112", "Q113", "Q114", "Q115",
+               "Q10", "Q11", "Q12", "Q13", "Q14", "Q15", "Q16", "Q17",
+               "Q18", "Q19", "Q110", "Q111", "Q112", "Q113", "Q114", "Q115",
                "Q116", "Q117", "Q118", "Q119", "Q120", "Q121", "Q122", "Q123",
                "Q124", "Q125", "Q126", "Q127", "Q128", "Q129", "Q130", "Q131",
-
-               "rawRes0",  "rawRes1",  "rawRes2",  "rawRes3",
-               "rawRes4",  "rawRes5",  "rawRes6",  "rawRes7",
-               "rawRes8",  "rawRes9",  "rawRes10", "rawRes11",
-               "rawRes12", "rawRes13", "rawRes14", "rawRes15",
-               "rawRes16", "rawRes17", "rawRes18", "rawRes19",
-               "rawRes20", "rawRes21", "rawRes22", "rawRes23",
-               "rawRes24", "rawRes25", "rawRes26", "rawRes27",
-               "rawRes28", "rawRes29", "rawRes30", "rawRes31",
-
-               "res0",  "res1",  "res2",  "res3",  "res4",  "res5",  "res6",  "res7",
-               "res8",  "res9",  "res10", "res11", "res12", "res13", "res14", "res15",
+               "res0", "res1", "res2", "res3", "res4", "res5", "res6", "res7",
+               "res8", "res9", "res10", "res11", "res12", "res13", "res14", "res15",
                "res16", "res17", "res18", "res19", "res20", "res21", "res22", "res23",
                "res24", "res25", "res26", "res27", "res28", "res29", "res30", "res31",
                "OF"];
-
     signalMapping : [
-        "IM"  <= "IM",  "CLK" <= "CLK", "S0"  <= "S0",  "R"   <= "R",
-        "A0"  <= "A0",  "A1"  <= "A1",  "A2"  <= "A2",  "A3"  <= "A3",
-        "A4"  <= "A4",  "A5"  <= "A5",  "A6"  <= "A6",  "A7"  <= "A7",
-        "A8"  <= "A8",  "A9"  <= "A9",  "A10" <= "A10", "A11" <= "A11",
+        "A0" <= "A0",   "A1" <= "A1",   "A2" <= "A2",   "A3" <= "A3",
+        "A4" <= "A4",   "A5" <= "A5",   "A6" <= "A6",   "A7" <= "A7",
+        "A8" <= "A8",   "A9" <= "A9",   "A10" <= "A10", "A11" <= "A11",
         "A12" <= "A12", "A13" <= "A13", "A14" <= "A14", "A15" <= "A15",
         "A16" <= "A16", "A17" <= "A17", "A18" <= "A18", "A19" <= "A19",
         "A20" <= "A20", "A21" <= "A21", "A22" <= "A22", "A23" <= "A23",
         "A24" <= "A24", "A25" <= "A25", "A26" <= "A26", "A27" <= "A27",
         "A28" <= "A28", "A29" <= "A29", "A30" <= "A30", "A31" <= "A31",
-        "AI"    <= "AI",    "BI"  <= "BI",  "Carry" <= "Carry",
-        "op0"   <= "op0",   "op1" <= "op1", "EALU"  <= "EALU",
-        "res0"  <= "res0",  "res1"  <= "res1",  "res2"  <= "res2",  "res3"  <= "res3",
-        "res4"  <= "res4",  "res5"  <= "res5",  "res6"  <= "res6",  "res7"  <= "res7",
-        "res8"  <= "res8",  "res9"  <= "res9",  "res10" <= "res10", "res11" <= "res11",
+        "IM" <= "IM", "CLK" <= "CLK", "S0" <= "S0", "R" <= "R",
+        "AI" <= "AI", "BI" <= "BI", "Carry" <= "Carry",
+        "op0" <= "op0", "op1" <= "op1", "Ealu" <= "Ealu",
+        "res0" <= "res0",   "res1" <= "res1",   "res2" <= "res2",   "res3" <= "res3",
+        "res4" <= "res4",   "res5" <= "res5",   "res6" <= "res6",   "res7" <= "res7",
+        "res8" <= "res8",   "res9" <= "res9",   "res10" <= "res10", "res11" <= "res11",
         "res12" <= "res12", "res13" <= "res13", "res14" <= "res14", "res15" <= "res15",
         "res16" <= "res16", "res17" <= "res17", "res18" <= "res18", "res19" <= "res19",
         "res20" <= "res20", "res21" <= "res21", "res22" <= "res22", "res23" <= "res23",
@@ -75,18 +59,17 @@ architecture singleCoreALU {
         "res28" <= "res28", "res29" <= "res29", "res30" <= "res30", "res31" <= "res31",
         "OF" <= "OF"
     ];
-
     behaviour {
-        instance regfile of DB2regs (
-            IM  => IM,  CLK => CLK, S0  => S0,  R   => R,
-            A0  => A0,  A1  => A1,  A2  => A2,  A3  => A3,
-            A4  => A4,  A5  => A5,  A6  => A6,  A7  => A7,
-            A8  => A8,  A9  => A9,  A10 => A10, A11 => A11,
+        instance databus of DB2regs (
+            A0 => A0,   A1 => A1,   A2 => A2,   A3 => A3,
+            A4 => A4,   A5 => A5,   A6 => A6,   A7 => A7,
+            A8 => A8,   A9 => A9,   A10 => A10, A11 => A11,
             A12 => A12, A13 => A13, A14 => A14, A15 => A15,
             A16 => A16, A17 => A17, A18 => A18, A19 => A19,
             A20 => A20, A21 => A21, A22 => A22, A23 => A23,
             A24 => A24, A25 => A25, A26 => A26, A27 => A27,
             A28 => A28, A29 => A29, A30 => A30, A31 => A31,
+            IM => IM, CLK => CLK, S0 => S0, R => R,
             DB0  => DB0,  DB1  => DB1,  DB2  => DB2,  DB3  => DB3,
             DB4  => DB4,  DB5  => DB5,  DB6  => DB6,  DB7  => DB7,
             DB8  => DB8,  DB9  => DB9,  DB10 => DB10, DB11 => DB11,
@@ -95,7 +78,6 @@ architecture singleCoreALU {
             DB20 => DB20, DB21 => DB21, DB22 => DB22, DB23 => DB23,
             DB24 => DB24, DB25 => DB25, DB26 => DB26, DB27 => DB27,
             DB28 => DB28, DB29 => DB29, DB30 => DB30, DB31 => DB31,
-            
             Q00 => Q00,   Q01 => Q01,   Q02 => Q02,   Q03 => Q03,
             Q04 => Q04,   Q05 => Q05,   Q06 => Q06,   Q07 => Q07,
             Q08 => Q08,   Q09 => Q09,   Q010 => Q010, Q011 => Q011,
@@ -104,7 +86,6 @@ architecture singleCoreALU {
             Q020 => Q020, Q021 => Q021, Q022 => Q022, Q023 => Q023,
             Q024 => Q024, Q025 => Q025, Q026 => Q026, Q027 => Q027,
             Q028 => Q028, Q029 => Q029, Q030 => Q030, Q031 => Q031,
-
             Q10 => Q10,   Q11 => Q11,   Q12 => Q12,   Q13 => Q13,
             Q14 => Q14,   Q15 => Q15,   Q16 => Q16,   Q17 => Q17,
             Q18 => Q18,   Q19 => Q19,   Q110 => Q110, Q111 => Q111,
@@ -116,68 +97,33 @@ architecture singleCoreALU {
         );
 
         instance alu of thirty_two_bit_ALU (
-            A0  => Q00,  A1  => Q01,  A2  => Q02,  A3  => Q03,
-            A4  => Q04,  A5  => Q05,  A6  => Q06,  A7  => Q07,
-            A8  => Q08,  A9  => Q09,  A10 => Q010, A11 => Q011,
+            A0 => Q00,   A1 => Q01,   A2 => Q02,   A3 => Q03,
+            A4 => Q04,   A5 => Q05,   A6 => Q06,   A7 => Q07,
+            A8 => Q08,   A9 => Q09,   A10 => Q010, A11 => Q011,
             A12 => Q012, A13 => Q013, A14 => Q014, A15 => Q015,
             A16 => Q016, A17 => Q017, A18 => Q018, A19 => Q019,
             A20 => Q020, A21 => Q021, A22 => Q022, A23 => Q023,
             A24 => Q024, A25 => Q025, A26 => Q026, A27 => Q027,
             A28 => Q028, A29 => Q029, A30 => Q030, A31 => Q031,
-
-            B0  => Q10,  B1  => Q11,  B2  => Q12,  B3  => Q13,
-            B4  => Q14,  B5  => Q15,  B6  => Q16,  B7  => Q17,
-            B8  => Q18,  B9  => Q19,  B10 => Q110, B11 => Q111,
+            B0 => Q10,   B1 => Q11,   B2 => Q12,   B3 => Q13,
+            B4 => Q14,   B5 => Q15,   B6 => Q16,   B7 => Q17,
+            B8 => Q18,   B9 => Q19,   B10 => Q110, B11 => Q111,
             B12 => Q112, B13 => Q113, B14 => Q114, B15 => Q115,
             B16 => Q116, B17 => Q117, B18 => Q118, B19 => Q119,
             B20 => Q120, B21 => Q121, B22 => Q122, B23 => Q123,
             B24 => Q124, B25 => Q125, B26 => Q126, B27 => Q127,
             B28 => Q128, B29 => Q129, B30 => Q130, B31 => Q131,
-
-            AI => AI, BI => BI, Carry => Carry, op0 => op0, op1 => op1,
-
-            res0  => rawRes0,  res1  => rawRes1,  res2  => rawRes2,  res3  => rawRes3,
-            res4  => rawRes4,  res5  => rawRes5,  res6  => rawRes6,  res7  => rawRes7,
-            res8  => rawRes8,  res9  => rawRes9,  res10 => rawRes10, res11 => rawRes11,
-            res12 => rawRes12, res13 => rawRes13, res14 => rawRes14, res15 => rawRes15,
-            res16 => rawRes16, res17 => rawRes17, res18 => rawRes18, res19 => rawRes19,
-            res20 => rawRes20, res21 => rawRes21, res22 => rawRes22, res23 => rawRes23,
-            res24 => rawRes24, res25 => rawRes25, res26 => rawRes26, res27 => rawRes27,
-            res28 => rawRes28, res29 => rawRes29, res30 => rawRes30, res31 => rawRes31,
+            AI => AI, BI => BI, Carry => Carry,
+            op0 => op0, op1 => op1, Ealu => Ealu, CLK => CLK,
+            res0 => res0,   res1 => res1,   res2 => res2,   res3 => res3,
+            res4 => res4,   res5 => res5,   res6 => res6,   res7 => res7,
+            res8 => res8,   res9 => res9,   res10 => res10, res11 => res11,
+            res12 => res12, res13 => res13, res14 => res14, res15 => res15,
+            res16 => res16, res17 => res17, res18 => res18, res19 => res19,
+            res20 => res20, res21 => res21, res22 => res22, res23 => res23,
+            res24 => res24, res25 => res25, res26 => res26, res27 => res27,
+            res28 => res28, res29 => res29, res30 => res30, res31 => res31,
             OF => OF
         );
-
-        res0  <= rawRes0  and EALU;
-        res1  <= rawRes1  and EALU;
-        res2  <= rawRes2  and EALU;
-        res3  <= rawRes3  and EALU;
-        res4  <= rawRes4  and EALU;
-        res5  <= rawRes5  and EALU;
-        res6  <= rawRes6  and EALU;
-        res7  <= rawRes7  and EALU;
-        res8  <= rawRes8  and EALU;
-        res9  <= rawRes9  and EALU;
-        res10 <= rawRes10 and EALU;
-        res11 <= rawRes11 and EALU;
-        res12 <= rawRes12 and EALU;
-        res13 <= rawRes13 and EALU;
-        res14 <= rawRes14 and EALU;
-        res15 <= rawRes15 and EALU;
-        res16 <= rawRes16 and EALU;
-        res17 <= rawRes17 and EALU;
-        res18 <= rawRes18 and EALU;
-        res19 <= rawRes19 and EALU;
-        res20 <= rawRes20 and EALU;
-        res21 <= rawRes21 and EALU;
-        res22 <= rawRes22 and EALU;
-        res23 <= rawRes23 and EALU;
-        res24 <= rawRes24 and EALU;
-        res25 <= rawRes25 and EALU;
-        res26 <= rawRes26 and EALU;
-        res27 <= rawRes27 and EALU;
-        res28 <= rawRes28 and EALU;
-        res29 <= rawRes29 and EALU;
-        res30 <= rawRes30 and EALU;
-        res31 <= rawRes31 and EALU;
     }
 }

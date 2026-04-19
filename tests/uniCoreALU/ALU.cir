@@ -1,11 +1,12 @@
 entity ALU {
-    inputs : ["A", "B", "AI", "BI", "Carry", "op0", "op1"];
+    inputs : ["A", "B", "AI", "BI", "Carry", "op0", "op1", "Ealu", "CLK"];
     outputs : ["res", "cout"];
+    uses ["edff1"];
 }
 
 architecture ALU {
     signals : ["A", "B", "AI", "BI", "Carry", "op0", "op1", "res", "AIRes", "BIRes", "cout",
-               "andRes", "orRes", "sumRes", "xnorRes"];
+               "andRes", "orRes", "sumRes", "xnorRes", "tempRes", "CLK", "Ealu"];
     signalMapping : [
         "A" <= "A",
         "B" <= "B",
@@ -15,7 +16,9 @@ architecture ALU {
         "op0" <= "op0",
         "op1" <= "op1",
         "res" <= "res",
-        "cout" <= "cout"
+        "cout" <= "cout",
+        "Ealu" <= "Ealu",
+        "CLK" <= "CLK"
     ];
     behaviour {
         AIRes <= A xor AI;
@@ -26,7 +29,8 @@ architecture ALU {
         sumRes <= (AIRes xor BIRes) xor Carry;
         xnorRes <= AIRes xnor BIRes;
 
-        res <= (andRes and (not(op1) and not(op0))) or (orRes and (not(op1) and op0)) or  (sumRes and (op1 and not(op0))) or (xnorRes and (op1 and op0));
+        tempRes <= (andRes and (not(op1) and not(op0))) or (orRes and (not(op1) and op0)) or  (sumRes and (op1 and not(op0))) or (xnorRes and (op1 and op0));
+        instance edff of edff1 (D => tempRes, CLK => CLK, Q => res, E => Ealu);
         cout <= (AIRes and BIRes) or ((AIRes xor BIRes) and Carry);
     }
 

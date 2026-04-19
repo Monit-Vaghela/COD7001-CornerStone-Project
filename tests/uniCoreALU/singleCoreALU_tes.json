@@ -1,9 +1,9 @@
 {
     "simulation" : {
         "metadata" : {
-            "noOfProcesses" : 85,
+            "noOfProcesses" : 87,
             "initialTimeStamp" : 1,
-            "finalTimeStamp" : 15
+            "finalTimeStamp" : 16
         },
         "Processes" : 
         [
@@ -44,7 +44,7 @@
             {"CLK" : 1, "timestamp" : 3},
             {"CLK" : 0, "timestamp" : 4},
             {"R" : 1, "timestamp" : 5},
-            {"S0" : 0, "timestamp" : 5},
+            {"S0" : 1, "timestamp" : 5},
             {"CLK" : 1, "timestamp" : 6},
             {"CLK" : 0, "timestamp" : 7},
             {"A0" : 0, "timestamp" : 8},
@@ -80,18 +80,20 @@
             {"A8" : 0, "timestamp" : 8},
             {"A9" : 1, "timestamp" : 8},
             {"R" : 1, "timestamp" : 9},
-            {"S0" : 1, "timestamp" : 9},
+            {"S0" : 0, "timestamp" : 9},
             {"CLK" : 1, "timestamp" : 10},
-            {"CLK" : 0, "timestamp" : 11},
-            {"CLK" : 1, "timestamp" : 12},
+            {"S0" : 1, "timestamp" : 10},
+            {"IM" : 0, "timestamp" : 11},
+            {"AI" : 0, "timestamp" : 12},
+            {"BI" : 0, "timestamp" : 12},
+            {"Carry" : 0, "timestamp" : 12},
+            {"op0" : 0, "timestamp" : 12},
+            {"op1" : 1, "timestamp" : 12},
             {"CLK" : 0, "timestamp" : 13},
-            {"IM" : 0, "timestamp" : 14},
-            {"AI" : 0, "timestamp" : 15},
-            {"BI" : 0, "timestamp" : 15},
-            {"Carry" : 0, "timestamp" : 15},
-            {"EALU" : 1, "timestamp" : 15},
-            {"op0" : 0, "timestamp" : 15},
-            {"op1" : 1, "timestamp" : 15}
+            {"Ealu" : 1, "timestamp" : 14},
+            {"CLK" : 1, "timestamp" : 15},
+            {"CLK" : 0, "timestamp" : 16},
+            {"Ealu" : 0, "timestamp" : 16}
         ]
     }
 }

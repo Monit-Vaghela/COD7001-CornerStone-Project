@@ -5,28 +5,24 @@
             "noOfOutputPorts" : 33
         },
 
-        "inputs" : ["IM", "CLK", "S0", "R", "A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15", "A16", "A17", "A18", "A19", "A20", "A21", "A22", "A23", "A24", "A25", "A26", "A27", "A28", "A29", "A30", "A31", "AI", "BI", "Carry", "op0", "op1", "EALU"],
+        "inputs" : ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12", "A13", "A14", "A15", "A16", "A17", "A18", "A19", "A20", "A21", "A22", "A23", "A24", "A25", "A26", "A27", "A28", "A29", "A30", "A31", "IM", "CLK", "S0", "R", "AI", "BI", "Carry", "op0", "op1", "Ealu"],
         "outputs" : ["res0", "res1", "res2", "res3", "res4", "res5", "res6", "res7", "res8", "res9", "res10", "res11", "res12", "res13", "res14", "res15", "res16", "res17", "res18", "res19", "res20", "res21", "res22", "res23", "res24", "res25", "res26", "res27", "res28", "res29", "res30", "res31", "OF"],
-        "intermediates" : ["DB0", "DB1", "DB10", "DB11", "DB12", "DB13", "DB14", "DB15", "DB16", "DB17", "DB18", "DB19", "DB2", "DB20", "DB21", "DB22", "DB23", "DB24", "DB25", "DB26", "DB27", "DB28", "DB29", "DB3", "DB30", "DB31", "DB4", "DB5", "DB6", "DB7", "DB8", "DB9", "Q00", "Q01", "Q02", "Q03", "Q04", "Q05", "Q06", "Q07", "Q08", "Q09", "Q10", "Q010", "Q11", "Q011", "Q012", "Q12", "Q13", "Q013", "Q014", "Q14", "Q15", "Q015", "Q16", "Q016", "Q17", "Q017", "Q18", "Q018", "Q19", "Q019", "Q020", "Q021", "Q022", "Q023", "Q024", "Q025", "Q026", "Q027", "Q028", "Q029", "Q030", "Q031", "Q110", "Q111", "Q112", "Q113", "Q114", "Q115", "Q116", "Q117", "Q118", "Q119", "Q120", "Q121", "Q122", "Q123", "Q124", "Q125", "Q126", "Q127", "Q128", "Q129", "Q130", "Q131", "alu_alu0_AIRes", "alu_alu0_BIRes", "alu_alu0_andRes", "alu_alu0_orRes", "alu_alu0_sumRes", "alu_alu0_xnorRes", "alu_alu0_y129", "alu_alu0_y130", "alu_alu0_y131", "alu_alu0_y132", "alu_alu0_y133", "alu_alu0_y134", "alu_alu0_y135", "alu_alu0_y136", "alu_alu0_y137", "alu_alu0_y138", "alu_alu0_y139", "alu_alu0_y140", "alu_alu0_y141", "alu_alu0_y142", "alu_alu0_y143", "alu_alu0_y144", "alu_alu0_y145", "alu_alu0_y146", "alu_alu10_AIRes", "alu_alu10_BIRes", "alu_alu10_andRes", "alu_alu10_orRes", "alu_alu10_sumRes", "alu_alu10_xnorRes", "alu_alu10_y309", "alu_alu10_y310", "alu_alu10_y311", "alu_alu10_y312", "alu_alu10_y313", "alu_alu10_y314", "alu_alu10_y315", "alu_alu10_y316", "alu_alu10_y317", "alu_alu10_y318", "alu_alu10_y319", "alu_alu10_y320", "alu_alu10_y321", "alu_alu10_y322", "alu_alu10_y323", "alu_alu10_y324", "alu_alu10_y325", "alu_alu10_y326", "alu_alu11_AIRes", "alu_alu11_BIRes", "alu_alu11_andRes", "alu_alu11_orRes", "alu_alu11_sumRes", "alu_alu11_xnorRes", "alu_alu11_y327", "alu_alu11_y328", "alu_alu11_y329", "alu_alu11_y330", "alu_alu11_y331", "alu_alu11_y332", "alu_alu11_y333", "alu_alu11_y334", "alu_alu11_y335", "alu_alu11_y336", "alu_alu11_y337", "alu_alu11_y338", "alu_alu11_y339", "alu_alu11_y340", "alu_alu11_y341", "alu_alu11_y342", "alu_alu11_y343", "alu_alu11_y344", "alu_alu12_AIRes", "alu_alu12_BIRes", "alu_alu12_andRes", "alu_alu12_orRes", "alu_alu12_sumRes", "alu_alu12_xnorRes", "alu_alu12_y345", "alu_alu12_y346", "alu_alu12_y347", "alu_alu12_y348", "alu_alu12_y349", "alu_alu12_y350", "alu_alu12_y351", "alu_alu12_y352", "alu_alu12_y353", "alu_alu12_y354", "alu_alu12_y355", "alu_alu12_y356", "alu_alu12_y357", "alu_alu12_y358", "alu_alu12_y359", "alu_alu12_y360", "alu_alu12_y361", "alu_alu12_y362", "alu_alu13_AIRes", "alu_alu13_BIRes", "alu_alu13_andRes", "alu_alu13_orRes", "alu_alu13_sumRes", "alu_alu13_xnorRes", "alu_alu13_y363", "alu_alu13_y364", "alu_alu13_y365", "alu_alu13_y366", "alu_alu13_y367", "alu_alu13_y368", "alu_alu13_y369", "alu_alu13_y370", "alu_alu13_y371", "alu_alu13_y372", "alu_alu13_y373", "alu_alu13_y374", "alu_alu13_y375", "alu_alu13_y376", "alu_alu13_y377", "alu_alu13_y378", "alu_alu13_y379", "alu_alu13_y380", "alu_alu14_AIRes", "alu_alu14_BIRes", "alu_alu14_andRes", "alu_alu14_orRes", "alu_alu14_sumRes", "alu_alu14_xnorRes", "alu_alu14_y381", "alu_alu14_y382", "alu_alu14_y383", "alu_alu14_y384", "alu_alu14_y385", "alu_alu14_y386", "alu_alu14_y387", "alu_alu14_y388", "alu_alu14_y389", "alu_alu14_y390", "alu_alu14_y391", "alu_alu14_y392", "alu_alu14_y393", "alu_alu14_y394", "alu_alu14_y395", "alu_alu14_y396", "alu_alu14_y397", "alu_alu14_y398", "alu_alu15_AIRes", "alu_alu15_BIRes", "alu_alu15_andRes", "alu_alu15_orRes", "alu_alu15_sumRes", "alu_alu15_xnorRes", "alu_alu15_y399", "alu_alu15_y400", "alu_alu15_y401", "alu_alu15_y402", "alu_alu15_y403", "alu_alu15_y404", "alu_alu15_y405", "alu_alu15_y406", "alu_alu15_y407", "alu_alu15_y408", "alu_alu15_y409", "alu_alu15_y410", "alu_alu15_y411", "alu_alu15_y412", "alu_alu15_y413", "alu_alu15_y414", "alu_alu15_y415", "alu_alu15_y416", "alu_alu16_AIRes", "alu_alu16_BIRes", "alu_alu16_andRes", "alu_alu16_orRes", "alu_alu16_sumRes", "alu_alu16_xnorRes", "alu_alu16_y417", "alu_alu16_y418", "alu_alu16_y419", "alu_alu16_y420", "alu_alu16_y421", "alu_alu16_y422", "alu_alu16_y423", "alu_alu16_y424", "alu_alu16_y425", "alu_alu16_y426", "alu_alu16_y427", "alu_alu16_y428", "alu_alu16_y429", "alu_alu16_y430", "alu_alu16_y431", "alu_alu16_y432", "alu_alu16_y433", "alu_alu16_y434", "alu_alu17_AIRes", "alu_alu17_BIRes", "alu_alu17_andRes", "alu_alu17_orRes", "alu_alu17_sumRes", "alu_alu17_xnorRes", "alu_alu17_y435", "alu_alu17_y436", "alu_alu17_y437", "alu_alu17_y438", "alu_alu17_y439", "alu_alu17_y440", "alu_alu17_y441", "alu_alu17_y442", "alu_alu17_y443", "alu_alu17_y444", "alu_alu17_y445", "alu_alu17_y446", "alu_alu17_y447", "alu_alu17_y448", "alu_alu17_y449", "alu_alu17_y450", "alu_alu17_y451", "alu_alu17_y452", "alu_alu18_AIRes", "alu_alu18_BIRes", "alu_alu18_andRes", "alu_alu18_orRes", "alu_alu18_sumRes", "alu_alu18_xnorRes", "alu_alu18_y453", "alu_alu18_y454", "alu_alu18_y455", "alu_alu18_y456", "alu_alu18_y457", "alu_alu18_y458", "alu_alu18_y459", "alu_alu18_y460", "alu_alu18_y461", "alu_alu18_y462", "alu_alu18_y463", "alu_alu18_y464", "alu_alu18_y465", "alu_alu18_y466", "alu_alu18_y467", "alu_alu18_y468", "alu_alu18_y469", "alu_alu18_y470", "alu_alu19_AIRes", "alu_alu19_BIRes", "alu_alu19_andRes", "alu_alu19_orRes", "alu_alu19_sumRes", "alu_alu19_xnorRes", "alu_alu19_y471", "alu_alu19_y472", "alu_alu19_y473", "alu_alu19_y474", "alu_alu19_y475", "alu_alu19_y476", "alu_alu19_y477", "alu_alu19_y478", "alu_alu19_y479", "alu_alu19_y480", "alu_alu19_y481", "alu_alu19_y482", "alu_alu19_y483", "alu_alu19_y484", "alu_alu19_y485", "alu_alu19_y486", "alu_alu19_y487", "alu_alu19_y488", "alu_alu1_AIRes", "alu_alu1_BIRes", "alu_alu1_andRes", "alu_alu1_orRes", "alu_alu1_sumRes", "alu_alu1_xnorRes", "alu_alu1_y147", "alu_alu1_y148", "alu_alu1_y149", "alu_alu1_y150", "alu_alu1_y151", "alu_alu1_y152", "alu_alu1_y153", "alu_alu1_y154", "alu_alu1_y155", "alu_alu1_y156", "alu_alu1_y157", "alu_alu1_y158", "alu_alu1_y159", "alu_alu1_y160", "alu_alu1_y161", "alu_alu1_y162", "alu_alu1_y163", "alu_alu1_y164", "alu_alu20_AIRes", "alu_alu20_BIRes", "alu_alu20_andRes", "alu_alu20_orRes", "alu_alu20_sumRes", "alu_alu20_xnorRes", "alu_alu20_y489", "alu_alu20_y490", "alu_alu20_y491", "alu_alu20_y492", "alu_alu20_y493", "alu_alu20_y494", "alu_alu20_y495", "alu_alu20_y496", "alu_alu20_y497", "alu_alu20_y498", "alu_alu20_y499", "alu_alu20_y500", "alu_alu20_y501", "alu_alu20_y502", "alu_alu20_y503", "alu_alu20_y504", "alu_alu20_y505", "alu_alu20_y506", "alu_alu21_AIRes", "alu_alu21_BIRes", "alu_alu21_andRes", "alu_alu21_orRes", "alu_alu21_sumRes", "alu_alu21_xnorRes", "alu_alu21_y507", "alu_alu21_y508", "alu_alu21_y509", "alu_alu21_y510", "alu_alu21_y511", "alu_alu21_y512", "alu_alu21_y513", "alu_alu21_y514", "alu_alu21_y515", "alu_alu21_y516", "alu_alu21_y517", "alu_alu21_y518", "alu_alu21_y519", "alu_alu21_y520", "alu_alu21_y521", "alu_alu21_y522", "alu_alu21_y523", "alu_alu21_y524", "alu_alu22_AIRes", "alu_alu22_BIRes", "alu_alu22_andRes", "alu_alu22_orRes", "alu_alu22_sumRes", "alu_alu22_xnorRes", "alu_alu22_y525", "alu_alu22_y526", "alu_alu22_y527", "alu_alu22_y528", "alu_alu22_y529", "alu_alu22_y530", "alu_alu22_y531", "alu_alu22_y532", "alu_alu22_y533", "alu_alu22_y534", "alu_alu22_y535", "alu_alu22_y536", "alu_alu22_y537", "alu_alu22_y538", "alu_alu22_y539", "alu_alu22_y540", "alu_alu22_y541", "alu_alu22_y542", "alu_alu23_AIRes", "alu_alu23_BIRes", "alu_alu23_andRes", "alu_alu23_orRes", "alu_alu23_sumRes", "alu_alu23_xnorRes", "alu_alu23_y543", "alu_alu23_y544", "alu_alu23_y545", "alu_alu23_y546", "alu_alu23_y547", "alu_alu23_y548", "alu_alu23_y549", "alu_alu23_y550", "alu_alu23_y551", "alu_alu23_y552", "alu_alu23_y553", "alu_alu23_y554", "alu_alu23_y555", "alu_alu23_y556", "alu_alu23_y557", "alu_alu23_y558", "alu_alu23_y559", "alu_alu23_y560", "alu_alu24_AIRes", "alu_alu24_BIRes", "alu_alu24_andRes", "alu_alu24_orRes", "alu_alu24_sumRes", "alu_alu24_xnorRes", "alu_alu24_y561", "alu_alu24_y562", "alu_alu24_y563", "alu_alu24_y564", "alu_alu24_y565", "alu_alu24_y566", "alu_alu24_y567", "alu_alu24_y568", "alu_alu24_y569", "alu_alu24_y570", "alu_alu24_y571", "alu_alu24_y572", "alu_alu24_y573", "alu_alu24_y574", "alu_alu24_y575", "alu_alu24_y576", "alu_alu24_y577", "alu_alu24_y578", "alu_alu25_AIRes", "alu_alu25_BIRes", "alu_alu25_andRes", "alu_alu25_orRes", "alu_alu25_sumRes", "alu_alu25_xnorRes", "alu_alu25_y579", "alu_alu25_y580", "alu_alu25_y581", "alu_alu25_y582", "alu_alu25_y583", "alu_alu25_y584", "alu_alu25_y585", "alu_alu25_y586", "alu_alu25_y587", "alu_alu25_y588", "alu_alu25_y589", "alu_alu25_y590", "alu_alu25_y591", "alu_alu25_y592", "alu_alu25_y593", "alu_alu25_y594", "alu_alu25_y595", "alu_alu25_y596", "alu_alu26_AIRes", "alu_alu26_BIRes", "alu_alu26_andRes", "alu_alu26_orRes", "alu_alu26_sumRes", "alu_alu26_xnorRes", "alu_alu26_y597", "alu_alu26_y598", "alu_alu26_y599", "alu_alu26_y600", "alu_alu26_y601", "alu_alu26_y602", "alu_alu26_y603", "alu_alu26_y604", "alu_alu26_y605", "alu_alu26_y606", "alu_alu26_y607", "alu_alu26_y608", "alu_alu26_y609", "alu_alu26_y610", "alu_alu26_y611", "alu_alu26_y612", "alu_alu26_y613", "alu_alu26_y614", "alu_alu27_AIRes", "alu_alu27_BIRes", "alu_alu27_andRes", "alu_alu27_orRes", "alu_alu27_sumRes", "alu_alu27_xnorRes", "alu_alu27_y615", "alu_alu27_y616", "alu_alu27_y617", "alu_alu27_y618", "alu_alu27_y619", "alu_alu27_y620", "alu_alu27_y621", "alu_alu27_y622", "alu_alu27_y623", "alu_alu27_y624", "alu_alu27_y625", "alu_alu27_y626", "alu_alu27_y627", "alu_alu27_y628", "alu_alu27_y629", "alu_alu27_y630", "alu_alu27_y631", "alu_alu27_y632", "alu_alu28_AIRes", "alu_alu28_BIRes", "alu_alu28_andRes", "alu_alu28_orRes", "alu_alu28_sumRes", "alu_alu28_xnorRes", "alu_alu28_y633", "alu_alu28_y634", "alu_alu28_y635", "alu_alu28_y636", "alu_alu28_y637", "alu_alu28_y638", "alu_alu28_y639", "alu_alu28_y640", "alu_alu28_y641", "alu_alu28_y642", "alu_alu28_y643", "alu_alu28_y644", "alu_alu28_y645", "alu_alu28_y646", "alu_alu28_y647", "alu_alu28_y648", "alu_alu28_y649", "alu_alu28_y650", "alu_alu29_AIRes", "alu_alu29_BIRes", "alu_alu29_andRes", "alu_alu29_orRes", "alu_alu29_sumRes", "alu_alu29_xnorRes", "alu_alu29_y651", "alu_alu29_y652", "alu_alu29_y653", "alu_alu29_y654", "alu_alu29_y655", "alu_alu29_y656", "alu_alu29_y657", "alu_alu29_y658", "alu_alu29_y659", "alu_alu29_y660", "alu_alu29_y661", "alu_alu29_y662", "alu_alu29_y663", "alu_alu29_y664", "alu_alu29_y665", "alu_alu29_y666", "alu_alu29_y667", "alu_alu29_y668", "alu_alu2_AIRes", "alu_alu2_BIRes", "alu_alu2_andRes", "alu_alu2_orRes", "alu_alu2_sumRes", "alu_alu2_xnorRes", "alu_alu2_y165", "alu_alu2_y166", "alu_alu2_y167", "alu_alu2_y168", "alu_alu2_y169", "alu_alu2_y170", "alu_alu2_y171", "alu_alu2_y172", "alu_alu2_y173", "alu_alu2_y174", "alu_alu2_y175", "alu_alu2_y176", "alu_alu2_y177", "alu_alu2_y178", "alu_alu2_y179", "alu_alu2_y180", "alu_alu2_y181", "alu_alu2_y182", "alu_alu30_AIRes", "alu_alu30_BIRes", "alu_alu30_andRes", "alu_alu30_orRes", "alu_alu30_sumRes", "alu_alu30_xnorRes", "alu_alu30_y669", "alu_alu30_y670", "alu_alu30_y671", "alu_alu30_y672", "alu_alu30_y673", "alu_alu30_y674", "alu_alu30_y675", "alu_alu30_y676", "alu_alu30_y677", "alu_alu30_y678", "alu_alu30_y679", "alu_alu30_y680", "alu_alu30_y681", "alu_alu30_y682", "alu_alu30_y683", "alu_alu30_y684", "alu_alu30_y685", "alu_alu30_y686", "alu_alu31_AIRes", "alu_alu31_BIRes", "alu_alu31_andRes", "alu_alu31_orRes", "alu_alu31_sumRes", "alu_alu31_xnorRes", "alu_alu31_y687", "alu_alu31_y688", "alu_alu31_y689", "alu_alu31_y690", "alu_alu31_y691", "alu_alu31_y692", "alu_alu31_y693", "alu_alu31_y694", "alu_alu31_y695", "alu_alu31_y696", "alu_alu31_y697", "alu_alu31_y698", "alu_alu31_y699", "alu_alu31_y700", "alu_alu31_y701", "alu_alu31_y702", "alu_alu31_y703", "alu_alu31_y704", "alu_alu3_AIRes", "alu_alu3_BIRes", "alu_alu3_andRes", "alu_alu3_orRes", "alu_alu3_sumRes", "alu_alu3_xnorRes", "alu_alu3_y183", "alu_alu3_y184", "alu_alu3_y185", "alu_alu3_y186", "alu_alu3_y187", "alu_alu3_y188", "alu_alu3_y189", "alu_alu3_y190", "alu_alu3_y191", "alu_alu3_y192", "alu_alu3_y193", "alu_alu3_y194", "alu_alu3_y195", "alu_alu3_y196", "alu_alu3_y197", "alu_alu3_y198", "alu_alu3_y199", "alu_alu3_y200", "alu_alu4_AIRes", "alu_alu4_BIRes", "alu_alu4_andRes", "alu_alu4_orRes", "alu_alu4_sumRes", "alu_alu4_xnorRes", "alu_alu4_y201", "alu_alu4_y202", "alu_alu4_y203", "alu_alu4_y204", "alu_alu4_y205", "alu_alu4_y206", "alu_alu4_y207", "alu_alu4_y208", "alu_alu4_y209", "alu_alu4_y210", "alu_alu4_y211", "alu_alu4_y212", "alu_alu4_y213", "alu_alu4_y214", "alu_alu4_y215", "alu_alu4_y216", "alu_alu4_y217", "alu_alu4_y218", "alu_alu5_AIRes", "alu_alu5_BIRes", "alu_alu5_andRes", "alu_alu5_orRes", "alu_alu5_sumRes", "alu_alu5_xnorRes", "alu_alu5_y219", "alu_alu5_y220", "alu_alu5_y221", "alu_alu5_y222", "alu_alu5_y223", "alu_alu5_y224", "alu_alu5_y225", "alu_alu5_y226", "alu_alu5_y227", "alu_alu5_y228", "alu_alu5_y229", "alu_alu5_y230", "alu_alu5_y231", "alu_alu5_y232", "alu_alu5_y233", "alu_alu5_y234", "alu_alu5_y235", "alu_alu5_y236", "alu_alu6_AIRes", "alu_alu6_BIRes", "alu_alu6_andRes", "alu_alu6_orRes", "alu_alu6_sumRes", "alu_alu6_xnorRes", "alu_alu6_y237", "alu_alu6_y238", "alu_alu6_y239", "alu_alu6_y240", "alu_alu6_y241", "alu_alu6_y242", "alu_alu6_y243", "alu_alu6_y244", "alu_alu6_y245", "alu_alu6_y246", "alu_alu6_y247", "alu_alu6_y248", "alu_alu6_y249", "alu_alu6_y250", "alu_alu6_y251", "alu_alu6_y252", "alu_alu6_y253", "alu_alu6_y254", "alu_alu7_AIRes", "alu_alu7_BIRes", "alu_alu7_andRes", "alu_alu7_orRes", "alu_alu7_sumRes", "alu_alu7_xnorRes", "alu_alu7_y255", "alu_alu7_y256", "alu_alu7_y257", "alu_alu7_y258", "alu_alu7_y259", "alu_alu7_y260", "alu_alu7_y261", "alu_alu7_y262", "alu_alu7_y263", "alu_alu7_y264", "alu_alu7_y265", "alu_alu7_y266", "alu_alu7_y267", "alu_alu7_y268", "alu_alu7_y269", "alu_alu7_y270", "alu_alu7_y271", "alu_alu7_y272", "alu_alu8_AIRes", "alu_alu8_BIRes", "alu_alu8_andRes", "alu_alu8_orRes", "alu_alu8_sumRes", "alu_alu8_xnorRes", "alu_alu8_y273", "alu_alu8_y274", "alu_alu8_y275", "alu_alu8_y276", "alu_alu8_y277", "alu_alu8_y278", "alu_alu8_y279", "alu_alu8_y280", "alu_alu8_y281", "alu_alu8_y282", "alu_alu8_y283", "alu_alu8_y284", "alu_alu8_y285", "alu_alu8_y286", "alu_alu8_y287", "alu_alu8_y288", "alu_alu8_y289", "alu_alu8_y290", "alu_alu9_AIRes", "alu_alu9_BIRes", "alu_alu9_andRes", "alu_alu9_orRes", "alu_alu9_sumRes", "alu_alu9_xnorRes", "alu_alu9_y291", "alu_alu9_y292", "alu_alu9_y293", "alu_alu9_y294", "alu_alu9_y295", "alu_alu9_y296", "alu_alu9_y297", "alu_alu9_y298", "alu_alu9_y299", "alu_alu9_y300", "alu_alu9_y301", "alu_alu9_y302", "alu_alu9_y303", "alu_alu9_y304", "alu_alu9_y305", "alu_alu9_y306", "alu_alu9_y307", "alu_alu9_y308", "alu_cout0", "alu_cout1", "alu_cout10", "alu_cout11", "alu_cout12", "alu_cout13", "alu_cout14", "alu_cout15", "alu_cout16", "alu_cout17", "alu_cout18", "alu_cout19", "alu_cout2", "alu_cout20", "alu_cout21", "alu_cout22", "alu_cout23", "alu_cout24", "alu_cout25", "alu_cout26", "alu_cout27", "alu_cout28", "alu_cout29", "alu_cout3", "alu_cout30", "alu_cout31", "alu_cout4", "alu_cout5", "alu_cout6", "alu_cout7", "alu_cout8", "alu_cout9", "rawRes0", "rawRes1", "rawRes10", "rawRes11", "rawRes12", "rawRes13", "rawRes14", "rawRes15", "rawRes16", "rawRes17", "rawRes18", "rawRes19", "rawRes2", "rawRes20", "rawRes21", "rawRes22", "rawRes23", "rawRes24", "rawRes25", "rawRes26", "rawRes27", "rawRes28", "rawRes29", "rawRes3", "rawRes30", "rawRes31", "rawRes4", "rawRes5", "rawRes6", "rawRes7", "rawRes8", "rawRes9", "regfile_FF", "regfile_db0_y1", "regfile_db0_y2", "regfile_db0_y3", "regfile_db0_y4", "regfile_db10_y41", "regfile_db10_y42", "regfile_db10_y43", "regfile_db10_y44", "regfile_db11_y45", "regfile_db11_y46", "regfile_db11_y47", "regfile_db11_y48", "regfile_db12_y49", "regfile_db12_y50", "regfile_db12_y51", "regfile_db12_y52", "regfile_db13_y53", "regfile_db13_y54", "regfile_db13_y55", "regfile_db13_y56", "regfile_db14_y57", "regfile_db14_y58", "regfile_db14_y59", "regfile_db14_y60", "regfile_db15_y61", "regfile_db15_y62", "regfile_db15_y63", "regfile_db15_y64", "regfile_db16_y65", "regfile_db16_y66", "regfile_db16_y67", "regfile_db16_y68", "regfile_db17_y69", "regfile_db17_y70", "regfile_db17_y71", "regfile_db17_y72", "regfile_db18_y73", "regfile_db18_y74", "regfile_db18_y75", "regfile_db18_y76", "regfile_db19_y77", "regfile_db19_y78", "regfile_db19_y79", "regfile_db19_y80", "regfile_db1_y5", "regfile_db1_y6", "regfile_db1_y7", "regfile_db1_y8", "regfile_db20_y81", "regfile_db20_y82", "regfile_db20_y83", "regfile_db20_y84", "regfile_db21_y85", "regfile_db21_y86", "regfile_db21_y87", "regfile_db21_y88", "regfile_db22_y89", "regfile_db22_y90", "regfile_db22_y91", "regfile_db22_y92", "regfile_db23_y93", "regfile_db23_y94", "regfile_db23_y95", "regfile_db23_y96", "regfile_db24_y100", "regfile_db24_y97", "regfile_db24_y98", "regfile_db24_y99", "regfile_db25_y101", "regfile_db25_y102", "regfile_db25_y103", "regfile_db25_y104", "regfile_db26_y105", "regfile_db26_y106", "regfile_db26_y107", "regfile_db26_y108", "regfile_db27_y109", "regfile_db27_y110", "regfile_db27_y111", "regfile_db27_y112", "regfile_db28_y113", "regfile_db28_y114", "regfile_db28_y115", "regfile_db28_y116", "regfile_db29_y117", "regfile_db29_y118", "regfile_db29_y119", "regfile_db29_y120", "regfile_db2_y10", "regfile_db2_y11", "regfile_db2_y12", "regfile_db2_y9", "regfile_db30_y121", "regfile_db30_y122", "regfile_db30_y123", "regfile_db30_y124", "regfile_db31_y125", "regfile_db31_y126", "regfile_db31_y127", "regfile_db31_y128", "regfile_db3_y13", "regfile_db3_y14", "regfile_db3_y15", "regfile_db3_y16", "regfile_db4_y17", "regfile_db4_y18", "regfile_db4_y19", "regfile_db4_y20", "regfile_db5_y21", "regfile_db5_y22", "regfile_db5_y23", "regfile_db5_y24", "regfile_db6_y25", "regfile_db6_y26", "regfile_db6_y27", "regfile_db6_y28", "regfile_db7_y29", "regfile_db7_y30", "regfile_db7_y31", "regfile_db7_y32", "regfile_db8_y33", "regfile_db8_y34", "regfile_db8_y35", "regfile_db8_y36", "regfile_db9_y37", "regfile_db9_y38", "regfile_db9_y39", "regfile_db9_y40", "regfile_s0", "regfile_w0", "regfile_w1"]
+        "intermediates" : ["DB0", "DB1", "DB10", "DB11", "DB12", "DB13", "DB14", "DB15", "DB16", "DB17", "DB18", "DB19", "DB2", "DB20", "DB21", "DB22", "DB23", "DB24", "DB25", "DB26", "DB27", "DB28", "DB29", "DB3", "DB30", "DB31", "DB4", "DB5", "DB6", "DB7", "DB8", "DB9", "Q00", "Q01", "Q02", "Q03", "Q04", "Q05", "Q06", "Q07", "Q08", "Q09", "Q10", "Q010", "Q11", "Q011", "Q012", "Q12", "Q13", "Q013", "Q014", "Q14", "Q15", "Q015", "Q16", "Q016", "Q17", "Q017", "Q18", "Q018", "Q19", "Q019", "Q020", "Q021", "Q022", "Q023", "Q024", "Q025", "Q026", "Q027", "Q028", "Q029", "Q030", "Q031", "Q110", "Q111", "Q112", "Q113", "Q114", "Q115", "Q116", "Q117", "Q118", "Q119", "Q120", "Q121", "Q122", "Q123", "Q124", "Q125", "Q126", "Q127", "Q128", "Q129", "Q130", "Q131", "alu_alu0_AIRes", "alu_alu0_BIRes", "alu_alu0_andRes", "alu_alu0_orRes", "alu_alu0_sumRes", "alu_alu0_tempRes", "alu_alu0_xnorRes", "alu_alu0_y129", "alu_alu0_y130", "alu_alu0_y131", "alu_alu0_y132", "alu_alu0_y133", "alu_alu0_y134", "alu_alu0_y135", "alu_alu0_y136", "alu_alu0_y137", "alu_alu0_y138", "alu_alu0_y139", "alu_alu0_y140", "alu_alu0_y141", "alu_alu0_y142", "alu_alu0_y143", "alu_alu0_y144", "alu_alu0_y145", "alu_alu0_y146", "alu_alu10_AIRes", "alu_alu10_BIRes", "alu_alu10_andRes", "alu_alu10_orRes", "alu_alu10_sumRes", "alu_alu10_tempRes", "alu_alu10_xnorRes", "alu_alu10_y309", "alu_alu10_y310", "alu_alu10_y311", "alu_alu10_y312", "alu_alu10_y313", "alu_alu10_y314", "alu_alu10_y315", "alu_alu10_y316", "alu_alu10_y317", "alu_alu10_y318", "alu_alu10_y319", "alu_alu10_y320", "alu_alu10_y321", "alu_alu10_y322", "alu_alu10_y323", "alu_alu10_y324", "alu_alu10_y325", "alu_alu10_y326", "alu_alu11_AIRes", "alu_alu11_BIRes", "alu_alu11_andRes", "alu_alu11_orRes", "alu_alu11_sumRes", "alu_alu11_tempRes", "alu_alu11_xnorRes", "alu_alu11_y327", "alu_alu11_y328", "alu_alu11_y329", "alu_alu11_y330", "alu_alu11_y331", "alu_alu11_y332", "alu_alu11_y333", "alu_alu11_y334", "alu_alu11_y335", "alu_alu11_y336", "alu_alu11_y337", "alu_alu11_y338", "alu_alu11_y339", "alu_alu11_y340", "alu_alu11_y341", "alu_alu11_y342", "alu_alu11_y343", "alu_alu11_y344", "alu_alu12_AIRes", "alu_alu12_BIRes", "alu_alu12_andRes", "alu_alu12_orRes", "alu_alu12_sumRes", "alu_alu12_tempRes", "alu_alu12_xnorRes", "alu_alu12_y345", "alu_alu12_y346", "alu_alu12_y347", "alu_alu12_y348", "alu_alu12_y349", "alu_alu12_y350", "alu_alu12_y351", "alu_alu12_y352", "alu_alu12_y353", "alu_alu12_y354", "alu_alu12_y355", "alu_alu12_y356", "alu_alu12_y357", "alu_alu12_y358", "alu_alu12_y359", "alu_alu12_y360", "alu_alu12_y361", "alu_alu12_y362", "alu_alu13_AIRes", "alu_alu13_BIRes", "alu_alu13_andRes", "alu_alu13_orRes", "alu_alu13_sumRes", "alu_alu13_tempRes", "alu_alu13_xnorRes", "alu_alu13_y363", "alu_alu13_y364", "alu_alu13_y365", "alu_alu13_y366", "alu_alu13_y367", "alu_alu13_y368", "alu_alu13_y369", "alu_alu13_y370", "alu_alu13_y371", "alu_alu13_y372", "alu_alu13_y373", "alu_alu13_y374", "alu_alu13_y375", "alu_alu13_y376", "alu_alu13_y377", "alu_alu13_y378", "alu_alu13_y379", "alu_alu13_y380", "alu_alu14_AIRes", "alu_alu14_BIRes", "alu_alu14_andRes", "alu_alu14_orRes", "alu_alu14_sumRes", "alu_alu14_tempRes", "alu_alu14_xnorRes", "alu_alu14_y381", "alu_alu14_y382", "alu_alu14_y383", "alu_alu14_y384", "alu_alu14_y385", "alu_alu14_y386", "alu_alu14_y387", "alu_alu14_y388", "alu_alu14_y389", "alu_alu14_y390", "alu_alu14_y391", "alu_alu14_y392", "alu_alu14_y393", "alu_alu14_y394", "alu_alu14_y395", "alu_alu14_y396", "alu_alu14_y397", "alu_alu14_y398", "alu_alu15_AIRes", "alu_alu15_BIRes", "alu_alu15_andRes", "alu_alu15_orRes", "alu_alu15_sumRes", "alu_alu15_tempRes", "alu_alu15_xnorRes", "alu_alu15_y399", "alu_alu15_y400", "alu_alu15_y401", "alu_alu15_y402", "alu_alu15_y403", "alu_alu15_y404", "alu_alu15_y405", "alu_alu15_y406", "alu_alu15_y407", "alu_alu15_y408", "alu_alu15_y409", "alu_alu15_y410", "alu_alu15_y411", "alu_alu15_y412", "alu_alu15_y413", "alu_alu15_y414", "alu_alu15_y415", "alu_alu15_y416", "alu_alu16_AIRes", "alu_alu16_BIRes", "alu_alu16_andRes", "alu_alu16_orRes", "alu_alu16_sumRes", "alu_alu16_tempRes", "alu_alu16_xnorRes", "alu_alu16_y417", "alu_alu16_y418", "alu_alu16_y419", "alu_alu16_y420", "alu_alu16_y421", "alu_alu16_y422", "alu_alu16_y423", "alu_alu16_y424", "alu_alu16_y425", "alu_alu16_y426", "alu_alu16_y427", "alu_alu16_y428", "alu_alu16_y429", "alu_alu16_y430", "alu_alu16_y431", "alu_alu16_y432", "alu_alu16_y433", "alu_alu16_y434", "alu_alu17_AIRes", "alu_alu17_BIRes", "alu_alu17_andRes", "alu_alu17_orRes", "alu_alu17_sumRes", "alu_alu17_tempRes", "alu_alu17_xnorRes", "alu_alu17_y435", "alu_alu17_y436", "alu_alu17_y437", "alu_alu17_y438", "alu_alu17_y439", "alu_alu17_y440", "alu_alu17_y441", "alu_alu17_y442", "alu_alu17_y443", "alu_alu17_y444", "alu_alu17_y445", "alu_alu17_y446", "alu_alu17_y447", "alu_alu17_y448", "alu_alu17_y449", "alu_alu17_y450", "alu_alu17_y451", "alu_alu17_y452", "alu_alu18_AIRes", "alu_alu18_BIRes", "alu_alu18_andRes", "alu_alu18_orRes", "alu_alu18_sumRes", "alu_alu18_tempRes", "alu_alu18_xnorRes", "alu_alu18_y453", "alu_alu18_y454", "alu_alu18_y455", "alu_alu18_y456", "alu_alu18_y457", "alu_alu18_y458", "alu_alu18_y459", "alu_alu18_y460", "alu_alu18_y461", "alu_alu18_y462", "alu_alu18_y463", "alu_alu18_y464", "alu_alu18_y465", "alu_alu18_y466", "alu_alu18_y467", "alu_alu18_y468", "alu_alu18_y469", "alu_alu18_y470", "alu_alu19_AIRes", "alu_alu19_BIRes", "alu_alu19_andRes", "alu_alu19_orRes", "alu_alu19_sumRes", "alu_alu19_tempRes", "alu_alu19_xnorRes", "alu_alu19_y471", "alu_alu19_y472", "alu_alu19_y473", "alu_alu19_y474", "alu_alu19_y475", "alu_alu19_y476", "alu_alu19_y477", "alu_alu19_y478", "alu_alu19_y479", "alu_alu19_y480", "alu_alu19_y481", "alu_alu19_y482", "alu_alu19_y483", "alu_alu19_y484", "alu_alu19_y485", "alu_alu19_y486", "alu_alu19_y487", "alu_alu19_y488", "alu_alu1_AIRes", "alu_alu1_BIRes", "alu_alu1_andRes", "alu_alu1_orRes", "alu_alu1_sumRes", "alu_alu1_tempRes", "alu_alu1_xnorRes", "alu_alu1_y147", "alu_alu1_y148", "alu_alu1_y149", "alu_alu1_y150", "alu_alu1_y151", "alu_alu1_y152", "alu_alu1_y153", "alu_alu1_y154", "alu_alu1_y155", "alu_alu1_y156", "alu_alu1_y157", "alu_alu1_y158", "alu_alu1_y159", "alu_alu1_y160", "alu_alu1_y161", "alu_alu1_y162", "alu_alu1_y163", "alu_alu1_y164", "alu_alu20_AIRes", "alu_alu20_BIRes", "alu_alu20_andRes", "alu_alu20_orRes", "alu_alu20_sumRes", "alu_alu20_tempRes", "alu_alu20_xnorRes", "alu_alu20_y489", "alu_alu20_y490", "alu_alu20_y491", "alu_alu20_y492", "alu_alu20_y493", "alu_alu20_y494", "alu_alu20_y495", "alu_alu20_y496", "alu_alu20_y497", "alu_alu20_y498", "alu_alu20_y499", "alu_alu20_y500", "alu_alu20_y501", "alu_alu20_y502", "alu_alu20_y503", "alu_alu20_y504", "alu_alu20_y505", "alu_alu20_y506", "alu_alu21_AIRes", "alu_alu21_BIRes", "alu_alu21_andRes", "alu_alu21_orRes", "alu_alu21_sumRes", "alu_alu21_tempRes", "alu_alu21_xnorRes", "alu_alu21_y507", "alu_alu21_y508", "alu_alu21_y509", "alu_alu21_y510", "alu_alu21_y511", "alu_alu21_y512", "alu_alu21_y513", "alu_alu21_y514", "alu_alu21_y515", "alu_alu21_y516", "alu_alu21_y517", "alu_alu21_y518", "alu_alu21_y519", "alu_alu21_y520", "alu_alu21_y521", "alu_alu21_y522", "alu_alu21_y523", "alu_alu21_y524", "alu_alu22_AIRes", "alu_alu22_BIRes", "alu_alu22_andRes", "alu_alu22_orRes", "alu_alu22_sumRes", "alu_alu22_tempRes", "alu_alu22_xnorRes", "alu_alu22_y525", "alu_alu22_y526", "alu_alu22_y527", "alu_alu22_y528", "alu_alu22_y529", "alu_alu22_y530", "alu_alu22_y531", "alu_alu22_y532", "alu_alu22_y533", "alu_alu22_y534", "alu_alu22_y535", "alu_alu22_y536", "alu_alu22_y537", "alu_alu22_y538", "alu_alu22_y539", "alu_alu22_y540", "alu_alu22_y541", "alu_alu22_y542", "alu_alu23_AIRes", "alu_alu23_BIRes", "alu_alu23_andRes", "alu_alu23_orRes", "alu_alu23_sumRes", "alu_alu23_tempRes", "alu_alu23_xnorRes", "alu_alu23_y543", "alu_alu23_y544", "alu_alu23_y545", "alu_alu23_y546", "alu_alu23_y547", "alu_alu23_y548", "alu_alu23_y549", "alu_alu23_y550", "alu_alu23_y551", "alu_alu23_y552", "alu_alu23_y553", "alu_alu23_y554", "alu_alu23_y555", "alu_alu23_y556", "alu_alu23_y557", "alu_alu23_y558", "alu_alu23_y559", "alu_alu23_y560", "alu_alu24_AIRes", "alu_alu24_BIRes", "alu_alu24_andRes", "alu_alu24_orRes", "alu_alu24_sumRes", "alu_alu24_tempRes", "alu_alu24_xnorRes", "alu_alu24_y561", "alu_alu24_y562", "alu_alu24_y563", "alu_alu24_y564", "alu_alu24_y565", "alu_alu24_y566", "alu_alu24_y567", "alu_alu24_y568", "alu_alu24_y569", "alu_alu24_y570", "alu_alu24_y571", "alu_alu24_y572", "alu_alu24_y573", "alu_alu24_y574", "alu_alu24_y575", "alu_alu24_y576", "alu_alu24_y577", "alu_alu24_y578", "alu_alu25_AIRes", "alu_alu25_BIRes", "alu_alu25_andRes", "alu_alu25_orRes", "alu_alu25_sumRes", "alu_alu25_tempRes", "alu_alu25_xnorRes", "alu_alu25_y579", "alu_alu25_y580", "alu_alu25_y581", "alu_alu25_y582", "alu_alu25_y583", "alu_alu25_y584", "alu_alu25_y585", "alu_alu25_y586", "alu_alu25_y587", "alu_alu25_y588", "alu_alu25_y589", "alu_alu25_y590", "alu_alu25_y591", "alu_alu25_y592", "alu_alu25_y593", "alu_alu25_y594", "alu_alu25_y595", "alu_alu25_y596", "alu_alu26_AIRes", "alu_alu26_BIRes", "alu_alu26_andRes", "alu_alu26_orRes", "alu_alu26_sumRes", "alu_alu26_tempRes", "alu_alu26_xnorRes", "alu_alu26_y597", "alu_alu26_y598", "alu_alu26_y599", "alu_alu26_y600", "alu_alu26_y601", "alu_alu26_y602", "alu_alu26_y603", "alu_alu26_y604", "alu_alu26_y605", "alu_alu26_y606", "alu_alu26_y607", "alu_alu26_y608", "alu_alu26_y609", "alu_alu26_y610", "alu_alu26_y611", "alu_alu26_y612", "alu_alu26_y613", "alu_alu26_y614", "alu_alu27_AIRes", "alu_alu27_BIRes", "alu_alu27_andRes", "alu_alu27_orRes", "alu_alu27_sumRes", "alu_alu27_tempRes", "alu_alu27_xnorRes", "alu_alu27_y615", "alu_alu27_y616", "alu_alu27_y617", "alu_alu27_y618", "alu_alu27_y619", "alu_alu27_y620", "alu_alu27_y621", "alu_alu27_y622", "alu_alu27_y623", "alu_alu27_y624", "alu_alu27_y625", "alu_alu27_y626", "alu_alu27_y627", "alu_alu27_y628", "alu_alu27_y629", "alu_alu27_y630", "alu_alu27_y631", "alu_alu27_y632", "alu_alu28_AIRes", "alu_alu28_BIRes", "alu_alu28_andRes", "alu_alu28_orRes", "alu_alu28_sumRes", "alu_alu28_tempRes", "alu_alu28_xnorRes", "alu_alu28_y633", "alu_alu28_y634", "alu_alu28_y635", "alu_alu28_y636", "alu_alu28_y637", "alu_alu28_y638", "alu_alu28_y639", "alu_alu28_y640", "alu_alu28_y641", "alu_alu28_y642", "alu_alu28_y643", "alu_alu28_y644", "alu_alu28_y645", "alu_alu28_y646", "alu_alu28_y647", "alu_alu28_y648", "alu_alu28_y649", "alu_alu28_y650", "alu_alu29_AIRes", "alu_alu29_BIRes", "alu_alu29_andRes", "alu_alu29_orRes", "alu_alu29_sumRes", "alu_alu29_tempRes", "alu_alu29_xnorRes", "alu_alu29_y651", "alu_alu29_y652", "alu_alu29_y653", "alu_alu29_y654", "alu_alu29_y655", "alu_alu29_y656", "alu_alu29_y657", "alu_alu29_y658", "alu_alu29_y659", "alu_alu29_y660", "alu_alu29_y661", "alu_alu29_y662", "alu_alu29_y663", "alu_alu29_y664", "alu_alu29_y665", "alu_alu29_y666", "alu_alu29_y667", "alu_alu29_y668", "alu_alu2_AIRes", "alu_alu2_BIRes", "alu_alu2_andRes", "alu_alu2_orRes", "alu_alu2_sumRes", "alu_alu2_tempRes", "alu_alu2_xnorRes", "alu_alu2_y165", "alu_alu2_y166", "alu_alu2_y167", "alu_alu2_y168", "alu_alu2_y169", "alu_alu2_y170", "alu_alu2_y171", "alu_alu2_y172", "alu_alu2_y173", "alu_alu2_y174", "alu_alu2_y175", "alu_alu2_y176", "alu_alu2_y177", "alu_alu2_y178", "alu_alu2_y179", "alu_alu2_y180", "alu_alu2_y181", "alu_alu2_y182", "alu_alu30_AIRes", "alu_alu30_BIRes", "alu_alu30_andRes", "alu_alu30_orRes", "alu_alu30_sumRes", "alu_alu30_tempRes", "alu_alu30_xnorRes", "alu_alu30_y669", "alu_alu30_y670", "alu_alu30_y671", "alu_alu30_y672", "alu_alu30_y673", "alu_alu30_y674", "alu_alu30_y675", "alu_alu30_y676", "alu_alu30_y677", "alu_alu30_y678", "alu_alu30_y679", "alu_alu30_y680", "alu_alu30_y681", "alu_alu30_y682", "alu_alu30_y683", "alu_alu30_y684", "alu_alu30_y685", "alu_alu30_y686", "alu_alu31_AIRes", "alu_alu31_BIRes", "alu_alu31_andRes", "alu_alu31_orRes", "alu_alu31_sumRes", "alu_alu31_tempRes", "alu_alu31_xnorRes", "alu_alu31_y687", "alu_alu31_y688", "alu_alu31_y689", "alu_alu31_y690", "alu_alu31_y691", "alu_alu31_y692", "alu_alu31_y693", "alu_alu31_y694", "alu_alu31_y695", "alu_alu31_y696", "alu_alu31_y697", "alu_alu31_y698", "alu_alu31_y699", "alu_alu31_y700", "alu_alu31_y701", "alu_alu31_y702", "alu_alu31_y703", "alu_alu31_y704", "alu_alu3_AIRes", "alu_alu3_BIRes", "alu_alu3_andRes", "alu_alu3_orRes", "alu_alu3_sumRes", "alu_alu3_tempRes", "alu_alu3_xnorRes", "alu_alu3_y183", "alu_alu3_y184", "alu_alu3_y185", "alu_alu3_y186", "alu_alu3_y187", "alu_alu3_y188", "alu_alu3_y189", "alu_alu3_y190", "alu_alu3_y191", "alu_alu3_y192", "alu_alu3_y193", "alu_alu3_y194", "alu_alu3_y195", "alu_alu3_y196", "alu_alu3_y197", "alu_alu3_y198", "alu_alu3_y199", "alu_alu3_y200", "alu_alu4_AIRes", "alu_alu4_BIRes", "alu_alu4_andRes", "alu_alu4_orRes", "alu_alu4_sumRes", "alu_alu4_tempRes", "alu_alu4_xnorRes", "alu_alu4_y201", "alu_alu4_y202", "alu_alu4_y203", "alu_alu4_y204", "alu_alu4_y205", "alu_alu4_y206", "alu_alu4_y207", "alu_alu4_y208", "alu_alu4_y209", "alu_alu4_y210", "alu_alu4_y211", "alu_alu4_y212", "alu_alu4_y213", "alu_alu4_y214", "alu_alu4_y215", "alu_alu4_y216", "alu_alu4_y217", "alu_alu4_y218", "alu_alu5_AIRes", "alu_alu5_BIRes", "alu_alu5_andRes", "alu_alu5_orRes", "alu_alu5_sumRes", "alu_alu5_tempRes", "alu_alu5_xnorRes", "alu_alu5_y219", "alu_alu5_y220", "alu_alu5_y221", "alu_alu5_y222", "alu_alu5_y223", "alu_alu5_y224", "alu_alu5_y225", "alu_alu5_y226", "alu_alu5_y227", "alu_alu5_y228", "alu_alu5_y229", "alu_alu5_y230", "alu_alu5_y231", "alu_alu5_y232", "alu_alu5_y233", "alu_alu5_y234", "alu_alu5_y235", "alu_alu5_y236", "alu_alu6_AIRes", "alu_alu6_BIRes", "alu_alu6_andRes", "alu_alu6_orRes", "alu_alu6_sumRes", "alu_alu6_tempRes", "alu_alu6_xnorRes", "alu_alu6_y237", "alu_alu6_y238", "alu_alu6_y239", "alu_alu6_y240", "alu_alu6_y241", "alu_alu6_y242", "alu_alu6_y243", "alu_alu6_y244", "alu_alu6_y245", "alu_alu6_y246", "alu_alu6_y247", "alu_alu6_y248", "alu_alu6_y249", "alu_alu6_y250", "alu_alu6_y251", "alu_alu6_y252", "alu_alu6_y253", "alu_alu6_y254", "alu_alu7_AIRes", "alu_alu7_BIRes", "alu_alu7_andRes", "alu_alu7_orRes", "alu_alu7_sumRes", "alu_alu7_tempRes", "alu_alu7_xnorRes", "alu_alu7_y255", "alu_alu7_y256", "alu_alu7_y257", "alu_alu7_y258", "alu_alu7_y259", "alu_alu7_y260", "alu_alu7_y261", "alu_alu7_y262", "alu_alu7_y263", "alu_alu7_y264", "alu_alu7_y265", "alu_alu7_y266", "alu_alu7_y267", "alu_alu7_y268", "alu_alu7_y269", "alu_alu7_y270", "alu_alu7_y271", "alu_alu7_y272", "alu_alu8_AIRes", "alu_alu8_BIRes", "alu_alu8_andRes", "alu_alu8_orRes", "alu_alu8_sumRes", "alu_alu8_tempRes", "alu_alu8_xnorRes", "alu_alu8_y273", "alu_alu8_y274", "alu_alu8_y275", "alu_alu8_y276", "alu_alu8_y277", "alu_alu8_y278", "alu_alu8_y279", "alu_alu8_y280", "alu_alu8_y281", "alu_alu8_y282", "alu_alu8_y283", "alu_alu8_y284", "alu_alu8_y285", "alu_alu8_y286", "alu_alu8_y287", "alu_alu8_y288", "alu_alu8_y289", "alu_alu8_y290", "alu_alu9_AIRes", "alu_alu9_BIRes", "alu_alu9_andRes", "alu_alu9_orRes", "alu_alu9_sumRes", "alu_alu9_tempRes", "alu_alu9_xnorRes", "alu_alu9_y291", "alu_alu9_y292", "alu_alu9_y293", "alu_alu9_y294", "alu_alu9_y295", "alu_alu9_y296", "alu_alu9_y297", "alu_alu9_y298", "alu_alu9_y299", "alu_alu9_y300", "alu_alu9_y301", "alu_alu9_y302", "alu_alu9_y303", "alu_alu9_y304", "alu_alu9_y305", "alu_alu9_y306", "alu_alu9_y307", "alu_alu9_y308", "alu_cout0", "alu_cout1", "alu_cout10", "alu_cout11", "alu_cout12", "alu_cout13", "alu_cout14", "alu_cout15", "alu_cout16", "alu_cout17", "alu_cout18", "alu_cout19", "alu_cout2", "alu_cout20", "alu_cout21", "alu_cout22", "alu_cout23", "alu_cout24", "alu_cout25", "alu_cout26", "alu_cout27", "alu_cout28", "alu_cout29", "alu_cout3", "alu_cout30", "alu_cout31", "alu_cout4", "alu_cout5", "alu_cout6", "alu_cout7", "alu_cout8", "alu_cout9", "databus_FF", "databus_db0_y1", "databus_db0_y2", "databus_db0_y3", "databus_db0_y4", "databus_db10_y41", "databus_db10_y42", "databus_db10_y43", "databus_db10_y44", "databus_db11_y45", "databus_db11_y46", "databus_db11_y47", "databus_db11_y48", "databus_db12_y49", "databus_db12_y50", "databus_db12_y51", "databus_db12_y52", "databus_db13_y53", "databus_db13_y54", "databus_db13_y55", "databus_db13_y56", "databus_db14_y57", "databus_db14_y58", "databus_db14_y59", "databus_db14_y60", "databus_db15_y61", "databus_db15_y62", "databus_db15_y63", "databus_db15_y64", "databus_db16_y65", "databus_db16_y66", "databus_db16_y67", "databus_db16_y68", "databus_db17_y69", "databus_db17_y70", "databus_db17_y71", "databus_db17_y72", "databus_db18_y73", "databus_db18_y74", "databus_db18_y75", "databus_db18_y76", "databus_db19_y77", "databus_db19_y78", "databus_db19_y79", "databus_db19_y80", "databus_db1_y5", "databus_db1_y6", "databus_db1_y7", "databus_db1_y8", "databus_db20_y81", "databus_db20_y82", "databus_db20_y83", "databus_db20_y84", "databus_db21_y85", "databus_db21_y86", "databus_db21_y87", "databus_db21_y88", "databus_db22_y89", "databus_db22_y90", "databus_db22_y91", "databus_db22_y92", "databus_db23_y93", "databus_db23_y94", "databus_db23_y95", "databus_db23_y96", "databus_db24_y100", "databus_db24_y97", "databus_db24_y98", "databus_db24_y99", "databus_db25_y101", "databus_db25_y102", "databus_db25_y103", "databus_db25_y104", "databus_db26_y105", "databus_db26_y106", "databus_db26_y107", "databus_db26_y108", "databus_db27_y109", "databus_db27_y110", "databus_db27_y111", "databus_db27_y112", "databus_db28_y113", "databus_db28_y114", "databus_db28_y115", "databus_db28_y116", "databus_db29_y117", "databus_db29_y118", "databus_db29_y119", "databus_db29_y120", "databus_db2_y10", "databus_db2_y11", "databus_db2_y12", "databus_db2_y9", "databus_db30_y121", "databus_db30_y122", "databus_db30_y123", "databus_db30_y124", "databus_db31_y125", "databus_db31_y126", "databus_db31_y127", "databus_db31_y128", "databus_db3_y13", "databus_db3_y14", "databus_db3_y15", "databus_db3_y16", "databus_db4_y17", "databus_db4_y18", "databus_db4_y19", "databus_db4_y20", "databus_db5_y21", "databus_db5_y22", "databus_db5_y23", "databus_db5_y24", "databus_db6_y25", "databus_db6_y26", "databus_db6_y27", "databus_db6_y28", "databus_db7_y29", "databus_db7_y30", "databus_db7_y31", "databus_db7_y32", "databus_db8_y33", "databus_db8_y34", "databus_db8_y35", "databus_db8_y36", "databus_db9_y37", "databus_db9_y38", "databus_db9_y39", "databus_db9_y40", "databus_s0", "databus_w0", "databus_w1"]
     },
 
     "Architecture" : {
         "metadata" : {
-            "noOfTotalGates" : 1029,
-            "noOfAndGates" : 482,
+            "noOfTotalGates" : 997,
+            "noOfAndGates" : 450,
             "noOforGates" : 224,
             "noOfNotGates" : 130,
             "noOfXorGates" : 161,
             "noOfXnorGates" : 32,
-            "noOfSignals" : 203
+            "noOfSignals" : 171
         },
 
         "SignalMapping" : 
             [
-                {"IM" : "IM", "SignalType" : "input"},
-                {"CLK" : "CLK", "SignalType" : "input"},
-                {"S0" : "S0", "SignalType" : "input"},
-                {"R" : "R", "SignalType" : "input"},
                 {"A0" : "A0", "SignalType" : "input"},
                 {"A1" : "A1", "SignalType" : "input"},
                 {"A2" : "A2", "SignalType" : "input"},
@@ -59,12 +55,16 @@
                 {"A29" : "A29", "SignalType" : "input"},
                 {"A30" : "A30", "SignalType" : "input"},
                 {"A31" : "A31", "SignalType" : "input"},
+                {"IM" : "IM", "SignalType" : "input"},
+                {"CLK" : "CLK", "SignalType" : "input"},
+                {"S0" : "S0", "SignalType" : "input"},
+                {"R" : "R", "SignalType" : "input"},
                 {"AI" : "AI", "SignalType" : "input"},
                 {"BI" : "BI", "SignalType" : "input"},
                 {"Carry" : "Carry", "SignalType" : "input"},
                 {"op0" : "op0", "SignalType" : "input"},
                 {"op1" : "op1", "SignalType" : "input"},
-                {"EALU" : "EALU", "SignalType" : "input"},
+                {"Ealu" : "Ealu", "SignalType" : "input"},
                 {"res0" : "res0", "SignalType" : "output"},
                 {"res1" : "res1", "SignalType" : "output"},
                 {"res2" : "res2", "SignalType" : "output"},
@@ -104,1375 +104,1151 @@
         "Behaviour" : [
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "res0",
-                "gateExpressionInputs" : ["rawRes0", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes0, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res1",
-                "gateExpressionInputs" : ["rawRes1", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes1, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res2",
-                "gateExpressionInputs" : ["rawRes2", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes2, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res3",
-                "gateExpressionInputs" : ["rawRes3", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes3, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res4",
-                "gateExpressionInputs" : ["rawRes4", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes4, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res5",
-                "gateExpressionInputs" : ["rawRes5", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes5, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res6",
-                "gateExpressionInputs" : ["rawRes6", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes6, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res7",
-                "gateExpressionInputs" : ["rawRes7", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes7, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res8",
-                "gateExpressionInputs" : ["rawRes8", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes8, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res9",
-                "gateExpressionInputs" : ["rawRes9", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes9, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res10",
-                "gateExpressionInputs" : ["rawRes10", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes10, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res11",
-                "gateExpressionInputs" : ["rawRes11", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes11, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res12",
-                "gateExpressionInputs" : ["rawRes12", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes12, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res13",
-                "gateExpressionInputs" : ["rawRes13", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes13, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res14",
-                "gateExpressionInputs" : ["rawRes14", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes14, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res15",
-                "gateExpressionInputs" : ["rawRes15", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes15, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res16",
-                "gateExpressionInputs" : ["rawRes16", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes16, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res17",
-                "gateExpressionInputs" : ["rawRes17", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes17, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res18",
-                "gateExpressionInputs" : ["rawRes18", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes18, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res19",
-                "gateExpressionInputs" : ["rawRes19", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes19, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res20",
-                "gateExpressionInputs" : ["rawRes20", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes20, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res21",
-                "gateExpressionInputs" : ["rawRes21", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes21, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res22",
-                "gateExpressionInputs" : ["rawRes22", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes22, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res23",
-                "gateExpressionInputs" : ["rawRes23", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes23, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res24",
-                "gateExpressionInputs" : ["rawRes24", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes24, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res25",
-                "gateExpressionInputs" : ["rawRes25", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes25, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res26",
-                "gateExpressionInputs" : ["rawRes26", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes26, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res27",
-                "gateExpressionInputs" : ["rawRes27", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes27, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res28",
-                "gateExpressionInputs" : ["rawRes28", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes28, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res29",
-                "gateExpressionInputs" : ["rawRes29", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes29, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res30",
-                "gateExpressionInputs" : ["rawRes30", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes30, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "res31",
-                "gateExpressionInputs" : ["rawRes31", "EALU"],
-                "gatesUsed" : ["and"],
-                "expression" : "and(rawRes31, EALU)"
-            },
-            {
-                "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_FF",
+                "OutputSignal" : "databus_FF",
                 "gateExpressionInputs" : ["IM"],
                 "gatesUsed" : ["not"],
                 "expression" : "not(IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_s0",
+                "OutputSignal" : "databus_s0",
                 "gateExpressionInputs" : ["S0"],
                 "gatesUsed" : ["not"],
                 "expression" : "not(S0)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_w0",
-                "gateExpressionInputs" : ["regfile_FF", "regfile_s0"],
+                "OutputSignal" : "databus_w0",
+                "gateExpressionInputs" : ["databus_FF", "databus_s0"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_FF, regfile_s0)"
+                "expression" : "and(databus_FF, databus_s0)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_w1",
-                "gateExpressionInputs" : ["regfile_FF", "S0"],
+                "OutputSignal" : "databus_w1",
+                "gateExpressionInputs" : ["databus_FF", "S0"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_FF, S0)"
+                "expression" : "and(databus_FF, S0)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db0_y1",
+                "OutputSignal" : "databus_db0_y1",
                 "gateExpressionInputs" : ["A0", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A0, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db0_y2",
-                "gateExpressionInputs" : ["regfile_w0", "Q00"],
+                "OutputSignal" : "databus_db0_y2",
+                "gateExpressionInputs" : ["databus_w0", "Q00"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q00)"
+                "expression" : "and(databus_w0, Q00)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db0_y3",
-                "gateExpressionInputs" : ["regfile_w1", "Q10"],
+                "OutputSignal" : "databus_db0_y3",
+                "gateExpressionInputs" : ["databus_w1", "Q10"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q10)"
+                "expression" : "and(databus_w1, Q10)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db0_y4",
-                "gateExpressionInputs" : ["regfile_db0_y2", "regfile_db0_y3"],
+                "OutputSignal" : "databus_db0_y4",
+                "gateExpressionInputs" : ["databus_db0_y2", "databus_db0_y3"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db0_y2, regfile_db0_y3)"
+                "expression" : "or(databus_db0_y2, databus_db0_y3)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB0",
-                "gateExpressionInputs" : ["regfile_db0_y1", "regfile_db0_y4"],
+                "gateExpressionInputs" : ["databus_db0_y1", "databus_db0_y4"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db0_y1, regfile_db0_y4)"
+                "expression" : "or(databus_db0_y1, databus_db0_y4)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db1_y5",
+                "OutputSignal" : "databus_db1_y5",
                 "gateExpressionInputs" : ["A1", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A1, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db1_y6",
-                "gateExpressionInputs" : ["regfile_w0", "Q01"],
+                "OutputSignal" : "databus_db1_y6",
+                "gateExpressionInputs" : ["databus_w0", "Q01"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q01)"
+                "expression" : "and(databus_w0, Q01)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db1_y7",
-                "gateExpressionInputs" : ["regfile_w1", "Q11"],
+                "OutputSignal" : "databus_db1_y7",
+                "gateExpressionInputs" : ["databus_w1", "Q11"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q11)"
+                "expression" : "and(databus_w1, Q11)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db1_y8",
-                "gateExpressionInputs" : ["regfile_db1_y6", "regfile_db1_y7"],
+                "OutputSignal" : "databus_db1_y8",
+                "gateExpressionInputs" : ["databus_db1_y6", "databus_db1_y7"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db1_y6, regfile_db1_y7)"
+                "expression" : "or(databus_db1_y6, databus_db1_y7)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB1",
-                "gateExpressionInputs" : ["regfile_db1_y5", "regfile_db1_y8"],
+                "gateExpressionInputs" : ["databus_db1_y5", "databus_db1_y8"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db1_y5, regfile_db1_y8)"
+                "expression" : "or(databus_db1_y5, databus_db1_y8)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db2_y9",
+                "OutputSignal" : "databus_db2_y9",
                 "gateExpressionInputs" : ["A2", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A2, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db2_y10",
-                "gateExpressionInputs" : ["regfile_w0", "Q02"],
+                "OutputSignal" : "databus_db2_y10",
+                "gateExpressionInputs" : ["databus_w0", "Q02"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q02)"
+                "expression" : "and(databus_w0, Q02)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db2_y11",
-                "gateExpressionInputs" : ["regfile_w1", "Q12"],
+                "OutputSignal" : "databus_db2_y11",
+                "gateExpressionInputs" : ["databus_w1", "Q12"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q12)"
+                "expression" : "and(databus_w1, Q12)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db2_y12",
-                "gateExpressionInputs" : ["regfile_db2_y10", "regfile_db2_y11"],
+                "OutputSignal" : "databus_db2_y12",
+                "gateExpressionInputs" : ["databus_db2_y10", "databus_db2_y11"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db2_y10, regfile_db2_y11)"
+                "expression" : "or(databus_db2_y10, databus_db2_y11)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB2",
-                "gateExpressionInputs" : ["regfile_db2_y9", "regfile_db2_y12"],
+                "gateExpressionInputs" : ["databus_db2_y9", "databus_db2_y12"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db2_y9, regfile_db2_y12)"
+                "expression" : "or(databus_db2_y9, databus_db2_y12)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db3_y13",
+                "OutputSignal" : "databus_db3_y13",
                 "gateExpressionInputs" : ["A3", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A3, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db3_y14",
-                "gateExpressionInputs" : ["regfile_w0", "Q03"],
+                "OutputSignal" : "databus_db3_y14",
+                "gateExpressionInputs" : ["databus_w0", "Q03"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q03)"
+                "expression" : "and(databus_w0, Q03)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db3_y15",
-                "gateExpressionInputs" : ["regfile_w1", "Q13"],
+                "OutputSignal" : "databus_db3_y15",
+                "gateExpressionInputs" : ["databus_w1", "Q13"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q13)"
+                "expression" : "and(databus_w1, Q13)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db3_y16",
-                "gateExpressionInputs" : ["regfile_db3_y14", "regfile_db3_y15"],
+                "OutputSignal" : "databus_db3_y16",
+                "gateExpressionInputs" : ["databus_db3_y14", "databus_db3_y15"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db3_y14, regfile_db3_y15)"
+                "expression" : "or(databus_db3_y14, databus_db3_y15)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB3",
-                "gateExpressionInputs" : ["regfile_db3_y13", "regfile_db3_y16"],
+                "gateExpressionInputs" : ["databus_db3_y13", "databus_db3_y16"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db3_y13, regfile_db3_y16)"
+                "expression" : "or(databus_db3_y13, databus_db3_y16)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db4_y17",
+                "OutputSignal" : "databus_db4_y17",
                 "gateExpressionInputs" : ["A4", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A4, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db4_y18",
-                "gateExpressionInputs" : ["regfile_w0", "Q04"],
+                "OutputSignal" : "databus_db4_y18",
+                "gateExpressionInputs" : ["databus_w0", "Q04"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q04)"
+                "expression" : "and(databus_w0, Q04)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db4_y19",
-                "gateExpressionInputs" : ["regfile_w1", "Q14"],
+                "OutputSignal" : "databus_db4_y19",
+                "gateExpressionInputs" : ["databus_w1", "Q14"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q14)"
+                "expression" : "and(databus_w1, Q14)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db4_y20",
-                "gateExpressionInputs" : ["regfile_db4_y18", "regfile_db4_y19"],
+                "OutputSignal" : "databus_db4_y20",
+                "gateExpressionInputs" : ["databus_db4_y18", "databus_db4_y19"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db4_y18, regfile_db4_y19)"
+                "expression" : "or(databus_db4_y18, databus_db4_y19)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB4",
-                "gateExpressionInputs" : ["regfile_db4_y17", "regfile_db4_y20"],
+                "gateExpressionInputs" : ["databus_db4_y17", "databus_db4_y20"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db4_y17, regfile_db4_y20)"
+                "expression" : "or(databus_db4_y17, databus_db4_y20)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db5_y21",
+                "OutputSignal" : "databus_db5_y21",
                 "gateExpressionInputs" : ["A5", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A5, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db5_y22",
-                "gateExpressionInputs" : ["regfile_w0", "Q05"],
+                "OutputSignal" : "databus_db5_y22",
+                "gateExpressionInputs" : ["databus_w0", "Q05"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q05)"
+                "expression" : "and(databus_w0, Q05)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db5_y23",
-                "gateExpressionInputs" : ["regfile_w1", "Q15"],
+                "OutputSignal" : "databus_db5_y23",
+                "gateExpressionInputs" : ["databus_w1", "Q15"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q15)"
+                "expression" : "and(databus_w1, Q15)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db5_y24",
-                "gateExpressionInputs" : ["regfile_db5_y22", "regfile_db5_y23"],
+                "OutputSignal" : "databus_db5_y24",
+                "gateExpressionInputs" : ["databus_db5_y22", "databus_db5_y23"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db5_y22, regfile_db5_y23)"
+                "expression" : "or(databus_db5_y22, databus_db5_y23)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB5",
-                "gateExpressionInputs" : ["regfile_db5_y21", "regfile_db5_y24"],
+                "gateExpressionInputs" : ["databus_db5_y21", "databus_db5_y24"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db5_y21, regfile_db5_y24)"
+                "expression" : "or(databus_db5_y21, databus_db5_y24)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db6_y25",
+                "OutputSignal" : "databus_db6_y25",
                 "gateExpressionInputs" : ["A6", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A6, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db6_y26",
-                "gateExpressionInputs" : ["regfile_w0", "Q06"],
+                "OutputSignal" : "databus_db6_y26",
+                "gateExpressionInputs" : ["databus_w0", "Q06"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q06)"
+                "expression" : "and(databus_w0, Q06)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db6_y27",
-                "gateExpressionInputs" : ["regfile_w1", "Q16"],
+                "OutputSignal" : "databus_db6_y27",
+                "gateExpressionInputs" : ["databus_w1", "Q16"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q16)"
+                "expression" : "and(databus_w1, Q16)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db6_y28",
-                "gateExpressionInputs" : ["regfile_db6_y26", "regfile_db6_y27"],
+                "OutputSignal" : "databus_db6_y28",
+                "gateExpressionInputs" : ["databus_db6_y26", "databus_db6_y27"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db6_y26, regfile_db6_y27)"
+                "expression" : "or(databus_db6_y26, databus_db6_y27)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB6",
-                "gateExpressionInputs" : ["regfile_db6_y25", "regfile_db6_y28"],
+                "gateExpressionInputs" : ["databus_db6_y25", "databus_db6_y28"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db6_y25, regfile_db6_y28)"
+                "expression" : "or(databus_db6_y25, databus_db6_y28)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db7_y29",
+                "OutputSignal" : "databus_db7_y29",
                 "gateExpressionInputs" : ["A7", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A7, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db7_y30",
-                "gateExpressionInputs" : ["regfile_w0", "Q07"],
+                "OutputSignal" : "databus_db7_y30",
+                "gateExpressionInputs" : ["databus_w0", "Q07"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q07)"
+                "expression" : "and(databus_w0, Q07)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db7_y31",
-                "gateExpressionInputs" : ["regfile_w1", "Q17"],
+                "OutputSignal" : "databus_db7_y31",
+                "gateExpressionInputs" : ["databus_w1", "Q17"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q17)"
+                "expression" : "and(databus_w1, Q17)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db7_y32",
-                "gateExpressionInputs" : ["regfile_db7_y30", "regfile_db7_y31"],
+                "OutputSignal" : "databus_db7_y32",
+                "gateExpressionInputs" : ["databus_db7_y30", "databus_db7_y31"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db7_y30, regfile_db7_y31)"
+                "expression" : "or(databus_db7_y30, databus_db7_y31)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB7",
-                "gateExpressionInputs" : ["regfile_db7_y29", "regfile_db7_y32"],
+                "gateExpressionInputs" : ["databus_db7_y29", "databus_db7_y32"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db7_y29, regfile_db7_y32)"
+                "expression" : "or(databus_db7_y29, databus_db7_y32)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db8_y33",
+                "OutputSignal" : "databus_db8_y33",
                 "gateExpressionInputs" : ["A8", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A8, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db8_y34",
-                "gateExpressionInputs" : ["regfile_w0", "Q08"],
+                "OutputSignal" : "databus_db8_y34",
+                "gateExpressionInputs" : ["databus_w0", "Q08"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q08)"
+                "expression" : "and(databus_w0, Q08)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db8_y35",
-                "gateExpressionInputs" : ["regfile_w1", "Q18"],
+                "OutputSignal" : "databus_db8_y35",
+                "gateExpressionInputs" : ["databus_w1", "Q18"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q18)"
+                "expression" : "and(databus_w1, Q18)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db8_y36",
-                "gateExpressionInputs" : ["regfile_db8_y34", "regfile_db8_y35"],
+                "OutputSignal" : "databus_db8_y36",
+                "gateExpressionInputs" : ["databus_db8_y34", "databus_db8_y35"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db8_y34, regfile_db8_y35)"
+                "expression" : "or(databus_db8_y34, databus_db8_y35)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB8",
-                "gateExpressionInputs" : ["regfile_db8_y33", "regfile_db8_y36"],
+                "gateExpressionInputs" : ["databus_db8_y33", "databus_db8_y36"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db8_y33, regfile_db8_y36)"
+                "expression" : "or(databus_db8_y33, databus_db8_y36)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db9_y37",
+                "OutputSignal" : "databus_db9_y37",
                 "gateExpressionInputs" : ["A9", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A9, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db9_y38",
-                "gateExpressionInputs" : ["regfile_w0", "Q09"],
+                "OutputSignal" : "databus_db9_y38",
+                "gateExpressionInputs" : ["databus_w0", "Q09"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q09)"
+                "expression" : "and(databus_w0, Q09)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db9_y39",
-                "gateExpressionInputs" : ["regfile_w1", "Q19"],
+                "OutputSignal" : "databus_db9_y39",
+                "gateExpressionInputs" : ["databus_w1", "Q19"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q19)"
+                "expression" : "and(databus_w1, Q19)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db9_y40",
-                "gateExpressionInputs" : ["regfile_db9_y38", "regfile_db9_y39"],
+                "OutputSignal" : "databus_db9_y40",
+                "gateExpressionInputs" : ["databus_db9_y38", "databus_db9_y39"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db9_y38, regfile_db9_y39)"
+                "expression" : "or(databus_db9_y38, databus_db9_y39)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB9",
-                "gateExpressionInputs" : ["regfile_db9_y37", "regfile_db9_y40"],
+                "gateExpressionInputs" : ["databus_db9_y37", "databus_db9_y40"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db9_y37, regfile_db9_y40)"
+                "expression" : "or(databus_db9_y37, databus_db9_y40)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db10_y41",
+                "OutputSignal" : "databus_db10_y41",
                 "gateExpressionInputs" : ["A10", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A10, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db10_y42",
-                "gateExpressionInputs" : ["regfile_w0", "Q010"],
+                "OutputSignal" : "databus_db10_y42",
+                "gateExpressionInputs" : ["databus_w0", "Q010"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q010)"
+                "expression" : "and(databus_w0, Q010)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db10_y43",
-                "gateExpressionInputs" : ["regfile_w1", "Q110"],
+                "OutputSignal" : "databus_db10_y43",
+                "gateExpressionInputs" : ["databus_w1", "Q110"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q110)"
+                "expression" : "and(databus_w1, Q110)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db10_y44",
-                "gateExpressionInputs" : ["regfile_db10_y42", "regfile_db10_y43"],
+                "OutputSignal" : "databus_db10_y44",
+                "gateExpressionInputs" : ["databus_db10_y42", "databus_db10_y43"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db10_y42, regfile_db10_y43)"
+                "expression" : "or(databus_db10_y42, databus_db10_y43)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB10",
-                "gateExpressionInputs" : ["regfile_db10_y41", "regfile_db10_y44"],
+                "gateExpressionInputs" : ["databus_db10_y41", "databus_db10_y44"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db10_y41, regfile_db10_y44)"
+                "expression" : "or(databus_db10_y41, databus_db10_y44)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db11_y45",
+                "OutputSignal" : "databus_db11_y45",
                 "gateExpressionInputs" : ["A11", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A11, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db11_y46",
-                "gateExpressionInputs" : ["regfile_w0", "Q011"],
+                "OutputSignal" : "databus_db11_y46",
+                "gateExpressionInputs" : ["databus_w0", "Q011"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q011)"
+                "expression" : "and(databus_w0, Q011)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db11_y47",
-                "gateExpressionInputs" : ["regfile_w1", "Q111"],
+                "OutputSignal" : "databus_db11_y47",
+                "gateExpressionInputs" : ["databus_w1", "Q111"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q111)"
+                "expression" : "and(databus_w1, Q111)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db11_y48",
-                "gateExpressionInputs" : ["regfile_db11_y46", "regfile_db11_y47"],
+                "OutputSignal" : "databus_db11_y48",
+                "gateExpressionInputs" : ["databus_db11_y46", "databus_db11_y47"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db11_y46, regfile_db11_y47)"
+                "expression" : "or(databus_db11_y46, databus_db11_y47)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB11",
-                "gateExpressionInputs" : ["regfile_db11_y45", "regfile_db11_y48"],
+                "gateExpressionInputs" : ["databus_db11_y45", "databus_db11_y48"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db11_y45, regfile_db11_y48)"
+                "expression" : "or(databus_db11_y45, databus_db11_y48)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db12_y49",
+                "OutputSignal" : "databus_db12_y49",
                 "gateExpressionInputs" : ["A12", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A12, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db12_y50",
-                "gateExpressionInputs" : ["regfile_w0", "Q012"],
+                "OutputSignal" : "databus_db12_y50",
+                "gateExpressionInputs" : ["databus_w0", "Q012"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q012)"
+                "expression" : "and(databus_w0, Q012)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db12_y51",
-                "gateExpressionInputs" : ["regfile_w1", "Q112"],
+                "OutputSignal" : "databus_db12_y51",
+                "gateExpressionInputs" : ["databus_w1", "Q112"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q112)"
+                "expression" : "and(databus_w1, Q112)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db12_y52",
-                "gateExpressionInputs" : ["regfile_db12_y50", "regfile_db12_y51"],
+                "OutputSignal" : "databus_db12_y52",
+                "gateExpressionInputs" : ["databus_db12_y50", "databus_db12_y51"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db12_y50, regfile_db12_y51)"
+                "expression" : "or(databus_db12_y50, databus_db12_y51)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB12",
-                "gateExpressionInputs" : ["regfile_db12_y49", "regfile_db12_y52"],
+                "gateExpressionInputs" : ["databus_db12_y49", "databus_db12_y52"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db12_y49, regfile_db12_y52)"
+                "expression" : "or(databus_db12_y49, databus_db12_y52)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db13_y53",
+                "OutputSignal" : "databus_db13_y53",
                 "gateExpressionInputs" : ["A13", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A13, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db13_y54",
-                "gateExpressionInputs" : ["regfile_w0", "Q013"],
+                "OutputSignal" : "databus_db13_y54",
+                "gateExpressionInputs" : ["databus_w0", "Q013"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q013)"
+                "expression" : "and(databus_w0, Q013)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db13_y55",
-                "gateExpressionInputs" : ["regfile_w1", "Q113"],
+                "OutputSignal" : "databus_db13_y55",
+                "gateExpressionInputs" : ["databus_w1", "Q113"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q113)"
+                "expression" : "and(databus_w1, Q113)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db13_y56",
-                "gateExpressionInputs" : ["regfile_db13_y54", "regfile_db13_y55"],
+                "OutputSignal" : "databus_db13_y56",
+                "gateExpressionInputs" : ["databus_db13_y54", "databus_db13_y55"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db13_y54, regfile_db13_y55)"
+                "expression" : "or(databus_db13_y54, databus_db13_y55)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB13",
-                "gateExpressionInputs" : ["regfile_db13_y53", "regfile_db13_y56"],
+                "gateExpressionInputs" : ["databus_db13_y53", "databus_db13_y56"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db13_y53, regfile_db13_y56)"
+                "expression" : "or(databus_db13_y53, databus_db13_y56)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db14_y57",
+                "OutputSignal" : "databus_db14_y57",
                 "gateExpressionInputs" : ["A14", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A14, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db14_y58",
-                "gateExpressionInputs" : ["regfile_w0", "Q014"],
+                "OutputSignal" : "databus_db14_y58",
+                "gateExpressionInputs" : ["databus_w0", "Q014"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q014)"
+                "expression" : "and(databus_w0, Q014)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db14_y59",
-                "gateExpressionInputs" : ["regfile_w1", "Q114"],
+                "OutputSignal" : "databus_db14_y59",
+                "gateExpressionInputs" : ["databus_w1", "Q114"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q114)"
+                "expression" : "and(databus_w1, Q114)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db14_y60",
-                "gateExpressionInputs" : ["regfile_db14_y58", "regfile_db14_y59"],
+                "OutputSignal" : "databus_db14_y60",
+                "gateExpressionInputs" : ["databus_db14_y58", "databus_db14_y59"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db14_y58, regfile_db14_y59)"
+                "expression" : "or(databus_db14_y58, databus_db14_y59)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB14",
-                "gateExpressionInputs" : ["regfile_db14_y57", "regfile_db14_y60"],
+                "gateExpressionInputs" : ["databus_db14_y57", "databus_db14_y60"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db14_y57, regfile_db14_y60)"
+                "expression" : "or(databus_db14_y57, databus_db14_y60)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db15_y61",
+                "OutputSignal" : "databus_db15_y61",
                 "gateExpressionInputs" : ["A15", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A15, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db15_y62",
-                "gateExpressionInputs" : ["regfile_w0", "Q015"],
+                "OutputSignal" : "databus_db15_y62",
+                "gateExpressionInputs" : ["databus_w0", "Q015"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q015)"
+                "expression" : "and(databus_w0, Q015)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db15_y63",
-                "gateExpressionInputs" : ["regfile_w1", "Q115"],
+                "OutputSignal" : "databus_db15_y63",
+                "gateExpressionInputs" : ["databus_w1", "Q115"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q115)"
+                "expression" : "and(databus_w1, Q115)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db15_y64",
-                "gateExpressionInputs" : ["regfile_db15_y62", "regfile_db15_y63"],
+                "OutputSignal" : "databus_db15_y64",
+                "gateExpressionInputs" : ["databus_db15_y62", "databus_db15_y63"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db15_y62, regfile_db15_y63)"
+                "expression" : "or(databus_db15_y62, databus_db15_y63)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB15",
-                "gateExpressionInputs" : ["regfile_db15_y61", "regfile_db15_y64"],
+                "gateExpressionInputs" : ["databus_db15_y61", "databus_db15_y64"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db15_y61, regfile_db15_y64)"
+                "expression" : "or(databus_db15_y61, databus_db15_y64)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db16_y65",
+                "OutputSignal" : "databus_db16_y65",
                 "gateExpressionInputs" : ["A16", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A16, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db16_y66",
-                "gateExpressionInputs" : ["regfile_w0", "Q016"],
+                "OutputSignal" : "databus_db16_y66",
+                "gateExpressionInputs" : ["databus_w0", "Q016"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q016)"
+                "expression" : "and(databus_w0, Q016)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db16_y67",
-                "gateExpressionInputs" : ["regfile_w1", "Q116"],
+                "OutputSignal" : "databus_db16_y67",
+                "gateExpressionInputs" : ["databus_w1", "Q116"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q116)"
+                "expression" : "and(databus_w1, Q116)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db16_y68",
-                "gateExpressionInputs" : ["regfile_db16_y66", "regfile_db16_y67"],
+                "OutputSignal" : "databus_db16_y68",
+                "gateExpressionInputs" : ["databus_db16_y66", "databus_db16_y67"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db16_y66, regfile_db16_y67)"
+                "expression" : "or(databus_db16_y66, databus_db16_y67)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB16",
-                "gateExpressionInputs" : ["regfile_db16_y65", "regfile_db16_y68"],
+                "gateExpressionInputs" : ["databus_db16_y65", "databus_db16_y68"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db16_y65, regfile_db16_y68)"
+                "expression" : "or(databus_db16_y65, databus_db16_y68)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db17_y69",
+                "OutputSignal" : "databus_db17_y69",
                 "gateExpressionInputs" : ["A17", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A17, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db17_y70",
-                "gateExpressionInputs" : ["regfile_w0", "Q017"],
+                "OutputSignal" : "databus_db17_y70",
+                "gateExpressionInputs" : ["databus_w0", "Q017"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q017)"
+                "expression" : "and(databus_w0, Q017)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db17_y71",
-                "gateExpressionInputs" : ["regfile_w1", "Q117"],
+                "OutputSignal" : "databus_db17_y71",
+                "gateExpressionInputs" : ["databus_w1", "Q117"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q117)"
+                "expression" : "and(databus_w1, Q117)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db17_y72",
-                "gateExpressionInputs" : ["regfile_db17_y70", "regfile_db17_y71"],
+                "OutputSignal" : "databus_db17_y72",
+                "gateExpressionInputs" : ["databus_db17_y70", "databus_db17_y71"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db17_y70, regfile_db17_y71)"
+                "expression" : "or(databus_db17_y70, databus_db17_y71)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB17",
-                "gateExpressionInputs" : ["regfile_db17_y69", "regfile_db17_y72"],
+                "gateExpressionInputs" : ["databus_db17_y69", "databus_db17_y72"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db17_y69, regfile_db17_y72)"
+                "expression" : "or(databus_db17_y69, databus_db17_y72)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db18_y73",
+                "OutputSignal" : "databus_db18_y73",
                 "gateExpressionInputs" : ["A18", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A18, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db18_y74",
-                "gateExpressionInputs" : ["regfile_w0", "Q018"],
+                "OutputSignal" : "databus_db18_y74",
+                "gateExpressionInputs" : ["databus_w0", "Q018"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q018)"
+                "expression" : "and(databus_w0, Q018)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db18_y75",
-                "gateExpressionInputs" : ["regfile_w1", "Q118"],
+                "OutputSignal" : "databus_db18_y75",
+                "gateExpressionInputs" : ["databus_w1", "Q118"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q118)"
+                "expression" : "and(databus_w1, Q118)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db18_y76",
-                "gateExpressionInputs" : ["regfile_db18_y74", "regfile_db18_y75"],
+                "OutputSignal" : "databus_db18_y76",
+                "gateExpressionInputs" : ["databus_db18_y74", "databus_db18_y75"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db18_y74, regfile_db18_y75)"
+                "expression" : "or(databus_db18_y74, databus_db18_y75)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB18",
-                "gateExpressionInputs" : ["regfile_db18_y73", "regfile_db18_y76"],
+                "gateExpressionInputs" : ["databus_db18_y73", "databus_db18_y76"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db18_y73, regfile_db18_y76)"
+                "expression" : "or(databus_db18_y73, databus_db18_y76)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db19_y77",
+                "OutputSignal" : "databus_db19_y77",
                 "gateExpressionInputs" : ["A19", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A19, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db19_y78",
-                "gateExpressionInputs" : ["regfile_w0", "Q019"],
+                "OutputSignal" : "databus_db19_y78",
+                "gateExpressionInputs" : ["databus_w0", "Q019"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q019)"
+                "expression" : "and(databus_w0, Q019)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db19_y79",
-                "gateExpressionInputs" : ["regfile_w1", "Q119"],
+                "OutputSignal" : "databus_db19_y79",
+                "gateExpressionInputs" : ["databus_w1", "Q119"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q119)"
+                "expression" : "and(databus_w1, Q119)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db19_y80",
-                "gateExpressionInputs" : ["regfile_db19_y78", "regfile_db19_y79"],
+                "OutputSignal" : "databus_db19_y80",
+                "gateExpressionInputs" : ["databus_db19_y78", "databus_db19_y79"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db19_y78, regfile_db19_y79)"
+                "expression" : "or(databus_db19_y78, databus_db19_y79)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB19",
-                "gateExpressionInputs" : ["regfile_db19_y77", "regfile_db19_y80"],
+                "gateExpressionInputs" : ["databus_db19_y77", "databus_db19_y80"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db19_y77, regfile_db19_y80)"
+                "expression" : "or(databus_db19_y77, databus_db19_y80)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db20_y81",
+                "OutputSignal" : "databus_db20_y81",
                 "gateExpressionInputs" : ["A20", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A20, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db20_y82",
-                "gateExpressionInputs" : ["regfile_w0", "Q020"],
+                "OutputSignal" : "databus_db20_y82",
+                "gateExpressionInputs" : ["databus_w0", "Q020"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q020)"
+                "expression" : "and(databus_w0, Q020)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db20_y83",
-                "gateExpressionInputs" : ["regfile_w1", "Q120"],
+                "OutputSignal" : "databus_db20_y83",
+                "gateExpressionInputs" : ["databus_w1", "Q120"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q120)"
+                "expression" : "and(databus_w1, Q120)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db20_y84",
-                "gateExpressionInputs" : ["regfile_db20_y82", "regfile_db20_y83"],
+                "OutputSignal" : "databus_db20_y84",
+                "gateExpressionInputs" : ["databus_db20_y82", "databus_db20_y83"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db20_y82, regfile_db20_y83)"
+                "expression" : "or(databus_db20_y82, databus_db20_y83)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB20",
-                "gateExpressionInputs" : ["regfile_db20_y81", "regfile_db20_y84"],
+                "gateExpressionInputs" : ["databus_db20_y81", "databus_db20_y84"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db20_y81, regfile_db20_y84)"
+                "expression" : "or(databus_db20_y81, databus_db20_y84)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db21_y85",
+                "OutputSignal" : "databus_db21_y85",
                 "gateExpressionInputs" : ["A21", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A21, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db21_y86",
-                "gateExpressionInputs" : ["regfile_w0", "Q021"],
+                "OutputSignal" : "databus_db21_y86",
+                "gateExpressionInputs" : ["databus_w0", "Q021"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q021)"
+                "expression" : "and(databus_w0, Q021)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db21_y87",
-                "gateExpressionInputs" : ["regfile_w1", "Q121"],
+                "OutputSignal" : "databus_db21_y87",
+                "gateExpressionInputs" : ["databus_w1", "Q121"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q121)"
+                "expression" : "and(databus_w1, Q121)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db21_y88",
-                "gateExpressionInputs" : ["regfile_db21_y86", "regfile_db21_y87"],
+                "OutputSignal" : "databus_db21_y88",
+                "gateExpressionInputs" : ["databus_db21_y86", "databus_db21_y87"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db21_y86, regfile_db21_y87)"
+                "expression" : "or(databus_db21_y86, databus_db21_y87)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB21",
-                "gateExpressionInputs" : ["regfile_db21_y85", "regfile_db21_y88"],
+                "gateExpressionInputs" : ["databus_db21_y85", "databus_db21_y88"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db21_y85, regfile_db21_y88)"
+                "expression" : "or(databus_db21_y85, databus_db21_y88)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db22_y89",
+                "OutputSignal" : "databus_db22_y89",
                 "gateExpressionInputs" : ["A22", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A22, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db22_y90",
-                "gateExpressionInputs" : ["regfile_w0", "Q022"],
+                "OutputSignal" : "databus_db22_y90",
+                "gateExpressionInputs" : ["databus_w0", "Q022"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q022)"
+                "expression" : "and(databus_w0, Q022)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db22_y91",
-                "gateExpressionInputs" : ["regfile_w1", "Q122"],
+                "OutputSignal" : "databus_db22_y91",
+                "gateExpressionInputs" : ["databus_w1", "Q122"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q122)"
+                "expression" : "and(databus_w1, Q122)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db22_y92",
-                "gateExpressionInputs" : ["regfile_db22_y90", "regfile_db22_y91"],
+                "OutputSignal" : "databus_db22_y92",
+                "gateExpressionInputs" : ["databus_db22_y90", "databus_db22_y91"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db22_y90, regfile_db22_y91)"
+                "expression" : "or(databus_db22_y90, databus_db22_y91)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB22",
-                "gateExpressionInputs" : ["regfile_db22_y89", "regfile_db22_y92"],
+                "gateExpressionInputs" : ["databus_db22_y89", "databus_db22_y92"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db22_y89, regfile_db22_y92)"
+                "expression" : "or(databus_db22_y89, databus_db22_y92)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db23_y93",
+                "OutputSignal" : "databus_db23_y93",
                 "gateExpressionInputs" : ["A23", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A23, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db23_y94",
-                "gateExpressionInputs" : ["regfile_w0", "Q023"],
+                "OutputSignal" : "databus_db23_y94",
+                "gateExpressionInputs" : ["databus_w0", "Q023"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q023)"
+                "expression" : "and(databus_w0, Q023)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db23_y95",
-                "gateExpressionInputs" : ["regfile_w1", "Q123"],
+                "OutputSignal" : "databus_db23_y95",
+                "gateExpressionInputs" : ["databus_w1", "Q123"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q123)"
+                "expression" : "and(databus_w1, Q123)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db23_y96",
-                "gateExpressionInputs" : ["regfile_db23_y94", "regfile_db23_y95"],
+                "OutputSignal" : "databus_db23_y96",
+                "gateExpressionInputs" : ["databus_db23_y94", "databus_db23_y95"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db23_y94, regfile_db23_y95)"
+                "expression" : "or(databus_db23_y94, databus_db23_y95)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB23",
-                "gateExpressionInputs" : ["regfile_db23_y93", "regfile_db23_y96"],
+                "gateExpressionInputs" : ["databus_db23_y93", "databus_db23_y96"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db23_y93, regfile_db23_y96)"
+                "expression" : "or(databus_db23_y93, databus_db23_y96)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db24_y97",
+                "OutputSignal" : "databus_db24_y97",
                 "gateExpressionInputs" : ["A24", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A24, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db24_y98",
-                "gateExpressionInputs" : ["regfile_w0", "Q024"],
+                "OutputSignal" : "databus_db24_y98",
+                "gateExpressionInputs" : ["databus_w0", "Q024"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q024)"
+                "expression" : "and(databus_w0, Q024)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db24_y99",
-                "gateExpressionInputs" : ["regfile_w1", "Q124"],
+                "OutputSignal" : "databus_db24_y99",
+                "gateExpressionInputs" : ["databus_w1", "Q124"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q124)"
+                "expression" : "and(databus_w1, Q124)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db24_y100",
-                "gateExpressionInputs" : ["regfile_db24_y98", "regfile_db24_y99"],
+                "OutputSignal" : "databus_db24_y100",
+                "gateExpressionInputs" : ["databus_db24_y98", "databus_db24_y99"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db24_y98, regfile_db24_y99)"
+                "expression" : "or(databus_db24_y98, databus_db24_y99)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB24",
-                "gateExpressionInputs" : ["regfile_db24_y97", "regfile_db24_y100"],
+                "gateExpressionInputs" : ["databus_db24_y97", "databus_db24_y100"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db24_y97, regfile_db24_y100)"
+                "expression" : "or(databus_db24_y97, databus_db24_y100)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db25_y101",
+                "OutputSignal" : "databus_db25_y101",
                 "gateExpressionInputs" : ["A25", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A25, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db25_y102",
-                "gateExpressionInputs" : ["regfile_w0", "Q025"],
+                "OutputSignal" : "databus_db25_y102",
+                "gateExpressionInputs" : ["databus_w0", "Q025"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q025)"
+                "expression" : "and(databus_w0, Q025)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db25_y103",
-                "gateExpressionInputs" : ["regfile_w1", "Q125"],
+                "OutputSignal" : "databus_db25_y103",
+                "gateExpressionInputs" : ["databus_w1", "Q125"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q125)"
+                "expression" : "and(databus_w1, Q125)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db25_y104",
-                "gateExpressionInputs" : ["regfile_db25_y102", "regfile_db25_y103"],
+                "OutputSignal" : "databus_db25_y104",
+                "gateExpressionInputs" : ["databus_db25_y102", "databus_db25_y103"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db25_y102, regfile_db25_y103)"
+                "expression" : "or(databus_db25_y102, databus_db25_y103)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB25",
-                "gateExpressionInputs" : ["regfile_db25_y101", "regfile_db25_y104"],
+                "gateExpressionInputs" : ["databus_db25_y101", "databus_db25_y104"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db25_y101, regfile_db25_y104)"
+                "expression" : "or(databus_db25_y101, databus_db25_y104)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db26_y105",
+                "OutputSignal" : "databus_db26_y105",
                 "gateExpressionInputs" : ["A26", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A26, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db26_y106",
-                "gateExpressionInputs" : ["regfile_w0", "Q026"],
+                "OutputSignal" : "databus_db26_y106",
+                "gateExpressionInputs" : ["databus_w0", "Q026"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q026)"
+                "expression" : "and(databus_w0, Q026)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db26_y107",
-                "gateExpressionInputs" : ["regfile_w1", "Q126"],
+                "OutputSignal" : "databus_db26_y107",
+                "gateExpressionInputs" : ["databus_w1", "Q126"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q126)"
+                "expression" : "and(databus_w1, Q126)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db26_y108",
-                "gateExpressionInputs" : ["regfile_db26_y106", "regfile_db26_y107"],
+                "OutputSignal" : "databus_db26_y108",
+                "gateExpressionInputs" : ["databus_db26_y106", "databus_db26_y107"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db26_y106, regfile_db26_y107)"
+                "expression" : "or(databus_db26_y106, databus_db26_y107)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB26",
-                "gateExpressionInputs" : ["regfile_db26_y105", "regfile_db26_y108"],
+                "gateExpressionInputs" : ["databus_db26_y105", "databus_db26_y108"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db26_y105, regfile_db26_y108)"
+                "expression" : "or(databus_db26_y105, databus_db26_y108)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db27_y109",
+                "OutputSignal" : "databus_db27_y109",
                 "gateExpressionInputs" : ["A27", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A27, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db27_y110",
-                "gateExpressionInputs" : ["regfile_w0", "Q027"],
+                "OutputSignal" : "databus_db27_y110",
+                "gateExpressionInputs" : ["databus_w0", "Q027"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q027)"
+                "expression" : "and(databus_w0, Q027)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db27_y111",
-                "gateExpressionInputs" : ["regfile_w1", "Q127"],
+                "OutputSignal" : "databus_db27_y111",
+                "gateExpressionInputs" : ["databus_w1", "Q127"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q127)"
+                "expression" : "and(databus_w1, Q127)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db27_y112",
-                "gateExpressionInputs" : ["regfile_db27_y110", "regfile_db27_y111"],
+                "OutputSignal" : "databus_db27_y112",
+                "gateExpressionInputs" : ["databus_db27_y110", "databus_db27_y111"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db27_y110, regfile_db27_y111)"
+                "expression" : "or(databus_db27_y110, databus_db27_y111)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB27",
-                "gateExpressionInputs" : ["regfile_db27_y109", "regfile_db27_y112"],
+                "gateExpressionInputs" : ["databus_db27_y109", "databus_db27_y112"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db27_y109, regfile_db27_y112)"
+                "expression" : "or(databus_db27_y109, databus_db27_y112)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db28_y113",
+                "OutputSignal" : "databus_db28_y113",
                 "gateExpressionInputs" : ["A28", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A28, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db28_y114",
-                "gateExpressionInputs" : ["regfile_w0", "Q028"],
+                "OutputSignal" : "databus_db28_y114",
+                "gateExpressionInputs" : ["databus_w0", "Q028"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q028)"
+                "expression" : "and(databus_w0, Q028)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db28_y115",
-                "gateExpressionInputs" : ["regfile_w1", "Q128"],
+                "OutputSignal" : "databus_db28_y115",
+                "gateExpressionInputs" : ["databus_w1", "Q128"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q128)"
+                "expression" : "and(databus_w1, Q128)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db28_y116",
-                "gateExpressionInputs" : ["regfile_db28_y114", "regfile_db28_y115"],
+                "OutputSignal" : "databus_db28_y116",
+                "gateExpressionInputs" : ["databus_db28_y114", "databus_db28_y115"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db28_y114, regfile_db28_y115)"
+                "expression" : "or(databus_db28_y114, databus_db28_y115)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB28",
-                "gateExpressionInputs" : ["regfile_db28_y113", "regfile_db28_y116"],
+                "gateExpressionInputs" : ["databus_db28_y113", "databus_db28_y116"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db28_y113, regfile_db28_y116)"
+                "expression" : "or(databus_db28_y113, databus_db28_y116)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db29_y117",
+                "OutputSignal" : "databus_db29_y117",
                 "gateExpressionInputs" : ["A29", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A29, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db29_y118",
-                "gateExpressionInputs" : ["regfile_w0", "Q029"],
+                "OutputSignal" : "databus_db29_y118",
+                "gateExpressionInputs" : ["databus_w0", "Q029"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q029)"
+                "expression" : "and(databus_w0, Q029)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db29_y119",
-                "gateExpressionInputs" : ["regfile_w1", "Q129"],
+                "OutputSignal" : "databus_db29_y119",
+                "gateExpressionInputs" : ["databus_w1", "Q129"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q129)"
+                "expression" : "and(databus_w1, Q129)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db29_y120",
-                "gateExpressionInputs" : ["regfile_db29_y118", "regfile_db29_y119"],
+                "OutputSignal" : "databus_db29_y120",
+                "gateExpressionInputs" : ["databus_db29_y118", "databus_db29_y119"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db29_y118, regfile_db29_y119)"
+                "expression" : "or(databus_db29_y118, databus_db29_y119)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB29",
-                "gateExpressionInputs" : ["regfile_db29_y117", "regfile_db29_y120"],
+                "gateExpressionInputs" : ["databus_db29_y117", "databus_db29_y120"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db29_y117, regfile_db29_y120)"
+                "expression" : "or(databus_db29_y117, databus_db29_y120)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db30_y121",
+                "OutputSignal" : "databus_db30_y121",
                 "gateExpressionInputs" : ["A30", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A30, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db30_y122",
-                "gateExpressionInputs" : ["regfile_w0", "Q030"],
+                "OutputSignal" : "databus_db30_y122",
+                "gateExpressionInputs" : ["databus_w0", "Q030"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q030)"
+                "expression" : "and(databus_w0, Q030)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db30_y123",
-                "gateExpressionInputs" : ["regfile_w1", "Q130"],
+                "OutputSignal" : "databus_db30_y123",
+                "gateExpressionInputs" : ["databus_w1", "Q130"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q130)"
+                "expression" : "and(databus_w1, Q130)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db30_y124",
-                "gateExpressionInputs" : ["regfile_db30_y122", "regfile_db30_y123"],
+                "OutputSignal" : "databus_db30_y124",
+                "gateExpressionInputs" : ["databus_db30_y122", "databus_db30_y123"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db30_y122, regfile_db30_y123)"
+                "expression" : "or(databus_db30_y122, databus_db30_y123)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB30",
-                "gateExpressionInputs" : ["regfile_db30_y121", "regfile_db30_y124"],
+                "gateExpressionInputs" : ["databus_db30_y121", "databus_db30_y124"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db30_y121, regfile_db30_y124)"
+                "expression" : "or(databus_db30_y121, databus_db30_y124)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db31_y125",
+                "OutputSignal" : "databus_db31_y125",
                 "gateExpressionInputs" : ["A31", "IM"],
                 "gatesUsed" : ["and"],
                 "expression" : "and(A31, IM)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db31_y126",
-                "gateExpressionInputs" : ["regfile_w0", "Q031"],
+                "OutputSignal" : "databus_db31_y126",
+                "gateExpressionInputs" : ["databus_w0", "Q031"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w0, Q031)"
+                "expression" : "and(databus_w0, Q031)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db31_y127",
-                "gateExpressionInputs" : ["regfile_w1", "Q131"],
+                "OutputSignal" : "databus_db31_y127",
+                "gateExpressionInputs" : ["databus_w1", "Q131"],
                 "gatesUsed" : ["and"],
-                "expression" : "and(regfile_w1, Q131)"
+                "expression" : "and(databus_w1, Q131)"
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "regfile_db31_y128",
-                "gateExpressionInputs" : ["regfile_db31_y126", "regfile_db31_y127"],
+                "OutputSignal" : "databus_db31_y128",
+                "gateExpressionInputs" : ["databus_db31_y126", "databus_db31_y127"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db31_y126, regfile_db31_y127)"
+                "expression" : "or(databus_db31_y126, databus_db31_y127)"
             },
             {
                 "ProcessType" : "Gate",
                 "OutputSignal" : "DB31",
-                "gateExpressionInputs" : ["regfile_db31_y125", "regfile_db31_y128"],
+                "gateExpressionInputs" : ["databus_db31_y125", "databus_db31_y128"],
                 "gatesUsed" : ["or"],
-                "expression" : "or(regfile_db31_y125, regfile_db31_y128)"
+                "expression" : "or(databus_db31_y125, databus_db31_y128)"
             },
             {
                 "ProcessType" : "Gate",
@@ -1630,7 +1406,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes0",
+                "OutputSignal" : "alu_alu0_tempRes",
                 "gateExpressionInputs" : ["alu_alu0_y141", "alu_alu0_y143"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu0_y141, alu_alu0_y143)"
@@ -1812,7 +1588,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes1",
+                "OutputSignal" : "alu_alu1_tempRes",
                 "gateExpressionInputs" : ["alu_alu1_y159", "alu_alu1_y161"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu1_y159, alu_alu1_y161)"
@@ -1994,7 +1770,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes2",
+                "OutputSignal" : "alu_alu2_tempRes",
                 "gateExpressionInputs" : ["alu_alu2_y177", "alu_alu2_y179"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu2_y177, alu_alu2_y179)"
@@ -2176,7 +1952,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes3",
+                "OutputSignal" : "alu_alu3_tempRes",
                 "gateExpressionInputs" : ["alu_alu3_y195", "alu_alu3_y197"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu3_y195, alu_alu3_y197)"
@@ -2358,7 +2134,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes4",
+                "OutputSignal" : "alu_alu4_tempRes",
                 "gateExpressionInputs" : ["alu_alu4_y213", "alu_alu4_y215"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu4_y213, alu_alu4_y215)"
@@ -2540,7 +2316,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes5",
+                "OutputSignal" : "alu_alu5_tempRes",
                 "gateExpressionInputs" : ["alu_alu5_y231", "alu_alu5_y233"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu5_y231, alu_alu5_y233)"
@@ -2722,7 +2498,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes6",
+                "OutputSignal" : "alu_alu6_tempRes",
                 "gateExpressionInputs" : ["alu_alu6_y249", "alu_alu6_y251"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu6_y249, alu_alu6_y251)"
@@ -2904,7 +2680,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes7",
+                "OutputSignal" : "alu_alu7_tempRes",
                 "gateExpressionInputs" : ["alu_alu7_y267", "alu_alu7_y269"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu7_y267, alu_alu7_y269)"
@@ -3086,7 +2862,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes8",
+                "OutputSignal" : "alu_alu8_tempRes",
                 "gateExpressionInputs" : ["alu_alu8_y285", "alu_alu8_y287"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu8_y285, alu_alu8_y287)"
@@ -3268,7 +3044,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes9",
+                "OutputSignal" : "alu_alu9_tempRes",
                 "gateExpressionInputs" : ["alu_alu9_y303", "alu_alu9_y305"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu9_y303, alu_alu9_y305)"
@@ -3450,7 +3226,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes10",
+                "OutputSignal" : "alu_alu10_tempRes",
                 "gateExpressionInputs" : ["alu_alu10_y321", "alu_alu10_y323"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu10_y321, alu_alu10_y323)"
@@ -3632,7 +3408,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes11",
+                "OutputSignal" : "alu_alu11_tempRes",
                 "gateExpressionInputs" : ["alu_alu11_y339", "alu_alu11_y341"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu11_y339, alu_alu11_y341)"
@@ -3814,7 +3590,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes12",
+                "OutputSignal" : "alu_alu12_tempRes",
                 "gateExpressionInputs" : ["alu_alu12_y357", "alu_alu12_y359"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu12_y357, alu_alu12_y359)"
@@ -3996,7 +3772,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes13",
+                "OutputSignal" : "alu_alu13_tempRes",
                 "gateExpressionInputs" : ["alu_alu13_y375", "alu_alu13_y377"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu13_y375, alu_alu13_y377)"
@@ -4178,7 +3954,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes14",
+                "OutputSignal" : "alu_alu14_tempRes",
                 "gateExpressionInputs" : ["alu_alu14_y393", "alu_alu14_y395"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu14_y393, alu_alu14_y395)"
@@ -4360,7 +4136,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes15",
+                "OutputSignal" : "alu_alu15_tempRes",
                 "gateExpressionInputs" : ["alu_alu15_y411", "alu_alu15_y413"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu15_y411, alu_alu15_y413)"
@@ -4542,7 +4318,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes16",
+                "OutputSignal" : "alu_alu16_tempRes",
                 "gateExpressionInputs" : ["alu_alu16_y429", "alu_alu16_y431"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu16_y429, alu_alu16_y431)"
@@ -4724,7 +4500,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes17",
+                "OutputSignal" : "alu_alu17_tempRes",
                 "gateExpressionInputs" : ["alu_alu17_y447", "alu_alu17_y449"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu17_y447, alu_alu17_y449)"
@@ -4906,7 +4682,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes18",
+                "OutputSignal" : "alu_alu18_tempRes",
                 "gateExpressionInputs" : ["alu_alu18_y465", "alu_alu18_y467"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu18_y465, alu_alu18_y467)"
@@ -5088,7 +4864,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes19",
+                "OutputSignal" : "alu_alu19_tempRes",
                 "gateExpressionInputs" : ["alu_alu19_y483", "alu_alu19_y485"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu19_y483, alu_alu19_y485)"
@@ -5270,7 +5046,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes20",
+                "OutputSignal" : "alu_alu20_tempRes",
                 "gateExpressionInputs" : ["alu_alu20_y501", "alu_alu20_y503"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu20_y501, alu_alu20_y503)"
@@ -5452,7 +5228,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes21",
+                "OutputSignal" : "alu_alu21_tempRes",
                 "gateExpressionInputs" : ["alu_alu21_y519", "alu_alu21_y521"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu21_y519, alu_alu21_y521)"
@@ -5634,7 +5410,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes22",
+                "OutputSignal" : "alu_alu22_tempRes",
                 "gateExpressionInputs" : ["alu_alu22_y537", "alu_alu22_y539"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu22_y537, alu_alu22_y539)"
@@ -5816,7 +5592,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes23",
+                "OutputSignal" : "alu_alu23_tempRes",
                 "gateExpressionInputs" : ["alu_alu23_y555", "alu_alu23_y557"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu23_y555, alu_alu23_y557)"
@@ -5998,7 +5774,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes24",
+                "OutputSignal" : "alu_alu24_tempRes",
                 "gateExpressionInputs" : ["alu_alu24_y573", "alu_alu24_y575"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu24_y573, alu_alu24_y575)"
@@ -6180,7 +5956,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes25",
+                "OutputSignal" : "alu_alu25_tempRes",
                 "gateExpressionInputs" : ["alu_alu25_y591", "alu_alu25_y593"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu25_y591, alu_alu25_y593)"
@@ -6362,7 +6138,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes26",
+                "OutputSignal" : "alu_alu26_tempRes",
                 "gateExpressionInputs" : ["alu_alu26_y609", "alu_alu26_y611"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu26_y609, alu_alu26_y611)"
@@ -6544,7 +6320,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes27",
+                "OutputSignal" : "alu_alu27_tempRes",
                 "gateExpressionInputs" : ["alu_alu27_y627", "alu_alu27_y629"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu27_y627, alu_alu27_y629)"
@@ -6726,7 +6502,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes28",
+                "OutputSignal" : "alu_alu28_tempRes",
                 "gateExpressionInputs" : ["alu_alu28_y645", "alu_alu28_y647"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu28_y645, alu_alu28_y647)"
@@ -6908,7 +6684,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes29",
+                "OutputSignal" : "alu_alu29_tempRes",
                 "gateExpressionInputs" : ["alu_alu29_y663", "alu_alu29_y665"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu29_y663, alu_alu29_y665)"
@@ -7090,7 +6866,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes30",
+                "OutputSignal" : "alu_alu30_tempRes",
                 "gateExpressionInputs" : ["alu_alu30_y681", "alu_alu30_y683"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu30_y681, alu_alu30_y683)"
@@ -7272,7 +7048,7 @@
             },
             {
                 "ProcessType" : "Gate",
-                "OutputSignal" : "rawRes31",
+                "OutputSignal" : "alu_alu31_tempRes",
                 "gateExpressionInputs" : ["alu_alu31_y699", "alu_alu31_y701"],
                 "gatesUsed" : ["or"],
                 "expression" : "or(alu_alu31_y699, alu_alu31_y701)"
