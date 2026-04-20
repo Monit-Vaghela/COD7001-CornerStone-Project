@@ -16,7 +16,7 @@ using namespace std;
 // Minimum events in a level batch to justify OMP thread spawn overhead.
 // Below this threshold, run sequentially to avoid paying ~10-50µs of OMP
 // startup cost for work that takes <1µs.
-static constexpr int OMP_THRESHOLD = 1024;
+static constexpr int OMP_THRESHOLD = 16;
 
 vector<map<int, int>> deltaSimulations;
 std::vector<std::pair<int,int>> deltaTimes;
@@ -66,6 +66,11 @@ void ParallelV2Simulator::run() {
     }
 
     while (!event_queue.empty()) {
+        if(simulatedEvents > 100000) {
+            cout << "[Simulator / Error] : Stuck in looping Delta Cycles\n";
+            return;
+        }
+        
         int T = event_queue.top().time;
         int D = event_queue.top().delta;
 

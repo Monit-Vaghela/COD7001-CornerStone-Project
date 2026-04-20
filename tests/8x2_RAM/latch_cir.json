@@ -1,0 +1,83 @@
+{
+    "entity": {
+        "metadata": {
+            "noOfInputPorts": 2,
+            "noOfOutputPorts": 2
+        },
+        "inputs": ["D", "E"],
+        "outputs": ["Q", "Qb"],
+        "intermediates": ["Rb", "Sb", "y2", "Dbar"]
+    },
+
+    "Architecture": {
+        "metadata": {
+            "noOfTotalGates": 6,
+            "noOfAndGates": 0,
+            "noOforGates": 0,
+            "noOfNotGates": 0,
+            "noOfXorGates": 0,
+            "noOfXnorGates": 0,
+            "noOfNandGates": 6,
+            "noOfSignals": 6
+        },
+
+        "SignalMapping": [
+            {"D": "D", "SignalType": "input"},
+            {"E": "E", "SignalType": "input"},
+            {"Q": "Q", "SignalType": "output"},
+            {"Qb": "Qb", "SignalType": "output"}
+        ],
+
+        "Behaviour": [
+
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "y2",
+                "gateExpressionInputs": ["E"],
+                "gatesUsed": ["nand"],
+                "expression": "nand(E, E)"
+            },
+
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "Dbar",
+                "gateExpressionInputs": ["D"],
+                "gatesUsed": ["nand"],
+                "expression": "nand(D, D)"
+            },
+
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "Sb",
+                "gateExpressionInputs": ["D", "E"],
+                "gatesUsed": ["nand"],
+                "expression": "nand(D, E)"
+            },
+
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "Rb",
+                "gateExpressionInputs": ["Dbar", "E"],
+                "gatesUsed": ["nand"],
+                "expression": "nand(Dbar, E)"
+            },
+
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "Q",
+                "gateExpressionInputs": ["Sb", "Qb"],
+                "gatesUsed": ["nand"],
+                "expression": "nand(Sb, Qb)"
+            },
+
+            {
+                "ProcessType": "Gate",
+                "OutputSignal": "Qb",
+                "gateExpressionInputs": ["Rb", "Q"],
+                "gatesUsed": ["nand"],
+                "expression": "nand(Rb, Q)"
+            }
+
+        ]
+    }
+}

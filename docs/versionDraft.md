@@ -122,6 +122,47 @@ if (<inputSignali> == "0" && <inputSignalj> == "0" ......){
 
 ### small QOL
 - json file should be generated from where the input files were passed.
+
+### need to add Initial state for somehting like latches
+#### .tes
+- above processes block there will be intialState block like this
+```text
+initialState(["signal" <= bitValue(0/1), .....]);
+```
+- signal can be of any type (input or output or intermediate)
+- bit value can only be 0,1
+
+#### tes.json
+```json
+"InitialState" : 
+{
+    "Signal" : "value",
+    .
+    .
+    .
+},
+```
+- for better understanding see example `tests/8x8_RAM/tesFile/latch.tes` and `tests/8x8_RAM/tesFile/latch_tes.json`.
+- simple enough right !!!!!!! >_<
+- but now more problem arises, if latch.tes is a subEnitity (i.e it is being used by some other Enitity) we need to also create latch_tes.cir by user and make sure it does not cointain any Processes only initialState.
+- and when later user creates instance of this subEntity, the main Entity which has the actual tes file will have initialState of all the subenities created.
+- example (latch had intialstate)
+```text
+initialState(["E" <= 1, "Sb" <= 1, "Rb" <= 0, "Q" <= 0, "Qb" <= 1]);
+```
+- and another creates its multiple instance named latch0, latch1
+- then in that files "tes.json" file we get
+```json
+initialState {
+    "latch0_E" : 1,
+    "latch0_Sb" : 1,
+    .
+    .
+    .
+}
+```
+- i dont know how the naming convention works............... !!!!!!!!!!!! 
+
 # Parallelization
 - new approach with use a dependency graph to understand what can be runned in parallel and what cannot be
 - the graph creation is devided into 3 parts 

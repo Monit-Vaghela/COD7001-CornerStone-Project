@@ -1,0 +1,21 @@
+entity latch {
+    inputs : ["D", "E"];
+    outputs : ["Q", "Qb"];
+}
+
+architecture latch {
+    signals : ["D", "Q", "Qb", "E", "Sb", "Rb"];
+    signalMapping : [
+        "D" <= "D",
+        "Q" <= "Q",
+        "E" <= "E",
+        "Qb" <= "Qb"
+    ];
+    behaviour {
+        Sb <= not(D and E);
+        Rb <= not(not(D) and E);
+
+        Q <= not(Sb and Qb);
+        Qb <= not(Rb and Q);
+    }
+}

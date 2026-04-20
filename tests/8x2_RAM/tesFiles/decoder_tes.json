@@ -1,0 +1,36 @@
+{
+    "simulation" : {
+        "metadata" : {
+            "noOfProcesses" : 24,
+            "initialTimeStamp" : 1,
+            "finalTimeStamp" : 8
+        },
+        "Processes" : 
+        [
+            {"S0" : 0, "timestamp" : 1},
+            {"S1" : 0, "timestamp" : 1},
+            {"S2" : 0, "timestamp" : 1},
+            {"S0" : 1, "timestamp" : 2},
+            {"S1" : 0, "timestamp" : 2},
+            {"S2" : 0, "timestamp" : 2},
+            {"S0" : 0, "timestamp" : 3},
+            {"S1" : 1, "timestamp" : 3},
+            {"S2" : 0, "timestamp" : 3},
+            {"S0" : 1, "timestamp" : 4},
+            {"S1" : 1, "timestamp" : 4},
+            {"S2" : 0, "timestamp" : 4},
+            {"S0" : 0, "timestamp" : 5},
+            {"S1" : 0, "timestamp" : 5},
+            {"S2" : 1, "timestamp" : 5},
+            {"S0" : 1, "timestamp" : 6},
+            {"S1" : 0, "timestamp" : 6},
+            {"S2" : 1, "timestamp" : 6},
+            {"S0" : 0, "timestamp" : 7},
+            {"S1" : 1, "timestamp" : 7},
+            {"S2" : 1, "timestamp" : 7},
+            {"S0" : 1, "timestamp" : 8},
+            {"S1" : 1, "timestamp" : 8},
+            {"S2" : 1, "timestamp" : 8}
+        ]
+    }
+}

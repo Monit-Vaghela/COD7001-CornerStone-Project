@@ -1,0 +1,6 @@
+simulator latch {
+    processes {
+        process(["D" <= 1], 1);
+        process(["E" <= 1], 2);
+    }
+}

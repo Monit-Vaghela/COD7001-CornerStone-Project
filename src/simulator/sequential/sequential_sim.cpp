@@ -37,7 +37,7 @@ void SequentialSimulator::run() {
 
         // Logging when time advances
         if (last_time != -1 && T != last_time) {
-            // Logger::print_circuit_state(*circuit);
+            Logger::print_circuit_state(*circuit);
         }
 
         current_time = T;
@@ -111,7 +111,7 @@ void SequentialSimulator::run() {
     // Final state print
     if (last_time != -1) {
         vcd->dumpTime(current_time + 1);
-        // Logger::print_circuit_state(*circuit);
+        Logger::print_circuit_state(*circuit);
         cout << endl; 
         cout << "Sequential Simulated " << simulatedEvents << endl;
         DashboardJSON::exportSeq(seqRecords, "dashboard/seq_stats.json");

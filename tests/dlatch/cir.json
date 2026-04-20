@@ -33,6 +33,7 @@
         "Behaviour": [
 
             {
+                "ProcessType": "Gate",
                 "OutputSignal": "y1",
                 "gateExpressionInputs": ["x"],
                 "gatesUsed": ["not"],
@@ -40,6 +41,7 @@
             },
 
             {
+                "ProcessType": "Gate",
                 "OutputSignal": "y2",
                 "gateExpressionInputs": ["x", "y"],
                 "gatesUsed": ["nand"],
@@ -47,6 +49,7 @@
             },
 
             {
+                "ProcessType": "Gate",
                 "OutputSignal": "y3",
                 "gateExpressionInputs": ["y1", "y"],
                 "gatesUsed": ["nand"],
@@ -54,6 +57,7 @@
             },
 
             {
+                "ProcessType": "Gate",
                 "OutputSignal": "y4",
                 "gateExpressionInputs": ["y2", "y5"],
                 "gatesUsed": ["nand"],
@@ -61,6 +65,7 @@
             },
 
             {
+                "ProcessType": "Gate",
                 "OutputSignal": "y5",
                 "gateExpressionInputs": ["y3", "y4"],
                 "gatesUsed": ["nand"],
@@ -68,6 +73,7 @@
             },
 
             {
+                "ProcessType": "Gate",
                 "OutputSignal": "qout",
                 "gateExpressionInputs": ["y4"],
                 "gatesUsed": ["pass"],
@@ -75,6 +81,7 @@
             },
 
             {
+                "ProcessType": "Gate",
                 "OutputSignal": "qbout",
                 "gateExpressionInputs": ["y5"],
                 "gatesUsed": ["pass"],

@@ -1,0 +1,21 @@
+entity byte {
+    inputs : ["CLK", "E",
+              "i0", "i1", "i2", "i3", "i4", "i5", "i6", "i7"];
+    outputs : ["b0", "b1", "b2", "b3", "b4", "b5", "b6", "b7"];
+}
+
+architecture byte {
+    signals : ["CLK", "E",];
+    signalMapping : [
+        "D" <= "D",
+        "CLK" <= "CLK",
+        "Q" <= "Q",
+        "E" <= "E"
+    ];
+    behaviour {
+        Deff <= (D and E) or (not(E) and Q);
+        if is_risingEdge(CLK) {
+            Q <= Deff;
+        }
+    }
+}
