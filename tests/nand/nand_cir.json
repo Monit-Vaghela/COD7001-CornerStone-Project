@@ -18,7 +18,7 @@
             "noOfNotGates" : 1,
             "noOfXorGates" : 0,
             "noOfXnorGates" : 0,
-            "noOfSignals" : 4
+            "noOfSignals" : 3
         },
 
         "SignalMapping" : 
@@ -31,17 +31,18 @@
 
         "Behaviour" : [
             {
-                "OutputSignal" : "y1", 
-                "gateExpressionInputs" : ["x", "y"], 
-                "gatesUsed" : ["and"], 
-                "expressionStack" : "and(x, y)"
-            }, 
-
+                "ProcessType" : "Gate",
+                "OutputSignal" : "y1",
+                "gateExpressionInputs" : ["x", "y"],
+                "gatesUsed" : ["and"],
+                "expression" : "and(x, y)"
+            },
             {
-                "OutputSignal" : "z", 
-                "gateExpressionInputs" : ["y1"], 
-                "gatesUsed" : ["not"], 
-                "expressionStack" : "and(x, y)"
+                "ProcessType" : "Gate",
+                "OutputSignal" : "z",
+                "gateExpressionInputs" : ["y1"],
+                "gatesUsed" : ["not"],
+                "expression" : "not(y1)"
             }
         ]
     }

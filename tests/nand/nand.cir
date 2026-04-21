@@ -11,6 +11,6 @@ architecture nandGate {
         "z" <= "c"
     ];
     behaviour {
-        z <= not (x and y)
+        z <= not (x and y);
     }
 }

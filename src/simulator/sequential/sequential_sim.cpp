@@ -133,6 +133,9 @@ void SequentialSimulator::run() {
 
     delete vcd;
     vcd = nullptr;
+
+    delete tracer;
+    tracer = nullptr;
 }
 
 void SequentialSimulator::stabilize() {
