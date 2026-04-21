@@ -1,11 +1,9 @@
 #ifndef DASHBOARD_H
 #define DASHBOARD_H
-
 #pragma once
 #include <string>
 #include <vector>
 #include <map>
-
 // ─────────────────────────────────────────────────────────────────
 //  DashboardJSON
 //
@@ -17,35 +15,30 @@
 //
 //  Then open dashboard.html — it loads both files automatically.
 // ─────────────────────────────────────────────────────────────────
-
 namespace DashboardJSON {
-
 // One record per (T, D) batch — sequential simulator.
 // level is always -2 (flat, no topology info available).
 struct SeqDeltaRecord {
-    int time;
-    int delta;
-    int events;           // total events processed this batch
+int time;
+int delta;
+int events;           // total events processed this batch
+double elapsedUs;     // wall-clock time to execute this batch (microseconds)
 };
-
 // One record per (T, D) batch — parallel simulator.
 // levelMap mirrors deltaSimulations: level -> event count.
 // Level -1 = SIGNAL_UPDATE (always serial).
 // Level  0 = processes with no graph node (fallback).
 // Level  1+ = actual circuit topology levels.
 struct ParDeltaRecord {
-    int time;
-    int delta;
-    std::map<int, int> levelMap;   // level -> event count
-    int ompThreshold;              // value of OMP_THRESHOLD used
+int time;
+int delta;
+std::map<int, int> levelMap;   // level -> event count
+int ompThreshold;              // value of OMP_THRESHOLD used
+double elapsedUs;              // wall-clock time for this batch (microseconds)
 };
-
 void exportSeq(const std::vector<SeqDeltaRecord>& records,
-               const std::string& path = "seq_stats.json");
-
+const std::string& path = "seq_stats.json");
 void exportPar(const std::vector<ParDeltaRecord>& records,
-               const std::string& path = "par_stats.json");
-
+const std::string& path = "par_stats.json");
 } // namespace DashboardJSON
-
 #endif

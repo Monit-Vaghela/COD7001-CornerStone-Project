@@ -2,6 +2,7 @@
 #include <circuitBuilder/utils/logger.h>
 #include <circuitBuilder/gates/gate.h>
 #include <circuitBuilder/utils/Dashboardjson.h>
+#include <simulator/tracer.h>
 #include <vector>
 #include <iostream>
 #include <unordered_set>
@@ -16,16 +17,23 @@ using namespace std;
 // Minimum events in a level batch to justify OMP thread spawn overhead.
 // Below this threshold, run sequentially to avoid paying ~10-50µs of OMP
 // startup cost for work that takes <1µs.
-static constexpr int OMP_THRESHOLD = 16;
+static constexpr int OMP_THRESHOLD = 512;
 
 vector<map<int, int>> deltaSimulations;
-std::vector<std::pair<int,int>> deltaTimes;
-
+vector<std::pair<int,int>> deltaTimes;
+vector<double> elapsedTime;
 ParallelV2Simulator::ParallelV2Simulator(Circuit* c, CircuitGraph* cir, CondensedGraph* cond)
     : Simulator(c), circuitGraph(cir), condensedGraph(cond) {
-    vcd = new VCDWriter("wavePar.vcd");
+    vcd = new VCDWriter("output/wavePar.vcd");
     for (auto* s : circuit->get_signals()) vcd->registerSignal(s->get_name());
     vcd->endDefinitions();
+
+    tracer = new TraceWriter("output/tracePar.bin");   // or trace_par.bin
+    std::vector<std::string> names;
+    for (auto* s : circuit->get_signals()) names.push_back(s->get_name());
+    tracer->registerSignals(names);
+
+
     for (auto* process : circuit->get_processes()) {
         auto it = cir->nodeMap.find(process);
         if (it != cir->nodeMap.end() && it->second != nullptr) {
@@ -33,6 +41,7 @@ ParallelV2Simulator::ParallelV2Simulator(Circuit* c, CircuitGraph* cir, Condense
         }
     }
 }
+
 
 void ParallelV2Simulator::run() {
     for (auto* s : circuit->get_signals()) {
@@ -82,6 +91,7 @@ void ParallelV2Simulator::run() {
             last_time = T;
         }
 
+        auto t_start = std::chrono::high_resolution_clock::now();
         // Collect all events at this (T, D)
         std::vector<Event> current_batch;
         while (!event_queue.empty() &&
@@ -202,7 +212,14 @@ void ParallelV2Simulator::run() {
             }
         }
 
+        tracer->updateAll(allSignals);
+        tracer->writeSnapshot(T, D);
+
+        auto t_end = std::chrono::high_resolution_clock::now();     // ADD THIS
+        double elapsed_us = std::chrono::duration<double, std::micro>(t_end - t_start).count(); // ADD THIS
+        elapsedTime.push_back(elapsed_us);
         deltaSimulations.push_back(thisLevelSimulations);
+
     }
 
     // Final state dump
@@ -222,7 +239,8 @@ void ParallelV2Simulator::run() {
                 deltaTimes[i].first,   // time
                 deltaTimes[i].second,  // delta
                 deltaSimulations[i],   // levelMap (already map<int,int>)
-                OMP_THRESHOLD
+                OMP_THRESHOLD,
+                elapsedTime[i]
             });
         }
         DashboardJSON::exportPar(parRecords, "dashboard/par_stats.json");
@@ -230,6 +248,10 @@ void ParallelV2Simulator::run() {
 
     delete vcd;
     vcd = nullptr;
+
+    delete tracer;
+    tracer = nullptr;
+
 }
 
 void ParallelV2Simulator::stabilize() {

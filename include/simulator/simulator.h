@@ -5,6 +5,7 @@
 #include <circuitBuilder/core/signal.h>
 #include <circuitBuilder/netlist/circuit.h>
 #include <simulator/vcd_writer.h>
+#include <simulator/tracer.h>
 
 class Simulator {
 public:
@@ -19,6 +20,7 @@ public:
     int get_current_time() const;
     int get_current_delta() const;
     VCDWriter* vcd;
+    TraceWriter* tracer;
 
 protected:
     Circuit* circuit;

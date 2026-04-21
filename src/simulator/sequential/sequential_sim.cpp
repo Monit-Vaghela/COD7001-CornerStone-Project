@@ -4,14 +4,20 @@
 #include <vector>
 #include <iostream>
 #include <unordered_set>
+#include <chrono>
 
 using namespace std;
 
 SequentialSimulator::SequentialSimulator(Circuit* c)
     : Simulator(c) {
-        vcd = new VCDWriter("waveSeq.vcd");
+        vcd = new VCDWriter("output/waveSeq.vcd");
         for (auto* s : circuit->get_signals()) vcd->registerSignal(s->get_name());
         vcd->endDefinitions();
+
+        tracer = new TraceWriter("output/traceSeq.bin");   // or trace_par.bin
+        std::vector<std::string> names;
+        for (auto* s : circuit->get_signals()) names.push_back(s->get_name());
+        tracer->registerSignals(names);
     }
 
 
@@ -37,7 +43,7 @@ void SequentialSimulator::run() {
 
         // Logging when time advances
         if (last_time != -1 && T != last_time) {
-            Logger::print_circuit_state(*circuit);
+            // Logger::print_circuit_state(*circuit);
         }
 
         current_time = T;
@@ -47,6 +53,7 @@ void SequentialSimulator::run() {
             last_time = T;
         }
 
+        auto t_start = chrono::high_resolution_clock::now();
         std::vector<Event> current_batch;
         // Gather all events with same time & delta
         while (!event_queue.empty() &&
@@ -93,6 +100,9 @@ void SequentialSimulator::run() {
             }
         }
 
+        tracer->updateAll(circuit->get_signals());
+        tracer->writeSnapshot(T, D);
+
         // Schedule processes sensitive to changed signals
         // cout << "\n----------------Sensitive Processes---------------\n";
         for (auto* signal : changedSignals) {
@@ -106,12 +116,16 @@ void SequentialSimulator::run() {
             }
         }
 
+        auto t_end = std::chrono::high_resolution_clock::now();
+        double elapsed_us = std::chrono::duration<double, std::micro>(t_end - t_start).count();
+
+        seqRecords.push_back({ T, D, (int)current_batch.size(), elapsed_us });
     }
 
     // Final state print
     if (last_time != -1) {
         vcd->dumpTime(current_time + 1);
-        Logger::print_circuit_state(*circuit);
+        // Logger::print_circuit_state(*circuit);
         cout << endl; 
         cout << "Sequential Simulated " << simulatedEvents << endl;
         DashboardJSON::exportSeq(seqRecords, "dashboard/seq_stats.json");

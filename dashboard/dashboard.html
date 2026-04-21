@@ -43,12 +43,10 @@
     min-height: 100vh;
   }
 
-  /* ── layout ── */
   .page { max-width: 1100px; margin: 0 auto; }
   h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
   .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
 
-  /* ── load panel ── */
   #load-panel {
     background: var(--surface);
     border: 0.5px solid var(--border);
@@ -60,9 +58,7 @@
   .load-status .ok   { color: var(--green); }
   .load-status .err  { color: var(--red); }
   .load-status .warn { color: var(--amber); }
-  #load-panel.hidden { display: none; }
 
-  /* ── stat cards ── */
   .stat-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -77,7 +73,6 @@
   .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
   .stat-val   { font-size: 22px; font-weight: 500; }
 
-  /* ── timeline ── */
   .timeline-wrap {
     background: var(--surface);
     border: 0.5px solid var(--border);
@@ -101,7 +96,6 @@
   .speed-row { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
   .speed-row input[type=range] { width: 80px; }
 
-  /* ── scrubber ── */
   .scrubber-row {
     display: flex; align-items: center; gap: 10px;
     font-size: 12px; color: var(--muted);
@@ -117,10 +111,7 @@
     border-radius: 3px; transition: width 0.35s;
     pointer-events: none;
   }
-  /* tick marks on track */
-  .track-ticks { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
 
-  /* ── chart grid ── */
   .chart-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -137,7 +128,7 @@
   .chart-card h3 {
     font-size: 12px; font-weight: 500; color: var(--muted);
     margin-bottom: 6px;
-    text-transform: lowercase; letter-spacing: 0;
+    text-transform: lowercase;
   }
   .legend {
     display: flex; flex-wrap: wrap; gap: 10px;
@@ -149,14 +140,6 @@
   .chart-wrap { position: relative; height: 200px; }
   .chart-wrap canvas { position: absolute; inset: 0; }
 
-  /* ── no data placeholder ── */
-  .placeholder {
-    display: flex; align-items: center; justify-content: center;
-    height: 200px; color: var(--muted); font-size: 13px;
-    border: 1px dashed var(--border); border-radius: 8px;
-  }
-
-  /* ── footer note ── */
   .footer-note {
     font-size: 11px; color: var(--muted);
     margin-top: 10px; padding-top: 10px;
@@ -170,7 +153,6 @@
   <h1>Simulator Performance Dashboard</h1>
   <p class="subtitle" id="subtitle">Loading <code>seq_stats.json</code> and <code>par_stats.json</code>…</p>
 
-  <!-- ── status bar ── -->
   <div id="load-panel">
     <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
       <div class="load-status" id="load-status" style="margin:0;flex:1">Fetching data files…</div>
@@ -178,19 +160,17 @@
     </div>
   </div>
 
-  <!-- ── stat cards ── -->
   <div class="stat-grid" id="stat-grid">
     <div class="stat"><div class="stat-label">δ cycle</div><div class="stat-val" id="s-delta">—</div></div>
     <div class="stat"><div class="stat-label">time stamp</div><div class="stat-val" id="s-time">—</div></div>
-    <div class="stat"><div class="stat-label">seq events</div><div class="stat-val" id="s-seq">—</div></div>
-    <div class="stat"><div class="stat-label">par events</div><div class="stat-val" id="s-par">—</div></div>
-    <div class="stat"><div class="stat-label">speedup</div><div class="stat-val" id="s-speedup">—</div></div>
+    <div class="stat"><div class="stat-label">seq time (µs)</div><div class="stat-val" id="s-seq">—</div></div>
+    <div class="stat"><div class="stat-label">par time (µs)</div><div class="stat-val" id="s-par">—</div></div>
+    <div class="stat"><div class="stat-label">wall-clock speedup</div><div class="stat-val" id="s-speedup">—</div></div>
     <div class="stat"><div class="stat-label">par fraction</div><div class="stat-val" id="s-parfrac">—</div></div>
-    <div class="stat"><div class="stat-label">serial fallback</div><div class="stat-val" id="s-fallback">—</div></div>
+    <div class="stat"><div class="stat-label">serial fallback events</div><div class="stat-val" id="s-fallback">—</div></div>
     <div class="stat"><div class="stat-label">OMP threshold</div><div class="stat-val" id="s-thresh">—</div></div>
   </div>
 
-  <!-- ── timeline / scrubber ── -->
   <div class="timeline-wrap">
     <div class="timeline-header">
       <h2>Delta cycle timeline</h2>
@@ -215,7 +195,6 @@
     </div>
   </div>
 
-  <!-- ── charts ── -->
   <div class="chart-grid">
 
     <!-- chart 1: events per level (par) at current delta -->
@@ -227,32 +206,31 @@
       </div>
     </div>
 
-    <!-- chart 2: work vs overhead cumulative -->
+    <!-- chart 2: wall-clock time per delta — seq vs par -->
     <div class="chart-card">
-      <h3>work vs overhead — cumulative</h3>
+      <h3>wall-clock time per δ — seq vs par (µs)</h3>
       <div class="legend">
-        <span class="leg"><span class="leg-ln" style="background:var(--blue)"></span>useful (par &ge; threshold)</span>
-        <span class="leg"><span class="leg-ln" style="background:var(--red)"></span>serial fallback (&lt; threshold)</span>
-        <span class="leg"><span class="leg-ln" style="background:var(--gray);opacity:.5"></span>seq events</span>
+        <span class="leg"><span class="leg-ln" style="background:var(--gray);opacity:.6"></span>sequential (µs)</span>
+        <span class="leg"><span class="leg-ln" style="background:var(--blue)"></span>parallel (µs)</span>
       </div>
       <div class="chart-wrap">
-        <canvas id="c2" role="img" aria-label="Line chart showing useful parallel events, serial fallback events, and sequential events per delta cycle"></canvas>
+        <canvas id="c2" role="img" aria-label="Line chart comparing wall-clock time of sequential and parallel simulation per delta cycle"></canvas>
       </div>
     </div>
 
-    <!-- chart 3: speedup per delta -->
+    <!-- chart 3: wall-clock speedup per delta -->
     <div class="chart-card">
-      <h3>speedup vs sequential — per δ</h3>
+      <h3>wall-clock speedup — seq elapsed / par elapsed per δ</h3>
       <div class="legend">
-        <span class="leg"><span class="leg-ln" style="background:var(--green)"></span>speedup (seq / par)</span>
+        <span class="leg"><span class="leg-ln" style="background:var(--green)"></span>speedup (seq µs / par µs)</span>
         <span class="leg"><span class="leg-ln" style="background:var(--gray);opacity:.4"></span>1× baseline</span>
       </div>
       <div class="chart-wrap">
-        <canvas id="c3" role="img" aria-label="Line chart of speedup versus sequential simulation per delta cycle"></canvas>
+        <canvas id="c3" role="img" aria-label="Line chart of real wall-clock speedup versus sequential simulation per delta cycle"></canvas>
       </div>
     </div>
 
-    <!-- chart 4: parallel fraction -->
+    <!-- chart 4: parallel fraction of events -->
     <div class="chart-card">
       <h3>thread utilisation — % events parallelised</h3>
       <div class="legend">
@@ -263,41 +241,40 @@
       </div>
     </div>
 
-  </div><!-- .chart-grid -->
-
-  <div class="footer-note">
-    Serial fallback = levels where event count &lt; OMP_THRESHOLD (not worth spawning threads).
-    Speedup = seq events / par events at the same (T,D) — measures logical work, not wall time.
-    Load both JSON files for full speedup data; parallel-only gives utilisation only.
   </div>
 
-</div><!-- .page -->
+  <div class="footer-note">
+    Wall-clock speedup = seq elapsedUs / par elapsedUs at the same (T,D) — measures actual execution time, not event count.
+    Serial fallback = levels where event count &lt; OMP_THRESHOLD (not worth spawning threads).
+    Par fraction = proportion of events that ran in parallel (above OMP_THRESHOLD).
+    Both JSON files required for full speedup data; parallel-only gives utilisation only.
+  </div>
+
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 'use strict';
 
-// ─── state ────────────────────────────────────────────────────────────────
-let SEQ = [];   // SeqDeltaRecord[]  { time, delta, events }
-let PAR = [];   // ParDeltaRecord[]  { time, delta, ompThreshold, levelMap:{level->count} }
-let MERGED = []; // MergedRecord[]   built after both are loaded
+let SEQ = [];
+let PAR = [];
+let MERGED = [];
 let currentIdx = 0;
 let playing = false;
 let playTimer = null;
 let playInterval = 1000;
 
-// Colours for circuit levels (-1 .. N)
 const LEVEL_COLORS = [
-  '#888780', // -1  signal_update
-  '#378ADD', //  0  fallback
-  '#1D9E75', //  1
-  '#7F77DD', //  2
-  '#D85A30', //  3
-  '#D4537E', //  4
-  '#BA7517', //  5
-  '#0F6E56', //  6
-  '#378ADD', //  7  wrap
-  '#1D9E75', //  8
+  '#888780',
+  '#378ADD',
+  '#1D9E75',
+  '#7F77DD',
+  '#D85A30',
+  '#D4537E',
+  '#BA7517',
+  '#0F6E56',
+  '#378ADD',
+  '#1D9E75',
 ];
 function levelColor(level) {
   if (level === -1) return LEVEL_COLORS[0];
@@ -309,10 +286,6 @@ function levelLabel(level) {
   return 'L' + level;
 }
 
-// ─── auto-fetch on load ───────────────────────────────────────────────────
-// Requires the HTML to be served over HTTP (e.g. python3 -m http.server 8080).
-// Falls back gracefully if files are missing or if opened via file://.
-
 async function fetchJSON(filename) {
   const resp = await fetch(filename);
   if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText);
@@ -322,11 +295,10 @@ async function fetchJSON(filename) {
 async function autoLoad() {
   const status = document.getElementById('load-status');
 
-  // Detect file:// — fetch is blocked there by browsers
   if (location.protocol === 'file:') {
     status.innerHTML =
       '<span class="warn">⚠ Opened via file:// — fetch is blocked by browsers. ' +
-      'Serve this folder over HTTP instead: ' +
+      'Serve this folder over HTTP: ' +
       '<code>python3 -m http.server 8080</code> then open ' +
       '<code>http://localhost:8080/dashboard.html</code></span>';
     document.getElementById('subtitle').textContent =
@@ -343,7 +315,7 @@ async function autoLoad() {
     msgs.push(`<span class="ok">✓ seq_stats.json — ${SEQ.length} records</span>`);
     seqOk = true;
   } catch (e) {
-    msgs.push(`<span class="warn">seq_stats.json not found (${e.message}) — seq speedup unavailable</span>`);
+    msgs.push(`<span class="warn">seq_stats.json not found (${e.message}) — wall-clock speedup unavailable</span>`);
   }
 
   try {
@@ -368,7 +340,6 @@ async function autoLoad() {
   }
 }
 
-// ─── demo data (mirrors the real schema exactly) ─────────────────────────
 function loadDemo() {
   const OMP = 16;
   const n = 28;
@@ -376,7 +347,6 @@ function loadDemo() {
   const levels = [-1, 0, 1, 2, 3, 4, 5];
   let t = 0;
   for (let d = 0; d < n; d++) {
-    // simulate time advancing every 6 deltas
     if (d > 0 && d % 6 === 0) t += 10;
     const burst = d < 8 ? (d + 1) * 22 : Math.max(4, 180 - d * 5);
     const levelMap = {};
@@ -389,42 +359,54 @@ function loadDemo() {
       levelMap[String(lv)] = c;
       parTotal += c;
     }
-    PAR.push({ time: t, delta: d, ompThreshold: OMP, levelMap });
-    // seq does ~1.6-2.2x more work (no parallelism)
-    SEQ.push({ time: t, delta: d, events: Math.round(parTotal * (1.7 + Math.random() * 0.5)) });
+    // Simulate realistic wall-clock times:
+    // seq is roughly proportional to parTotal*0.1µs, parallel gets ~2-3x speedup on large batches
+    const seqUs = parTotal * (0.08 + Math.random() * 0.06) + 5;
+    const speedupFactor = parTotal >= OMP ? (1.8 + Math.random() * 1.2) : (0.3 + Math.random() * 0.4);
+    const parUs = seqUs / speedupFactor;
+
+    PAR.push({ time: t, delta: d, ompThreshold: OMP, levelMap, elapsedUs: parseFloat(parUs.toFixed(2)) });
+    SEQ.push({ time: t, delta: d, events: parTotal, elapsedUs: parseFloat(seqUs.toFixed(2)) });
   }
   document.getElementById('load-status').innerHTML =
     '<span class="ok">✓ demo data loaded — ' + n + ' delta cycles</span>';
   build();
 }
 
-// ─── merge SEQ + PAR into a unified array indexed by position ────────────
 function build() {
-  // Align by (time, delta) key. Either side may be absent.
   const map = new Map();
   for (const r of SEQ) {
     const k = r.time + ':' + r.delta;
-    map.set(k, { time: r.time, delta: r.delta, seqEvents: r.events,
-                 parEvents: null, levelMap: null, ompThreshold: 16 });
+    map.set(k, {
+      time: r.time, delta: r.delta,
+      seqEvents: r.events,
+      seqUs: r.elapsedUs != null ? r.elapsedUs : null,
+      parEvents: null, parUs: null,
+      levelMap: null, ompThreshold: 16
+    });
   }
   for (const r of PAR) {
     const k = r.time + ':' + r.delta;
-    // parse levelMap keys to ints
     const lm = {};
     for (const [lv, cnt] of Object.entries(r.levelMap)) lm[parseInt(lv)] = cnt;
     const parTotal = Object.values(lm).reduce((a, b) => a + b, 0);
     if (map.has(k)) {
       const rec = map.get(k);
       rec.parEvents = parTotal;
+      rec.parUs = r.elapsedUs != null ? r.elapsedUs : null;
       rec.levelMap  = lm;
       rec.ompThreshold = r.ompThreshold || 16;
     } else {
-      map.set(k, { time: r.time, delta: r.delta, seqEvents: null,
-                   parEvents: parTotal, levelMap: lm, ompThreshold: r.ompThreshold || 16 });
+      map.set(k, {
+        time: r.time, delta: r.delta,
+        seqEvents: null, seqUs: null,
+        parEvents: parTotal,
+        parUs: r.elapsedUs != null ? r.elapsedUs : null,
+        levelMap: lm, ompThreshold: r.ompThreshold || 16
+      });
     }
   }
 
-  // Sort by time then delta
   MERGED = Array.from(map.values())
     .sort((a, b) => a.time !== b.time ? a.time - b.time : a.delta - b.delta);
 
@@ -433,12 +415,11 @@ function build() {
   render();
 }
 
-// ─── per-record helpers ───────────────────────────────────────────────────
 function computeFallback(rec) {
   if (!rec.levelMap) return 0;
   const thresh = rec.ompThreshold;
   let fb = 0;
-  for (const [, cnt] of Object.entries(rec.levelMap)) {
+  for (const cnt of Object.values(rec.levelMap)) {
     if (cnt < thresh) fb += cnt;
   }
   return fb;
@@ -446,45 +427,33 @@ function computeFallback(rec) {
 
 function sortedLevels(rec) {
   if (!rec.levelMap) return [];
-  return Object.keys(rec.levelMap)
-    .map(Number)
-    .sort((a, b) => a - b);
+  return Object.keys(rec.levelMap).map(Number).sort((a, b) => a - b);
 }
 
-// ─── Chart.js setup ───────────────────────────────────────────────────────
 let C1, C2, C3, C4;
 
-const TICK_COLOR  = () => getComputedStyle(document.documentElement).getPropertyValue('--muted').trim() || '#888';
-const GRID_COLOR  = 'rgba(128,128,128,0.12)';
+const TICK_COLOR = () => getComputedStyle(document.documentElement).getPropertyValue('--muted').trim() || '#888';
+const GRID_COLOR = 'rgba(128,128,128,0.12)';
 
-function baseTicks() {
-  return { color: TICK_COLOR(), font: { size: 11 } };
-}
-function baseGrid() {
-  return { color: GRID_COLOR };
-}
+function baseTicks() { return { color: TICK_COLOR(), font: { size: 11 } }; }
+function baseGrid()  { return { color: GRID_COLOR }; }
 
 function initCharts() {
-  // Destroy previous instances if rebuilding
   [C1, C2, C3, C4].forEach(ch => { if (ch) ch.destroy(); });
 
-  // Chart 1 — bar: events per level at current delta
   C1 = new Chart(document.getElementById('c1'), {
     type: 'bar',
     data: {
       labels: [],
-      datasets: [{
-        data: [],
-        backgroundColor: [],
-        borderRadius: 4,
-        borderSkipped: false,
-      }]
+      datasets: [{ data: [], backgroundColor: [], borderRadius: 4, borderSkipped: false }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       animation: { duration: 350 },
-      plugins: { legend: { display: false },
-                 tooltip: { callbacks: { label: ctx => ' ' + ctx.raw + ' events' } } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ' ' + ctx.raw + ' events' } }
+      },
       scales: {
         x: { ticks: baseTicks(), grid: baseGrid() },
         y: { ticks: baseTicks(), grid: baseGrid(), beginAtZero: true }
@@ -492,23 +461,23 @@ function initCharts() {
     }
   });
 
-  // Chart 2 — line: work vs overhead cumulative
+  // Chart 2: wall-clock time per delta (seq vs par µs)
   C2 = new Chart(document.getElementById('c2'), {
     type: 'line',
     data: {
       labels: [],
       datasets: [
-        { label: 'useful', data: [], borderColor: '#378ADD',
-          backgroundColor: 'rgba(55,138,221,0.08)', fill: true,
-          tension: 0.3, pointRadius: 2.5, borderWidth: 1.5 },
-        { label: 'serial fallback', data: [], borderColor: '#D85A30',
-          backgroundColor: 'rgba(216,90,48,0.07)', fill: true,
-          tension: 0.3, pointRadius: 2.5, borderWidth: 1.5,
-          borderDash: [4, 3] },
-        { label: 'seq events', data: [], borderColor: '#888780',
-          backgroundColor: 'transparent', fill: false,
-          tension: 0.3, pointRadius: 2, borderWidth: 1,
-          borderDash: [2, 4] }
+        {
+          label: 'sequential (µs)', data: [],
+          borderColor: '#888780', backgroundColor: 'rgba(136,135,128,0.07)',
+          fill: true, tension: 0.3, pointRadius: 2.5, borderWidth: 1.5,
+          borderDash: [3, 3]
+        },
+        {
+          label: 'parallel (µs)', data: [],
+          borderColor: '#378ADD', backgroundColor: 'rgba(55,138,221,0.08)',
+          fill: true, tension: 0.3, pointRadius: 2.5, borderWidth: 1.5
+        }
       ]
     },
     options: {
@@ -517,46 +486,57 @@ function initCharts() {
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks: baseTicks(), grid: baseGrid() },
-        y: { ticks: baseTicks(), grid: baseGrid(), beginAtZero: true }
+        y: {
+          ticks: { ...baseTicks(), callback: v => v.toFixed(1) + 'µs' },
+          grid: baseGrid(), beginAtZero: true
+        }
       }
     }
   });
 
-  // Chart 3 — line: speedup
+  // Chart 3: wall-clock speedup (seqUs / parUs)
   C3 = new Chart(document.getElementById('c3'), {
     type: 'line',
     data: {
       labels: [],
       datasets: [
-        { label: 'speedup', data: [], borderColor: '#1D9E75',
-          backgroundColor: 'rgba(29,158,117,0.08)', fill: true,
-          tension: 0.3, pointRadius: 2.5, borderWidth: 1.5 },
-        { label: '1×', data: [], borderColor: '#888780',
-          backgroundColor: 'transparent', fill: false,
-          borderDash: [4, 3], borderWidth: 1, pointRadius: 0 }
+        {
+          label: 'speedup', data: [],
+          borderColor: '#1D9E75', backgroundColor: 'rgba(29,158,117,0.08)',
+          fill: true, tension: 0.3, pointRadius: 2.5, borderWidth: 1.5
+        },
+        {
+          label: '1×', data: [],
+          borderColor: '#888780', backgroundColor: 'transparent',
+          fill: false, borderDash: [4, 3], borderWidth: 1, pointRadius: 0
+        }
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       animation: { duration: 300 },
-      plugins: { legend: { display: false } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ' ' + ctx.raw + '×' } }
+      },
       scales: {
         x: { ticks: baseTicks(), grid: baseGrid() },
-        y: { ticks: baseTicks(), grid: baseGrid(), beginAtZero: true,
-             suggestedMax: 4 }
+        y: {
+          ticks: { ...baseTicks(), callback: v => v + '×' },
+          grid: baseGrid(), beginAtZero: true, suggestedMax: 4
+        }
       }
     }
   });
 
-  // Chart 4 — area: par fraction
   C4 = new Chart(document.getElementById('c4'), {
     type: 'line',
     data: {
       labels: [],
       datasets: [{
-        label: '% parallel', data: [], borderColor: '#7F77DD',
-        backgroundColor: 'rgba(127,119,221,0.12)', fill: true,
-        tension: 0.3, pointRadius: 2.5, borderWidth: 1.5
+        label: '% parallel', data: [],
+        borderColor: '#7F77DD', backgroundColor: 'rgba(127,119,221,0.12)',
+        fill: true, tension: 0.3, pointRadius: 2.5, borderWidth: 1.5
       }]
     },
     options: {
@@ -565,52 +545,50 @@ function initCharts() {
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks: baseTicks(), grid: baseGrid() },
-        y: { ticks: { ...baseTicks(), callback: v => v + '%' },
-             grid: baseGrid(), beginAtZero: true, max: 100 }
+        y: {
+          ticks: { ...baseTicks(), callback: v => v + '%' },
+          grid: baseGrid(), beginAtZero: true, max: 100
+        }
       }
     }
   });
 }
 
-// ─── render current state ─────────────────────────────────────────────────
 function render() {
   if (!MERGED.length) return;
   const rec = MERGED[currentIdx];
   const thresh = rec.ompThreshold;
 
-  // Stat cards
   const fallback = computeFallback(rec);
   const useful   = rec.parEvents != null ? rec.parEvents - fallback : null;
-  const speedup  = (rec.seqEvents != null && rec.parEvents != null && rec.parEvents > 0)
-                 ? rec.seqEvents / rec.parEvents : null;
-  const parFrac  = (rec.parEvents != null && rec.parEvents > 0 && useful != null)
-                 ? Math.round((useful / rec.parEvents) * 100) : null;
 
-  document.getElementById('s-delta').textContent   = rec.delta;
-  document.getElementById('s-time').textContent    = 'T=' + rec.time;
-  document.getElementById('s-seq').textContent     = rec.seqEvents != null ? rec.seqEvents : '—';
-  document.getElementById('s-par').textContent     = rec.parEvents != null ? rec.parEvents : '—';
-  document.getElementById('s-speedup').textContent = speedup != null ? speedup.toFixed(2) + '×' : '—';
-  document.getElementById('s-parfrac').textContent = parFrac  != null ? parFrac + '%' : '—';
-  document.getElementById('s-fallback').textContent= fallback > 0 ? fallback : '0';
-  document.getElementById('s-thresh').textContent  = thresh;
+  // Wall-clock speedup: seqUs / parUs
+  const speedup = (rec.seqUs != null && rec.parUs != null && rec.parUs > 0)
+                ? rec.seqUs / rec.parUs : null;
 
-  // Scrubber
+  const parFrac = (rec.parEvents != null && rec.parEvents > 0 && useful != null)
+                ? Math.round((useful / rec.parEvents) * 100) : null;
+
+  document.getElementById('s-delta').textContent    = rec.delta;
+  document.getElementById('s-time').textContent     = 'T=' + rec.time;
+  document.getElementById('s-seq').textContent      = rec.seqUs != null ? rec.seqUs.toFixed(1) : '—';
+  document.getElementById('s-par').textContent      = rec.parUs != null ? rec.parUs.toFixed(1) : '—';
+  document.getElementById('s-speedup').textContent  = speedup != null ? speedup.toFixed(2) + '×' : '—';
+  document.getElementById('s-parfrac').textContent  = parFrac  != null ? parFrac + '%' : '—';
+  document.getElementById('s-fallback').textContent = fallback > 0 ? fallback : '0';
+  document.getElementById('s-thresh').textContent   = thresh;
+
   document.getElementById('sc-cur').textContent   = 'δ ' + rec.delta;
   document.getElementById('sc-total').textContent = '/ ' + (MERGED[MERGED.length - 1].delta);
   const pct = MERGED.length > 1 ? (currentIdx / (MERGED.length - 1)) * 100 : 0;
   document.getElementById('track-fill').style.width = pct.toFixed(1) + '%';
 
-  // ── Chart 1: levels at this delta ──
+  // Chart 1: levels bar
   if (rec.levelMap) {
-    const lvs = sortedLevels(rec);
-    const labels = lvs.map(levelLabel);
-    const data   = lvs.map(l => rec.levelMap[l]);
-    const colors = lvs.map(l => levelColor(l));
-    C1.data.labels = labels;
-    C1.data.datasets[0].data = data;
-    C1.data.datasets[0].backgroundColor = colors;
-    // rebuild legend
+    const lvs    = sortedLevels(rec);
+    C1.data.labels = lvs.map(levelLabel);
+    C1.data.datasets[0].data = lvs.map(l => rec.levelMap[l]);
+    C1.data.datasets[0].backgroundColor = lvs.map(l => levelColor(l));
     document.getElementById('leg1').innerHTML = lvs.map(l =>
       `<span class="leg"><span class="leg-sq" style="background:${levelColor(l)}"></span>${levelLabel(l)}</span>`
     ).join('');
@@ -620,29 +598,29 @@ function render() {
   }
   C1.update();
 
-  // ── Charts 2, 3, 4: history up to currentIdx ──
-  const slice  = MERGED.slice(0, currentIdx + 1);
-  const labels = slice.map(r => 'δ' + r.delta);
-  const useful2 = [], fallback2 = [], seq2 = [], speedup2 = [], parFrac2 = [];
+  // Charts 2–4: history up to currentIdx
+  const slice    = MERGED.slice(0, currentIdx + 1);
+  const labels   = slice.map(r => 'δ' + r.delta);
+  const seqUs2   = [], parUs2 = [], speedup2 = [], parFrac2 = [];
 
   for (const r of slice) {
-    const fb  = computeFallback(r);
-    const uf  = r.parEvents != null ? r.parEvents - fb : null;
-    useful2.push(uf != null ? uf : null);
-    fallback2.push(fb);
-    seq2.push(r.seqEvents);
-    const sp = (r.seqEvents != null && r.parEvents != null && r.parEvents > 0)
-               ? parseFloat((r.seqEvents / r.parEvents).toFixed(3)) : null;
+    seqUs2.push(r.seqUs != null ? parseFloat(r.seqUs.toFixed(2)) : null);
+    parUs2.push(r.parUs != null ? parseFloat(r.parUs.toFixed(2)) : null);
+
+    const sp = (r.seqUs != null && r.parUs != null && r.parUs > 0)
+               ? parseFloat((r.seqUs / r.parUs).toFixed(3)) : null;
     speedup2.push(sp);
+
+    const fb = computeFallback(r);
+    const uf = r.parEvents != null ? r.parEvents - fb : null;
     const pf = (r.parEvents != null && r.parEvents > 0 && uf != null)
                ? Math.round((uf / r.parEvents) * 100) : null;
     parFrac2.push(pf);
   }
 
   C2.data.labels = labels;
-  C2.data.datasets[0].data = useful2;
-  C2.data.datasets[1].data = fallback2;
-  C2.data.datasets[2].data = seq2;
+  C2.data.datasets[0].data = seqUs2;
+  C2.data.datasets[1].data = parUs2;
   C2.update();
 
   C3.data.labels = labels;
@@ -655,7 +633,6 @@ function render() {
   C4.update();
 }
 
-// ─── controls ─────────────────────────────────────────────────────────────
 function step(dir) {
   if (!MERGED.length) return;
   currentIdx = Math.max(0, Math.min(MERGED.length - 1, currentIdx + dir));
@@ -692,7 +669,6 @@ function trackClick(e) {
   render();
 }
 
-// ─── keyboard shortcuts ───────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT') return;
   if (e.key === 'ArrowRight' || e.key === 'l') step(1);
@@ -700,7 +676,6 @@ document.addEventListener('keydown', e => {
   if (e.key === ' ') { e.preventDefault(); togglePlay(); }
 });
 
-// ─── init ─────────────────────────────────────────────────────────────────
 autoLoad();
 </script>
 </body>

@@ -7,6 +7,7 @@
 #include <simulator/sequential/sequential_sim.h>
 #include <simulator/parallel/v1.h>
 #include <simulator/parallel/v2.h>
+#include <simulator/parallel/v3.h>
 #include <chrono>
 #include <unordered_map>
 #include <preProcessor/circuitGraph.h>
