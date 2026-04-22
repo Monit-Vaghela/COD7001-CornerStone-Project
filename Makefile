@@ -12,7 +12,7 @@ CIRCUIT_SRC = \
 	$(wildcard src/simulator/parallel/*.cpp) \
 	$(wildcard src/preProcessor/*.cpp)
 
-all: compiler circuitBuilder
+all: compiler circuitBuilder comparator
 
 compiler:
 	$(CXX) $(CXXFLAGS) $(COMPILER_SRC) -o compiler
@@ -20,5 +20,8 @@ compiler:
 circuitBuilder:
 	$(CXX) $(CXXFLAGS) $(CIRCUIT_SRC) -o circuitBuilder
 
+comparator:
+	$(CXX) -O2 -std=c++17 src/comparator.cpp -o comparator
+
 clean:
-	rm -f compiler circuitBuilder
+	rm -f compiler circuitBuilder comparator
