@@ -43,7 +43,7 @@
     min-height: 100vh;
   }
 
-  .page { max-width: 1100px; margin: 0 auto; }
+  .page { max-width: 1200px; margin: 0 auto; }
   h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
   .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
 
@@ -59,19 +59,49 @@
   .load-status .err  { color: var(--red); }
   .load-status .warn { color: var(--amber); }
 
+  #insight-banner {
+    display: none;
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  #insight-banner strong { color: var(--text); }
+  .warn-tag {
+    display: inline-block;
+    background: rgba(216,90,48,0.12);
+    color: var(--red);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .ok-tag {
+    display: inline-block;
+    background: rgba(29,158,117,0.12);
+    color: var(--green);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
   .stat-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: 10px;
     margin-bottom: 16px;
   }
-  .stat {
-    background: var(--surface2);
-    border-radius: var(--radius);
-    padding: 10px 14px;
-  }
+  .stat { background: var(--surface2); border-radius: var(--radius); padding: 10px 14px; }
   .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
-  .stat-val   { font-size: 22px; font-weight: 500; }
+  .stat-val   { font-size: 20px; font-weight: 500; }
+  .stat-val.bad  { color: var(--red); }
+  .stat-val.good { color: var(--green); }
+  .stat-val.warn { color: var(--amber); }
 
   .timeline-wrap {
     background: var(--surface);
@@ -80,10 +110,7 @@
     padding: 14px 18px;
     margin-bottom: 16px;
   }
-  .timeline-header {
-    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-    margin-bottom: 10px;
-  }
+  .timeline-header { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
   .timeline-header h2 { font-size: 14px; font-weight: 500; }
   .tl-controls { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-wrap: wrap; }
   .tl-controls button {
@@ -96,55 +123,23 @@
   .speed-row { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
   .speed-row input[type=range] { width: 80px; }
 
-  .scrubber-row {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 12px; color: var(--muted);
-  }
-  .scrubber-label { font-weight: 500; font-size: 14px; color: var(--text); min-width: 50px; }
-  .track {
-    flex: 1; height: 6px;
-    background: var(--surface2); border-radius: 3px;
-    position: relative; cursor: pointer;
-  }
-  .track-fill {
-    height: 100%; background: var(--blue);
-    border-radius: 3px; transition: width 0.35s;
-    pointer-events: none;
-  }
+  .scrubber-row { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); }
+  .scrubber-label { font-weight: 500; font-size: 13px; color: var(--text); min-width: 90px; }
+  .track { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; position: relative; cursor: pointer; }
+  .track-fill { height: 100%; background: var(--blue); border-radius: 3px; transition: width 0.2s; pointer-events: none; }
 
-  .chart-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 14px;
-  }
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
   @media (max-width: 700px) { .chart-grid { grid-template-columns: 1fr; } }
-  .chart-card {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 14px;
-  }
-  .chart-card h3 {
-    font-size: 12px; font-weight: 500; color: var(--muted);
-    margin-bottom: 6px;
-    text-transform: lowercase;
-  }
-  .legend {
-    display: flex; flex-wrap: wrap; gap: 10px;
-    margin-bottom: 6px; font-size: 11px; color: var(--muted);
-  }
+  .chart-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+  .chart-card h3 { font-size: 12px; font-weight: 500; color: var(--muted); margin-bottom: 6px; text-transform: lowercase; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 6px; font-size: 11px; color: var(--muted); }
   .leg { display: flex; align-items: center; gap: 4px; }
   .leg-sq { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
   .leg-ln { width: 16px; height: 2px; border-radius: 1px; flex-shrink: 0; }
   .chart-wrap { position: relative; height: 200px; }
   .chart-wrap canvas { position: absolute; inset: 0; }
 
-  .footer-note {
-    font-size: 11px; color: var(--muted);
-    margin-top: 10px; padding-top: 10px;
-    border-top: 0.5px solid var(--border);
-  }
+  .footer-note { font-size: 11px; color: var(--muted); margin-top: 10px; padding-top: 10px; border-top: 0.5px solid var(--border); }
 </style>
 </head>
 <body>
@@ -156,19 +151,21 @@
   <div id="load-panel">
     <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
       <div class="load-status" id="load-status" style="margin:0;flex:1">Fetching data files…</div>
-      <button onclick="loadDemo()" style="font-size:12px;padding:4px 12px;background:transparent;border:0.5px solid var(--border);border-radius:6px;cursor:pointer;color:var(--muted)">load demo instead</button>
+      <button onclick="loadDemo()" style="font-size:12px;padding:4px 12px;background:transparent;border:0.5px solid var(--border);border-radius:6px;cursor:pointer;color:var(--muted)">load demo</button>
     </div>
   </div>
 
-  <div class="stat-grid" id="stat-grid">
-    <div class="stat"><div class="stat-label">δ cycle</div><div class="stat-val" id="s-delta">—</div></div>
-    <div class="stat"><div class="stat-label">time stamp</div><div class="stat-val" id="s-time">—</div></div>
-    <div class="stat"><div class="stat-label">seq time (µs)</div><div class="stat-val" id="s-seq">—</div></div>
-    <div class="stat"><div class="stat-label">par time (µs)</div><div class="stat-val" id="s-par">—</div></div>
-    <div class="stat"><div class="stat-label">wall-clock speedup</div><div class="stat-val" id="s-speedup">—</div></div>
-    <div class="stat"><div class="stat-label">par fraction</div><div class="stat-val" id="s-parfrac">—</div></div>
-    <div class="stat"><div class="stat-label">serial fallback events</div><div class="stat-val" id="s-fallback">—</div></div>
-    <div class="stat"><div class="stat-label">OMP threshold</div><div class="stat-val" id="s-thresh">—</div></div>
+  <div id="insight-banner"></div>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-label">δ (T, D)</div><div class="stat-val" id="s-delta">—</div></div>
+    <div class="stat"><div class="stat-label">total events</div><div class="stat-val" id="s-events">—</div></div>
+    <div class="stat"><div class="stat-label">seq elapsed (µs)</div><div class="stat-val" id="s-seq">—</div></div>
+    <div class="stat"><div class="stat-label">par elapsed (µs)</div><div class="stat-val" id="s-par">—</div></div>
+    <div class="stat"><div class="stat-label">speedup</div><div class="stat-val" id="s-speedup">—</div></div>
+    <div class="stat"><div class="stat-label">OMP compute (µs)</div><div class="stat-val" id="s-compute">—</div></div>
+    <div class="stat"><div class="stat-label">overhead (µs)</div><div class="stat-val" id="s-overhead">—</div></div>
+    <div class="stat"><div class="stat-label">overhead %</div><div class="stat-val" id="s-overpct">—</div></div>
   </div>
 
   <div class="timeline-wrap">
@@ -180,74 +177,64 @@
         <button id="btn-play" onclick="togglePlay()">▶ play</button>
         <div class="speed-row">
           <span>speed</span>
-          <input type="range" min="100" max="2000" value="1000" step="100"
-                 id="speed-sl" oninput="setSpeed(this.value)">
-          <span id="speed-lbl">1.0s/δ</span>
+          <input type="range" min="80" max="2000" value="600" step="80" id="speed-sl" oninput="setSpeed(this.value)">
+          <span id="speed-lbl">0.6s/δ</span>
         </div>
       </div>
     </div>
     <div class="scrubber-row">
-      <span class="scrubber-label" id="sc-cur">δ 0</span>
+      <span class="scrubber-label" id="sc-cur">T=— D=—</span>
       <div class="track" id="track" onclick="trackClick(event)">
         <div class="track-fill" id="track-fill" style="width:0%"></div>
       </div>
-      <span id="sc-total" style="min-width:40px;text-align:right">/ 0</span>
+      <span id="sc-total" style="min-width:50px;text-align:right">/ 0 δ</span>
     </div>
   </div>
 
   <div class="chart-grid">
 
-    <!-- chart 1: events per level (par) at current delta -->
     <div class="chart-card">
       <h3>events per level — current δ (parallel)</h3>
       <div class="legend" id="leg1"></div>
-      <div class="chart-wrap">
-        <canvas id="c1" role="img" aria-label="Bar chart of events per circuit level at the current delta cycle"></canvas>
-      </div>
+      <div class="chart-wrap"><canvas id="c1"></canvas></div>
     </div>
 
-    <!-- chart 2: wall-clock time per delta — seq vs par -->
     <div class="chart-card">
       <h3>wall-clock time per δ — seq vs par (µs)</h3>
       <div class="legend">
-        <span class="leg"><span class="leg-ln" style="background:var(--gray);opacity:.6"></span>sequential (µs)</span>
-        <span class="leg"><span class="leg-ln" style="background:var(--blue)"></span>parallel (µs)</span>
+        <span class="leg"><span class="leg-ln" style="background:var(--gray);opacity:.7"></span>sequential</span>
+        <span class="leg"><span class="leg-ln" style="background:var(--blue)"></span>parallel</span>
       </div>
-      <div class="chart-wrap">
-        <canvas id="c2" role="img" aria-label="Line chart comparing wall-clock time of sequential and parallel simulation per delta cycle"></canvas>
-      </div>
+      <div class="chart-wrap"><canvas id="c2"></canvas></div>
     </div>
 
-    <!-- chart 3: wall-clock speedup per delta -->
     <div class="chart-card">
-      <h3>wall-clock speedup — seq elapsed / par elapsed per δ</h3>
+      <h3>speedup — seq µs / par µs per δ</h3>
       <div class="legend">
-        <span class="leg"><span class="leg-ln" style="background:var(--green)"></span>speedup (seq µs / par µs)</span>
+        <span class="leg"><span class="leg-ln" style="background:var(--green)"></span>speedup</span>
         <span class="leg"><span class="leg-ln" style="background:var(--gray);opacity:.4"></span>1× baseline</span>
       </div>
-      <div class="chart-wrap">
-        <canvas id="c3" role="img" aria-label="Line chart of real wall-clock speedup versus sequential simulation per delta cycle"></canvas>
-      </div>
+      <div class="chart-wrap"><canvas id="c3"></canvas></div>
     </div>
 
-    <!-- chart 4: parallel fraction of events -->
     <div class="chart-card">
-      <h3>thread utilisation — % events parallelised</h3>
+      <h3>parallel time breakdown — OMP compute vs sync/overhead (µs)</h3>
       <div class="legend">
-        <span class="leg"><span class="leg-sq" style="background:var(--purple);opacity:.7"></span>par fraction per δ</span>
+        <span class="leg"><span class="leg-sq" style="background:rgba(29,158,117,0.8)"></span>OMP compute (µs)</span>
+        <span class="leg"><span class="leg-sq" style="background:rgba(216,90,48,0.7)"></span>overhead: sync + commit + VCD + queue (µs)</span>
       </div>
-      <div class="chart-wrap">
-        <canvas id="c4" role="img" aria-label="Area chart showing fraction of parallel events per delta cycle"></canvas>
-      </div>
+      <div class="chart-wrap"><canvas id="c4"></canvas></div>
     </div>
 
   </div>
 
   <div class="footer-note">
-    Wall-clock speedup = seq elapsedUs / par elapsedUs at the same (T,D) — measures actual execution time, not event count.
-    Serial fallback = levels where event count &lt; OMP_THRESHOLD (not worth spawning threads).
-    Par fraction = proportion of events that ran in parallel (above OMP_THRESHOLD).
-    Both JSON files required for full speedup data; parallel-only gives utilisation only.
+    <strong>Notes:</strong>
+    Seq records with <code>elapsedUs=0</code> are filtered (pre-event placeholders — your sequential simulator emits two records per δ, the first with 0 elapsed).
+    OMP compute = wall-clock time inside <code>#pragma omp parallel for</code> blocks only.
+    Overhead = par elapsed − OMP compute: OMP fork/join, signal commit loop, VCD writes, event queue ops, and serial fallback levels (below OMP_THRESHOLD).
+    Speedup &lt; 1× = parallel is slower than sequential for that δ.
+    When compute bar is absent (0), all events were below OMP_THRESHOLD so no parallelism ran.
   </div>
 
 </div>
@@ -256,381 +243,300 @@
 <script>
 'use strict';
 
-let SEQ = [];
-let PAR = [];
-let MERGED = [];
+let SEQ = [], PAR = [], MERGED = [];
 let currentIdx = 0;
-let playing = false;
-let playTimer = null;
-let playInterval = 1000;
+let playing = false, playTimer = null, playInterval = 600;
 
-const LEVEL_COLORS = [
-  '#888780',
-  '#378ADD',
-  '#1D9E75',
-  '#7F77DD',
-  '#D85A30',
-  '#D4537E',
-  '#BA7517',
-  '#0F6E56',
-  '#378ADD',
-  '#1D9E75',
-];
-function levelColor(level) {
-  if (level === -1) return LEVEL_COLORS[0];
-  return LEVEL_COLORS[1 + (level % (LEVEL_COLORS.length - 1))];
-}
-function levelLabel(level) {
-  if (level === -1) return 'sig_update';
-  if (level === 0)  return 'L0 (fallback)';
-  return 'L' + level;
-}
+const LEVEL_COLORS = ['#888780','#378ADD','#1D9E75','#7F77DD','#D85A30','#D4537E','#BA7517','#0F6E56','#5B9BD5','#E8A838'];
+const levelColor = l => l === -1 ? LEVEL_COLORS[0] : LEVEL_COLORS[1 + (Math.abs(l) % (LEVEL_COLORS.length - 1))];
+const levelLabel = l => l === -1 ? 'sig_update' : l === 0 ? 'L0/fallback' : 'L' + l;
 
-async function fetchJSON(filename) {
-  const resp = await fetch(filename);
-  if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText);
-  return resp.json();
+async function fetchJSON(f) {
+  const r = await fetch(f);
+  if (!r.ok) throw new Error(r.status + ' ' + r.statusText);
+  return r.json();
 }
 
 async function autoLoad() {
-  const status = document.getElementById('load-status');
-
+  const st = document.getElementById('load-status');
   if (location.protocol === 'file:') {
-    status.innerHTML =
-      '<span class="warn">⚠ Opened via file:// — fetch is blocked by browsers. ' +
-      'Serve this folder over HTTP: ' +
-      '<code>python3 -m http.server 8080</code> then open ' +
-      '<code>http://localhost:8080/dashboard.html</code></span>';
-    document.getElementById('subtitle').textContent =
-      'Showing demo data. Run a local server to load real results.';
-    loadDemo();
-    return;
+    st.innerHTML = '<span class="warn">⚠ file:// blocks fetch. Serve with: <code>python3 -m http.server 8080</code></span>';
+    loadDemo(); return;
   }
-
-  const msgs = [];
-  let seqOk = false, parOk = false;
-
-  try {
-    SEQ = await fetchJSON('seq_stats.json');
-    msgs.push(`<span class="ok">✓ seq_stats.json — ${SEQ.length} records</span>`);
-    seqOk = true;
-  } catch (e) {
-    msgs.push(`<span class="warn">seq_stats.json not found (${e.message}) — wall-clock speedup unavailable</span>`);
-  }
-
-  try {
-    PAR = await fetchJSON('par_stats.json');
-    msgs.push(`<span class="ok">✓ par_stats.json — ${PAR.length} records</span>`);
-    parOk = true;
-  } catch (e) {
-    msgs.push(`<span class="warn">par_stats.json not found (${e.message})</span>`);
-  }
-
-  status.innerHTML = msgs.join(' &nbsp;|&nbsp; ');
-
-  if (seqOk || parOk) {
-    document.getElementById('subtitle').textContent =
-      'Stepping through delta cycles — use ← → or space to navigate.';
-    build();
-  } else {
-    status.innerHTML += ' &nbsp;|&nbsp; <span class="err">No data files found — loading demo</span>';
-    document.getElementById('subtitle').textContent =
-      'Showing demo data. Place seq_stats.json and par_stats.json alongside this file.';
-    loadDemo();
-  }
+  const msgs = []; let seqOk = false, parOk = false;
+  try { SEQ = await fetchJSON('seq_stats.json'); msgs.push(`<span class="ok">✓ seq_stats.json — ${SEQ.length} raw records</span>`); seqOk = true; }
+  catch(e) { msgs.push(`<span class="warn">seq_stats.json missing (${e.message})</span>`); }
+  try { PAR = await fetchJSON('par_stats.json'); msgs.push(`<span class="ok">✓ par_stats.json — ${PAR.length} records</span>`); parOk = true; }
+  catch(e) { msgs.push(`<span class="warn">par_stats.json missing (${e.message})</span>`); }
+  st.innerHTML = msgs.join(' &nbsp;|&nbsp; ');
+  if (seqOk || parOk) { document.getElementById('subtitle').textContent = 'Use ← → or spacebar to step. Click the track to jump.'; build(); }
+  else { st.innerHTML += ' &nbsp;|&nbsp; <span class="err">no data — loading demo</span>'; loadDemo(); }
 }
 
 function loadDemo() {
-  const OMP = 16;
-  const n = 28;
-  SEQ = []; PAR = [];
-  const levels = [-1, 0, 1, 2, 3, 4, 5];
-  let t = 0;
+  const OMP = 512, n = 20; SEQ = []; PAR = [];
   for (let d = 0; d < n; d++) {
-    if (d > 0 && d % 6 === 0) t += 10;
-    const burst = d < 8 ? (d + 1) * 22 : Math.max(4, 180 - d * 5);
-    const levelMap = {};
-    let parTotal = 0;
-    for (const lv of levels) {
-      const c = lv === -1
-        ? Math.round(burst * 0.12 * (0.7 + Math.random() * 0.6))
-        : Math.round(burst * (0.85 + Math.random() * 0.3) *
-            Math.max(0.04, 1 - Math.abs(lv - 2) * 0.16));
-      levelMap[String(lv)] = c;
-      parTotal += c;
+    const t = Math.floor(d / 4) + 1;
+    const burst = d < 6 ? (d + 1) * 120 : Math.max(8, 720 - d * 30);
+    const lm = {}; let tot = 0;
+    for (const lv of [-1, 0, 1, 2, 3]) {
+      const c = Math.max(0, Math.round(burst * (0.8 + Math.random() * 0.4) * Math.max(0.05, 1 - Math.abs(lv-1)*0.2)));
+      lm[String(lv)] = c; tot += c;
     }
-    // Simulate realistic wall-clock times:
-    // seq is roughly proportional to parTotal*0.1µs, parallel gets ~2-3x speedup on large batches
-    const seqUs = parTotal * (0.08 + Math.random() * 0.06) + 5;
-    const speedupFactor = parTotal >= OMP ? (1.8 + Math.random() * 1.2) : (0.3 + Math.random() * 0.4);
-    const parUs = seqUs / speedupFactor;
-
-    PAR.push({ time: t, delta: d, ompThreshold: OMP, levelMap, elapsedUs: parseFloat(parUs.toFixed(2)) });
-    SEQ.push({ time: t, delta: d, events: parTotal, elapsedUs: parseFloat(seqUs.toFixed(2)) });
+    const seqUs = tot * 0.1 + 5 + Math.random() * 10;
+    const overhead = 14 + Math.random() * 8;
+    const computeUs = tot >= OMP ? Math.max(0, (seqUs / (1.5 + Math.random())) - overhead) : 0;
+    const parUs = computeUs + overhead;
+    PAR.push({ time: t, delta: d, ompThreshold: OMP, levelMap: lm,
+               elapsedUs: +parUs.toFixed(2), computeUs: +computeUs.toFixed(2), overheadUs: +overhead.toFixed(2) });
+    SEQ.push({ time: t, delta: d, events: tot, elapsedUs: 0 });
+    SEQ.push({ time: t, delta: d, events: tot, elapsedUs: +seqUs.toFixed(2) });
   }
-  document.getElementById('load-status').innerHTML =
-    '<span class="ok">✓ demo data loaded — ' + n + ' delta cycles</span>';
+  document.getElementById('load-status').innerHTML = '<span class="ok">✓ demo data loaded</span>';
   build();
 }
 
+// ── build MERGED ──────────────────────────────────────────────────────────
+// Your sequential simulator emits two records per (T,D):
+//   1. elapsedUs=0  — the placeholder written BEFORE the batch executes
+//   2. elapsedUs=N  — the real timing written AFTER
+// We deduplicate by keeping the MAXIMUM elapsedUs per (T,D) key.
 function build() {
-  const map = new Map();
+  // Collapse seq dupes — keep highest elapsedUs per key
+  const seqBest = new Map();
   for (const r of SEQ) {
     const k = r.time + ':' + r.delta;
+    const prev = seqBest.get(k);
+    if (!prev || r.elapsedUs > prev.elapsedUs) seqBest.set(k, r);
+  }
+
+  const map = new Map();
+  for (const [k, r] of seqBest) {
     map.set(k, {
       time: r.time, delta: r.delta,
       seqEvents: r.events,
-      seqUs: r.elapsedUs != null ? r.elapsedUs : null,
-      parEvents: null, parUs: null,
-      levelMap: null, ompThreshold: 16
+      seqUs: r.elapsedUs > 0 ? r.elapsedUs : null,
+      parUs: null, computeUs: null, overheadUs: null,
+      parEvents: null, levelMap: null, ompThreshold: 512
     });
   }
+
   for (const r of PAR) {
     const k = r.time + ':' + r.delta;
     const lm = {};
     for (const [lv, cnt] of Object.entries(r.levelMap)) lm[parseInt(lv)] = cnt;
     const parTotal = Object.values(lm).reduce((a, b) => a + b, 0);
-    if (map.has(k)) {
-      const rec = map.get(k);
-      rec.parEvents = parTotal;
-      rec.parUs = r.elapsedUs != null ? r.elapsedUs : null;
-      rec.levelMap  = lm;
-      rec.ompThreshold = r.ompThreshold || 16;
-    } else {
-      map.set(k, {
-        time: r.time, delta: r.delta,
-        seqEvents: null, seqUs: null,
-        parEvents: parTotal,
-        parUs: r.elapsedUs != null ? r.elapsedUs : null,
-        levelMap: lm, ompThreshold: r.ompThreshold || 16
-      });
-    }
+    const patch = {
+      parUs:      r.elapsedUs  ?? null,
+      computeUs:  r.computeUs  ?? null,
+      overheadUs: r.overheadUs ?? null,
+      parEvents:  parTotal,
+      levelMap:   lm,
+      ompThreshold: r.ompThreshold || 512
+    };
+    if (map.has(k)) Object.assign(map.get(k), patch);
+    else map.set(k, { time: r.time, delta: r.delta, seqEvents: null, seqUs: null, ...patch });
   }
 
   MERGED = Array.from(map.values())
     .sort((a, b) => a.time !== b.time ? a.time - b.time : a.delta - b.delta);
 
   currentIdx = 0;
+  buildInsightBanner();
   initCharts();
   render();
 }
 
-function computeFallback(rec) {
-  if (!rec.levelMap) return 0;
-  const thresh = rec.ompThreshold;
-  let fb = 0;
-  for (const cnt of Object.values(rec.levelMap)) {
-    if (cnt < thresh) fb += cnt;
-  }
-  return fb;
-}
+function buildInsightBanner() {
+  if (!MERGED.length) return;
+  const banner = document.getElementById('insight-banner');
+  let slowerCount = 0, totalSeqUs = 0, totalParUs = 0, noOMP = 0, pairCount = 0;
+  const thresh = MERGED.find(r => r.ompThreshold)?.ompThreshold ?? 512;
 
-function sortedLevels(rec) {
-  if (!rec.levelMap) return [];
-  return Object.keys(rec.levelMap).map(Number).sort((a, b) => a - b);
+  for (const r of MERGED) {
+    if ((r.computeUs ?? 0) === 0) noOMP++;
+    if (r.seqUs == null || r.parUs == null) continue;
+    pairCount++;
+    totalSeqUs += r.seqUs; totalParUs += r.parUs;
+    if (r.parUs >= r.seqUs) slowerCount++;
+  }
+
+  const overallSpeedup = totalParUs > 0 ? (totalSeqUs / totalParUs).toFixed(2) : null;
+  const pctSlower  = pairCount > 0 ? Math.round(slowerCount / pairCount * 100) : null;
+  const pctNoOMP   = MERGED.length > 0 ? Math.round(noOMP / MERGED.length * 100) : null;
+
+  let html = `<strong>Simulation summary — ${MERGED.length} delta cycles:</strong><br>`;
+  if (overallSpeedup != null) {
+    const cls = parseFloat(overallSpeedup) >= 1 ? 'ok-tag' : 'warn-tag';
+    html += `Overall wall-clock speedup: <span class="${cls}">${overallSpeedup}×</span>. &nbsp;`;
+  }
+  if (pctSlower != null) {
+    const cls = pctSlower > 50 ? 'warn-tag' : 'ok-tag';
+    html += `Parallel was slower in <span class="${cls}">${pctSlower}%</span> of compared δ cycles. &nbsp;`;
+  }
+  if (pctNoOMP != null && pctNoOMP > 0) {
+    html += `<span class="warn-tag">${pctNoOMP}%</span> of δ cycles had zero OMP compute (all batches below OMP_THRESHOLD=${thresh}). &nbsp;`;
+  }
+  html += `<br><small style="opacity:.8">The overhead in your data (~1700–2800µs per δ) comes from the signal commit loop and VCD writes, not OMP fork/join. `;
+  html += `Even with zero parallelism, each delta costs ~1.8ms. `;
+  html += `To see a real speedup, you need batches large enough that OMP compute time meaningfully exceeds that baseline overhead.</small>`;
+
+  banner.innerHTML = html;
+  banner.style.display = 'block';
 }
 
 let C1, C2, C3, C4;
-
-const TICK_COLOR = () => getComputedStyle(document.documentElement).getPropertyValue('--muted').trim() || '#888';
-const GRID_COLOR = 'rgba(128,128,128,0.12)';
-
-function baseTicks() { return { color: TICK_COLOR(), font: { size: 11 } }; }
-function baseGrid()  { return { color: GRID_COLOR }; }
+const TC  = () => getComputedStyle(document.documentElement).getPropertyValue('--muted').trim() || '#888';
+const GC  = 'rgba(128,128,128,0.12)';
+const BT  = () => ({ color: TC(), font: { size: 11 } });
+const BGr = () => ({ color: GC });
 
 function initCharts() {
-  [C1, C2, C3, C4].forEach(ch => { if (ch) ch.destroy(); });
+  [C1, C2, C3, C4].forEach(c => c?.destroy());
 
   C1 = new Chart(document.getElementById('c1'), {
     type: 'bar',
-    data: {
-      labels: [],
-      datasets: [{ data: [], backgroundColor: [], borderRadius: 4, borderSkipped: false }]
-    },
+    data: { labels: [], datasets: [{ data: [], backgroundColor: [], borderRadius: 3 }] },
     options: {
-      responsive: true, maintainAspectRatio: false,
-      animation: { duration: 350 },
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ' ' + ctx.raw + ' events' } }
-      },
-      scales: {
-        x: { ticks: baseTicks(), grid: baseGrid() },
-        y: { ticks: baseTicks(), grid: baseGrid(), beginAtZero: true }
-      }
+      responsive: true, maintainAspectRatio: false, animation: { duration: 300 },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + c.raw + ' events' } } },
+      scales: { x: { ticks: BT(), grid: BGr() }, y: { ticks: BT(), grid: BGr(), beginAtZero: true } }
     }
   });
 
-  // Chart 2: wall-clock time per delta (seq vs par µs)
   C2 = new Chart(document.getElementById('c2'), {
     type: 'line',
-    data: {
-      labels: [],
-      datasets: [
-        {
-          label: 'sequential (µs)', data: [],
-          borderColor: '#888780', backgroundColor: 'rgba(136,135,128,0.07)',
-          fill: true, tension: 0.3, pointRadius: 2.5, borderWidth: 1.5,
-          borderDash: [3, 3]
-        },
-        {
-          label: 'parallel (µs)', data: [],
-          borderColor: '#378ADD', backgroundColor: 'rgba(55,138,221,0.08)',
-          fill: true, tension: 0.3, pointRadius: 2.5, borderWidth: 1.5
-        }
-      ]
-    },
+    data: { labels: [], datasets: [
+      { label: 'seq', data: [], borderColor: '#888780', backgroundColor: 'rgba(136,135,128,0.06)',
+        fill: true, tension: 0.3, pointRadius: 1.5, borderWidth: 1.5, borderDash: [3,3] },
+      { label: 'par', data: [], borderColor: '#378ADD', backgroundColor: 'rgba(55,138,221,0.07)',
+        fill: true, tension: 0.3, pointRadius: 1.5, borderWidth: 1.5 }
+    ]},
     options: {
-      responsive: true, maintainAspectRatio: false,
-      animation: { duration: 300 },
+      responsive: true, maintainAspectRatio: false, animation: { duration: 220 },
       plugins: { legend: { display: false } },
       scales: {
-        x: { ticks: baseTicks(), grid: baseGrid() },
-        y: {
-          ticks: { ...baseTicks(), callback: v => v.toFixed(1) + 'µs' },
-          grid: baseGrid(), beginAtZero: true
-        }
+        x: { ticks: { ...BT(), maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }, grid: BGr() },
+        y: { ticks: { ...BT(), callback: v => v.toFixed(0) + 'µs' }, grid: BGr(), beginAtZero: true }
       }
     }
   });
 
-  // Chart 3: wall-clock speedup (seqUs / parUs)
   C3 = new Chart(document.getElementById('c3'), {
     type: 'line',
-    data: {
-      labels: [],
-      datasets: [
-        {
-          label: 'speedup', data: [],
-          borderColor: '#1D9E75', backgroundColor: 'rgba(29,158,117,0.08)',
-          fill: true, tension: 0.3, pointRadius: 2.5, borderWidth: 1.5
-        },
-        {
-          label: '1×', data: [],
-          borderColor: '#888780', backgroundColor: 'transparent',
-          fill: false, borderDash: [4, 3], borderWidth: 1, pointRadius: 0
-        }
-      ]
-    },
+    data: { labels: [], datasets: [
+      { label: 'speedup', data: [], borderColor: '#1D9E75', backgroundColor: 'rgba(29,158,117,0.08)',
+        fill: true, tension: 0.3, pointRadius: 1.5, borderWidth: 1.5 },
+      { label: '1×', data: [], borderColor: '#888780', fill: false, borderDash: [4,3], borderWidth: 1, pointRadius: 0 }
+    ]},
     options: {
-      responsive: true, maintainAspectRatio: false,
-      animation: { duration: 300 },
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ' ' + ctx.raw + '×' } }
-      },
+      responsive: true, maintainAspectRatio: false, animation: { duration: 220 },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + (c.raw ?? '—') + '×' } } },
       scales: {
-        x: { ticks: baseTicks(), grid: baseGrid() },
-        y: {
-          ticks: { ...baseTicks(), callback: v => v + '×' },
-          grid: baseGrid(), beginAtZero: true, suggestedMax: 4
-        }
+        x: { ticks: { ...BT(), maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }, grid: BGr() },
+        y: { ticks: { ...BT(), callback: v => v.toFixed(2) + '×' }, grid: BGr(), beginAtZero: true, suggestedMax: 2 }
       }
     }
   });
 
   C4 = new Chart(document.getElementById('c4'), {
-    type: 'line',
-    data: {
-      labels: [],
-      datasets: [{
-        label: '% parallel', data: [],
-        borderColor: '#7F77DD', backgroundColor: 'rgba(127,119,221,0.12)',
-        fill: true, tension: 0.3, pointRadius: 2.5, borderWidth: 1.5
-      }]
-    },
+    type: 'bar',
+    data: { labels: [], datasets: [
+      { label: 'OMP compute (µs)', data: [], backgroundColor: 'rgba(29,158,117,0.80)', stack: 'par' },
+      { label: 'overhead (µs)',    data: [], backgroundColor: 'rgba(216,90,48,0.68)',   stack: 'par' }
+    ]},
     options: {
-      responsive: true, maintainAspectRatio: false,
-      animation: { duration: 300 },
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { ticks: baseTicks(), grid: baseGrid() },
-        y: {
-          ticks: { ...baseTicks(), callback: v => v + '%' },
-          grid: baseGrid(), beginAtZero: true, max: 100
+      responsive: true, maintainAspectRatio: false, animation: { duration: 220 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            afterBody(items) {
+              const c = items.find(i => i.datasetIndex === 0)?.raw ?? 0;
+              const o = items.find(i => i.datasetIndex === 1)?.raw ?? 0;
+              const tot = c + o;
+              return tot > 0 ? `overhead: ${((o/tot)*100).toFixed(1)}% of par total` : '';
+            }
+          }
         }
+      },
+      scales: {
+        x: { ticks: { ...BT(), maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }, grid: BGr(), stacked: true },
+        y: { ticks: { ...BT(), callback: v => v.toFixed(0) + 'µs' }, grid: BGr(), beginAtZero: true, stacked: true }
       }
     }
   });
 }
 
+function fmtUs(v) { return v != null ? (+v).toFixed(1) : '—'; }
+
 function render() {
   if (!MERGED.length) return;
   const rec = MERGED[currentIdx];
-  const thresh = rec.ompThreshold;
 
-  const fallback = computeFallback(rec);
-  const useful   = rec.parEvents != null ? rec.parEvents - fallback : null;
+  const computeUs  = rec.computeUs  ?? 0;
+  const overheadUs = rec.overheadUs ?? (rec.parUs != null ? rec.parUs - computeUs : null);
+  const speedup    = (rec.seqUs && rec.parUs && rec.parUs > 0) ? rec.seqUs / rec.parUs : null;
+  const overpct    = (rec.parUs && rec.parUs > 0) ? Math.round(((overheadUs ?? 0) / rec.parUs) * 100) : null;
+  const totalEvents = rec.parEvents ?? rec.seqEvents ?? null;
 
-  // Wall-clock speedup: seqUs / parUs
-  const speedup = (rec.seqUs != null && rec.parUs != null && rec.parUs > 0)
-                ? rec.seqUs / rec.parUs : null;
+  document.getElementById('s-delta').textContent    = `T=${rec.time} D=${rec.delta}`;
+  document.getElementById('s-events').textContent   = totalEvents ?? '—';
+  document.getElementById('s-seq').textContent      = fmtUs(rec.seqUs);
+  document.getElementById('s-par').textContent      = fmtUs(rec.parUs);
 
-  const parFrac = (rec.parEvents != null && rec.parEvents > 0 && useful != null)
-                ? Math.round((useful / rec.parEvents) * 100) : null;
+  const spEl = document.getElementById('s-speedup');
+  spEl.textContent = speedup != null ? speedup.toFixed(2) + '×' : '—';
+  spEl.className   = 'stat-val ' + (speedup == null ? '' : speedup >= 1.05 ? 'good' : speedup < 0.95 ? 'bad' : 'warn');
 
-  document.getElementById('s-delta').textContent    = rec.delta;
-  document.getElementById('s-time').textContent     = 'T=' + rec.time;
-  document.getElementById('s-seq').textContent      = rec.seqUs != null ? rec.seqUs.toFixed(1) : '—';
-  document.getElementById('s-par').textContent      = rec.parUs != null ? rec.parUs.toFixed(1) : '—';
-  document.getElementById('s-speedup').textContent  = speedup != null ? speedup.toFixed(2) + '×' : '—';
-  document.getElementById('s-parfrac').textContent  = parFrac  != null ? parFrac + '%' : '—';
-  document.getElementById('s-fallback').textContent = fallback > 0 ? fallback : '0';
-  document.getElementById('s-thresh').textContent   = thresh;
+  document.getElementById('s-compute').textContent  = fmtUs(computeUs > 0 ? computeUs : null);
+  document.getElementById('s-overhead').textContent = fmtUs(overheadUs);
 
-  document.getElementById('sc-cur').textContent   = 'δ ' + rec.delta;
-  document.getElementById('sc-total').textContent = '/ ' + (MERGED[MERGED.length - 1].delta);
+  const opEl = document.getElementById('s-overpct');
+  opEl.textContent = overpct != null ? overpct + '%' : '—';
+  opEl.className   = 'stat-val ' + (overpct == null ? '' : overpct > 90 ? 'bad' : overpct > 60 ? 'warn' : 'good');
+
+  document.getElementById('sc-cur').textContent   = `T=${rec.time} D=${rec.delta}`;
+  document.getElementById('sc-total').textContent = `/ ${MERGED.length} δ`;
   const pct = MERGED.length > 1 ? (currentIdx / (MERGED.length - 1)) * 100 : 0;
   document.getElementById('track-fill').style.width = pct.toFixed(1) + '%';
 
-  // Chart 1: levels bar
+  // Chart 1 — level bar
   if (rec.levelMap) {
-    const lvs    = sortedLevels(rec);
-    C1.data.labels = lvs.map(levelLabel);
-    C1.data.datasets[0].data = lvs.map(l => rec.levelMap[l]);
-    C1.data.datasets[0].backgroundColor = lvs.map(l => levelColor(l));
+    const lvs = Object.keys(rec.levelMap).map(Number).sort((a,b) => a-b);
+    C1.data.labels                       = lvs.map(levelLabel);
+    C1.data.datasets[0].data             = lvs.map(l => rec.levelMap[l]);
+    C1.data.datasets[0].backgroundColor = lvs.map(levelColor);
     document.getElementById('leg1').innerHTML = lvs.map(l =>
       `<span class="leg"><span class="leg-sq" style="background:${levelColor(l)}"></span>${levelLabel(l)}</span>`
     ).join('');
   } else {
-    C1.data.labels = [];
-    C1.data.datasets[0].data = [];
+    C1.data.labels = []; C1.data.datasets[0].data = [];
+    document.getElementById('leg1').innerHTML = '<span style="color:var(--muted);font-size:11px">no level data</span>';
   }
   C1.update();
 
-  // Charts 2–4: history up to currentIdx
-  const slice    = MERGED.slice(0, currentIdx + 1);
-  const labels   = slice.map(r => 'δ' + r.delta);
-  const seqUs2   = [], parUs2 = [], speedup2 = [], parFrac2 = [];
+  // Charts 2–4 — history
+  const slice = MERGED.slice(0, currentIdx + 1);
+  const labels = slice.map((r, i) => {
+    const prev = slice[i - 1];
+    return (i === 0 || prev.time !== r.time) ? `T${r.time}·D${r.delta}` : `·D${r.delta}`;
+  });
 
+  const seqArr = [], parArr = [], spArr = [], compArr = [], overArr = [];
   for (const r of slice) {
-    seqUs2.push(r.seqUs != null ? parseFloat(r.seqUs.toFixed(2)) : null);
-    parUs2.push(r.parUs != null ? parseFloat(r.parUs.toFixed(2)) : null);
-
-    const sp = (r.seqUs != null && r.parUs != null && r.parUs > 0)
-               ? parseFloat((r.seqUs / r.parUs).toFixed(3)) : null;
-    speedup2.push(sp);
-
-    const fb = computeFallback(r);
-    const uf = r.parEvents != null ? r.parEvents - fb : null;
-    const pf = (r.parEvents != null && r.parEvents > 0 && uf != null)
-               ? Math.round((uf / r.parEvents) * 100) : null;
-    parFrac2.push(pf);
+    seqArr.push(r.seqUs != null ? +r.seqUs.toFixed(1) : null);
+    parArr.push(r.parUs != null ? +r.parUs.toFixed(1) : null);
+    spArr.push((r.seqUs && r.parUs && r.parUs > 0) ? +(r.seqUs / r.parUs).toFixed(3) : null);
+    const cu = r.computeUs  ?? 0;
+    const ou = r.overheadUs ?? (r.parUs != null ? r.parUs - cu : null);
+    compArr.push(cu > 0 ? +cu.toFixed(2) : 0);
+    overArr.push(ou != null ? +ou.toFixed(2) : null);
   }
 
-  C2.data.labels = labels;
-  C2.data.datasets[0].data = seqUs2;
-  C2.data.datasets[1].data = parUs2;
-  C2.update();
-
-  C3.data.labels = labels;
-  C3.data.datasets[0].data = speedup2;
-  C3.data.datasets[1].data = Array(labels.length).fill(1);
-  C3.update();
-
-  C4.data.labels = labels;
-  C4.data.datasets[0].data = parFrac2;
-  C4.update();
+  C2.data.labels = labels; C2.data.datasets[0].data = seqArr; C2.data.datasets[1].data = parArr; C2.update();
+  C3.data.labels = labels; C3.data.datasets[0].data = spArr; C3.data.datasets[1].data = Array(labels.length).fill(1); C3.update();
+  C4.data.labels = labels; C4.data.datasets[0].data = compArr; C4.data.datasets[1].data = overArr; C4.update();
 }
 
 function step(dir) {
@@ -638,7 +544,6 @@ function step(dir) {
   currentIdx = Math.max(0, Math.min(MERGED.length - 1, currentIdx + dir));
   render();
 }
-
 function togglePlay() {
   playing = !playing;
   const btn = document.getElementById('btn-play');
@@ -646,29 +551,22 @@ function togglePlay() {
   btn.classList.toggle('active', playing);
   if (playing) {
     playTimer = setInterval(() => {
-      if (currentIdx >= MERGED.length - 1) { currentIdx = 0; }
-      else { currentIdx++; }
+      currentIdx = currentIdx >= MERGED.length - 1 ? 0 : currentIdx + 1;
       render();
     }, playInterval);
-  } else {
-    clearInterval(playTimer);
-  }
+  } else clearInterval(playTimer);
 }
-
 function setSpeed(v) {
   playInterval = parseInt(v);
-  document.getElementById('speed-lbl').textContent = (playInterval / 1000).toFixed(1) + 's/δ';
-  if (playing) { clearInterval(playTimer); togglePlay(); togglePlay(); }
+  document.getElementById('speed-lbl').textContent = (playInterval / 1000).toFixed(2).replace(/\.?0+$/, '') + 's/δ';
+  if (playing) { clearInterval(playTimer); playing = false; togglePlay(); }
 }
-
 function trackClick(e) {
   if (!MERGED.length) return;
-  const rect = e.currentTarget.getBoundingClientRect();
-  const frac = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-  currentIdx = Math.round(frac * (MERGED.length - 1));
+  const r = e.currentTarget.getBoundingClientRect();
+  currentIdx = Math.round(Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * (MERGED.length - 1));
   render();
 }
-
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT') return;
   if (e.key === 'ArrowRight' || e.key === 'l') step(1);

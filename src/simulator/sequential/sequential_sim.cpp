@@ -61,7 +61,6 @@ void SequentialSimulator::run() {
                event_queue.top().delta == D) {
             current_batch.push_back(event_queue.pop());
         }
-        seqRecords.push_back({ T, D, (int)current_batch.size() });
         std::unordered_set<Process*> unique_processes;
         // Execute batch
         for (auto& e : current_batch) {

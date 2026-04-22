@@ -17,11 +17,14 @@ using namespace std;
 // Minimum events in a level batch to justify OMP thread spawn overhead.
 // Below this threshold, run sequentially to avoid paying ~10-50µs of OMP
 // startup cost for work that takes <1µs.
-static constexpr int OMP_THRESHOLD = 512;
+static constexpr int OMP_THRESHOLD = 32;
 
 vector<map<int, int>> deltaSimulations;
 vector<std::pair<int,int>> deltaTimes;
 vector<double> elapsedTime;
+vector<double> computeTime;    
+vector<double> overheadTime;   
+
 ParallelV2Simulator::ParallelV2Simulator(Circuit* c, CircuitGraph* cir, CondensedGraph* cond)
     : Simulator(c), circuitGraph(cir), condensedGraph(cond) {
     vcd = new VCDWriter("output/wavePar.vcd");
@@ -92,6 +95,8 @@ void ParallelV2Simulator::run() {
         }
 
         auto t_start = std::chrono::high_resolution_clock::now();
+        double batchComputeUs = 0.0;
+
         // Collect all events at this (T, D)
         std::vector<Event> current_batch;
         while (!event_queue.empty() &&
@@ -136,7 +141,10 @@ void ParallelV2Simulator::run() {
             thisLevelSimulations[level] = n;
 
             if (n >= OMP_THRESHOLD) {
+                auto tc_start = std::chrono::high_resolution_clock::now();
+
                 // Large batch: worth parallelising.
+
                 #pragma omp parallel for schedule(dynamic, 4)
                 for (int i = 0; i < n; i++) {
                     Event* e = events[i];
@@ -146,7 +154,9 @@ void ParallelV2Simulator::run() {
                         e->process->execute();
                     }
                 }
-                // Implicit OMP barrier here — correct inter-level ordering.
+                auto tc_end = std::chrono::high_resolution_clock::now();
+                batchComputeUs += std::chrono::duration<double, std::micro>(tc_end - tc_start).count();
+                // Implicit OMP barrier here - correct inter-level ordering.
             } else {
                 // Small batch: run sequentially to avoid OMP overhead.
                 for (int i = 0; i < n; i++) {
@@ -215,9 +225,14 @@ void ParallelV2Simulator::run() {
         tracer->updateAll(allSignals);
         tracer->writeSnapshot(T, D);
 
-        auto t_end = std::chrono::high_resolution_clock::now();     // ADD THIS
-        double elapsed_us = std::chrono::duration<double, std::micro>(t_end - t_start).count(); // ADD THIS
-        elapsedTime.push_back(elapsed_us);
+        auto t_end = std::chrono::high_resolution_clock::now();
+        double totalUs   = std::chrono::duration<double, std::micro>(t_end - t_start).count();
+        double overheadUs = totalUs - batchComputeUs;  // everything that isn't OMP compute
+ 
+        elapsedTime.push_back(totalUs);
+        computeTime.push_back(batchComputeUs);
+        overheadTime.push_back(overheadUs);
+
         deltaSimulations.push_back(thisLevelSimulations);
 
     }
@@ -236,11 +251,13 @@ void ParallelV2Simulator::run() {
         std::vector<DashboardJSON::ParDeltaRecord> parRecords;
         for (int i = 0; i < (int)deltaSimulations.size(); i++) {
             parRecords.push_back({
-                deltaTimes[i].first,   // time
-                deltaTimes[i].second,  // delta
-                deltaSimulations[i],   // levelMap (already map<int,int>)
+                deltaTimes[i].first,    // time
+                deltaTimes[i].second,   // delta
+                deltaSimulations[i],    // levelMap
                 OMP_THRESHOLD,
-                elapsedTime[i]
+                elapsedTime[i],         // total wall-clock
+                computeTime[i],         // OMP compute only   
+                overheadTime[i]         // overhead           
             });
         }
         DashboardJSON::exportPar(parRecords, "dashboard/par_stats.json");
